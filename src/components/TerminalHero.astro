@@ -59,7 +59,7 @@ const slug = profile.name.toLowerCase().replace(/\s+/g, '');
 
   if (canvas && hero && canvas.getContext) {
     const ctx = canvas.getContext('2d')!;
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
 
     // palette
     const MINT: [number, number, number] = [74, 227, 181]; // --accent
@@ -202,17 +202,18 @@ const slug = profile.name.toLowerCase().replace(/\s+/g, '');
     let raf = 0;
     let visible = true;
     let inView = true;
+    let pointerIn = false; // the cloud only animates while the cursor is inside the hero
+
+    // run only when: tab visible, hero on-screen, cursor inside, motion allowed.
+    // Idle (no hover / scrolled away / hidden tab) → zero rAF cost.
+    const shouldRun = () => visible && inView && pointerIn && !reduce;
 
     const loop = () => {
-      if (!visible || !inView) return;
+      if (!shouldRun()) return;
       step();
       raf = requestAnimationFrame(loop);
     };
-
-    const start = () => {
-      cancelAnimationFrame(raf);
-      raf = requestAnimationFrame(loop);
-    };
+    const start = () => { cancelAnimationFrame(raf); raf = requestAnimationFrame(loop); };
     const stop = () => cancelAnimationFrame(raf);
 
     // pointer → hero-relative coords (canvas is pointer-events:none).
@@ -221,21 +222,31 @@ const slug = profile.name.toLowerCase().replace(/\s+/g, '');
     const onMove = (e: PointerEvent) => {
       mouse.x = e.clientX - rect.left;
       mouse.y = e.clientY - rect.top;
-      mouse.on = mouse.x >= 0 && mouse.x <= w && mouse.y >= 0 && mouse.y <= h;
+      const inside = mouse.x >= 0 && mouse.x <= w && mouse.y >= 0 && mouse.y <= h;
+      mouse.on = inside;
+      if (inside !== pointerIn) {
+        pointerIn = inside;
+        if (inside) { if (shouldRun()) start(); }
+        else { stop(); if (inView) render(); } // repaint a clean static frame
+      }
     };
-    const onLeave = () => {
+    // pointer left the window entirely
+    const onWinLeave = () => {
+      if (!pointerIn) return;
+      pointerIn = false;
       mouse.on = false;
       mouse.x = mouse.y = -9999;
+      stop();
+      if (inView) render();
     };
     window.addEventListener('pointermove', onMove, { passive: true });
-    window.addEventListener('pointerout', onLeave, { passive: true });
+    window.addEventListener('mouseout', (e) => { if (!e.relatedTarget) onWinLeave(); }, { passive: true });
 
     // pause when hero scrolled out of view
     const io = new IntersectionObserver(
       (entries) => {
         inView = entries[0]?.isIntersecting ?? true;
-        if (inView && visible && !reduce) start();
-        else stop();
+        if (shouldRun()) start(); else stop();
       },
       { threshold: 0.01 },
     );
@@ -244,23 +255,20 @@ const slug = profile.name.toLowerCase().replace(/\s+/g, '');
     // pause when tab hidden
     document.addEventListener('visibilitychange', () => {
       visible = document.visibilityState === 'visible';
-      if (visible && inView && !reduce) start();
-      else stop();
+      if (shouldRun()) start(); else stop();
     });
 
     resize();
     window.addEventListener('resize', () => { rect = hero.getBoundingClientRect(); resize(); }, { passive: true });
     window.addEventListener('scroll', () => { rect = hero.getBoundingClientRect(); }, { passive: true });
 
+    // render a single static frame up front; the cloud animates only while hovered
     if (reduce) {
-      // static frame: park a constellation in the centre so it still reads
       mouse.on = true;
       mouse.x = w / 2;
       mouse.y = h * 0.42;
-      render();
-    } else {
-      start();
     }
+    render();
   }
 </script>
 
