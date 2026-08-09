@@ -12,6 +12,7 @@ const email = profile.socials.find((s) => s.label === 'Email');
     <div class="hero__content" data-reveal>
       <img class="hero__avatar" src="/avatar.jpg" alt={profile.name} width="96" height="96" loading="eager" />
       <h1 class="hero__name">{profile.name}</h1>
+      <p class="hero__role">Researcher · {profile.affiliation}</p>
       <p class="hero__lede">{profile.tagline.en}</p>
 
       <div class="hero__socials">
@@ -350,6 +351,12 @@ const email = profile.socials.find((s) => s.label === 'Email');
     font-weight: 700;
     letter-spacing: -0.03em;
     line-height: 1.05;
+  }
+  .hero__role {
+    color: var(--text-muted);
+    font-size: clamp(0.95rem, 2vw, 1.08rem);
+    margin-top: 0.55rem;
+    letter-spacing: 0.01em;
   }
   .hero__lede {
     color: var(--text-muted);
