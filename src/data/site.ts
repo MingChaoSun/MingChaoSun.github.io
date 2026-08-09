@@ -23,10 +23,10 @@ export const profile = {
   location: 'Hangzhou, China',
   selfShort: 'M Sun', // abbreviated form in author lists → bolded automatically
   email: 'sun.mc@outlook.com',
+  wechat: 'mcsun0', // shown as a click-to-copy chip in the hero
   // Google Scholar stats (2026-08-09)
   stats: { citations: 4913, hIndex: 7, i10Index: 7 },
   socials: [
-    { label: 'GitHub', handle: '@MingchaoSun', url: 'https://github.com/MingchaoSun' },
     {
       label: 'Google Scholar',
       handle: 'bqsITKQAAAAJ',

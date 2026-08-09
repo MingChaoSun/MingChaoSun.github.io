@@ -1,5 +1,8 @@
 ---
 import { profile } from '../data/site';
+
+const scholar = profile.socials.find((s) => s.label === 'Google Scholar');
+const email = profile.socials.find((s) => s.label === 'Email');
 ---
 
 <section class="hero" id="top">
@@ -10,9 +13,28 @@ import { profile } from '../data/site';
       <img class="hero__avatar" src="/avatar.jpg" alt={profile.name} width="96" height="96" loading="eager" />
       <h1 class="hero__name">{profile.name}</h1>
       <p class="hero__lede">{profile.tagline.en}</p>
+
+      <div class="hero__socials">
+        {scholar && (
+          <a class="hero__social-link" href={scholar.url} target="_blank" rel="noopener noreferrer" title="Google Scholar">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M5.242 13.769L0 9.5 12 0l12 9.5-5.242 4.269C17.548 11.249 14.978 9.5 12 9.5c-2.977 0-5.548 1.748-6.758 4.269zM12 10a7 7 0 1 0 0 14 7 7 0 1 0 0-14z"></path></svg>
+            Scholar
+          </a>
+        )}
+        <button class="hero__social-link" type="button" data-copy={profile.wechat} title="Copy WeChat ID">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8.6 3C4 3 0 6.1 0 10.1c0 2.2 1.1 4.2 3 5.5l-1 2.9 3.3-1.7c1.1.3 2.2.4 3.3.4.1 0 .2 0 .3 0-1-4.2 2-7.8 6.4-7.8.4 0 .8 0 1.2.1C15 5.7 12 3 8.6 3zm-2.4 4c.6 0 1.1.5 1.1 1.1C7.3 8.7 6.8 9.1 6.2 9.1 5.6 9.1 5.1 8.7 5.1 8.1 5.1 7.6 5.6 7 6.2 7zm4.8 0c.6 0 1.1.5 1.1 1.1 0 .6-.5 1.1-1.1 1.1-.6 0-1.1-.5-1.1-1.1C9.9 7.6 10.4 7 11 7zM17.1 10.3c-3.5 0-6.4 2.4-6.4 5.4 0 3 2.9 5.4 6.4 5.4 1 0 2-.2 2.9-.6l2.9 1.5-.9-2.5c1.6-1.1 2.6-2.8 2.6-4.7 0-3-2.9-5.5-6.4-5.5zm-2.1 3.5c.5 0 .9.4.9.9s-.4.9-.9.9-.9-.4-.9-.9.4-.9.9-.9zm4.2 0c.5 0 .9.4.9.9s-.4.9-.9.9-.9-.4-.9-.9.4-.9.9-.9z"></path></svg>
+            <span data-label>WeChat</span>
+        </button>
+        {email && (
+          <a class="hero__social-link" href={email.url} title="Email">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+            Email
+          </a>
+        )}
+      </div>
+
       <div class="hero__cta">
         <a class="btn btn--primary" href="#work">view selected work</a>
-        <a class="btn btn--ghost" href="#contact">get in touch</a>
       </div>
     </div>
   </div>
@@ -246,6 +268,40 @@ import { profile } from '../data/site';
   }
 </script>
 
+<script>
+  // click the WeChat chip → copy the ID to the clipboard, flash "copied"
+  const wcBtn = document.querySelector('[data-copy]');
+  if (wcBtn instanceof HTMLElement) {
+    const label = wcBtn.querySelector('[data-label]');
+    wcBtn.addEventListener('click', async () => {
+      const id = wcBtn.getAttribute('data-copy') || '';
+      let ok = false;
+      try {
+        await navigator.clipboard.writeText(id);
+        ok = true;
+      } catch {
+        const ta = document.createElement('textarea');
+        ta.value = id;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        try { ok = document.execCommand('copy'); } catch {}
+        ta.remove();
+      }
+      if (ok && label) {
+        const prev = label.textContent;
+        label.textContent = 'copied: ' + id;
+        wcBtn.classList.add('is-copied');
+        setTimeout(() => {
+          label.textContent = prev;
+          wcBtn.classList.remove('is-copied');
+        }, 1500);
+      }
+    });
+  }
+</script>
+
 <style>
   .hero {
     position: relative;
@@ -301,6 +357,43 @@ import { profile } from '../data/site';
     line-height: 1.6;
     max-width: 46ch;
     margin-top: 0.7rem;
+  }
+
+  .hero__socials {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1.4rem;
+  }
+  .hero__social-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5em 0.9em;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+    background: rgba(255, 255, 255, 0.02);
+    color: var(--text-muted);
+    font-family: var(--mono);
+    font-size: 0.82rem;
+    text-decoration: none;
+    cursor: pointer;
+    transition: color 0.2s var(--ease), border-color 0.2s var(--ease), transform 0.2s var(--ease);
+  }
+  .hero__social-link svg {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+  }
+  .hero__social-link:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+    text-decoration: none;
+    transform: translateY(-1px);
+  }
+  .hero__social-link.is-copied {
+    color: var(--green);
+    border-color: var(--green);
   }
 
   .hero__cta {
