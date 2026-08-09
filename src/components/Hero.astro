@@ -324,12 +324,13 @@ const shellOut = _shell[1] ?? '';
 </script>
 
 <script>
-  // click the WeChat chip → copy the ID to the clipboard, flash "copied"
-  const wcBtn = document.querySelector('[data-copy]');
-  if (wcBtn instanceof HTMLElement) {
-    const label = wcBtn.querySelector('[data-label]');
-    wcBtn.addEventListener('click', async () => {
-      const id = wcBtn.getAttribute('data-copy') || '';
+  // click any WeChat chip → copy the ID to the clipboard, flash "copied"
+  const wcBtns = document.querySelectorAll('[data-copy]');
+  wcBtns.forEach((btn) => {
+    if (!(btn instanceof HTMLElement)) return;
+    const label = btn.querySelector<HTMLElement>('[data-label]');
+    btn.addEventListener('click', async () => {
+      const id = btn.getAttribute('data-copy') || '';
       let ok = false;
       try {
         await navigator.clipboard.writeText(id);
@@ -345,16 +346,17 @@ const shellOut = _shell[1] ?? '';
         ta.remove();
       }
       if (ok && label) {
-        const prev = label.textContent;
+        // the label may hold bilingual spans — restore the markup, not just text
+        const prev = label.innerHTML;
         label.textContent = 'copied: ' + id;
-        wcBtn.classList.add('is-copied');
+        btn.classList.add('is-copied');
         setTimeout(() => {
-          label.textContent = prev;
-          wcBtn.classList.remove('is-copied');
+          label.innerHTML = prev;
+          btn.classList.remove('is-copied');
         }, 1500);
       }
     });
-  }
+  });
 </script>
 
 <style>
