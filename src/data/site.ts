@@ -188,7 +188,7 @@ export const news: NewsEntry[] = [
   {
     year: '2026.06',
     text: {
-      en: '**SocialNav**, a human-inspired foundation model for socially-aware navigation — named a **CVPR 2026 Best Paper Candidate**!',
+      en: '**SocialNav**, a human-inspired foundation model for socially-aware navigation — selected as a **CVPR 2026 Best Paper Candidate**!',
       zh: '**SocialNav**,受人类启发的具身社会感知导航基础模型——入选 **CVPR 2026 最佳论文候选**!',
     },
   },
