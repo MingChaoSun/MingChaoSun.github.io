@@ -10,8 +10,8 @@ export type Bi = { en: string; zh: string };
 export const profile = {
   name: 'Mingchao Sun',
   nameZh: '孙铭超',
-  role: 'Algorithm Tech Lead',
-  roleZh: '算法技术负责人',
+  role: 'Researcher',
+  roleZh: '研究员',
   affiliation: 'Alibaba Group (AMap)',
   affiliationZh: '阿里巴巴 · 高德',
   team: '3D Reconstruction & Generation',
@@ -51,12 +51,12 @@ export const focusAreas = [
 // Experience / Education sections; the hero/profile keeps it to a tight 2-paragrab.
 export const bio: { en: string[]; zh: string[] } = {
   en: [
-    "Mingchao Sun is an **Algorithm Tech Lead** at **Alibaba Group (AMap)**, leading the 3D reconstruction & generation team. His research spans **3D Gaussian Splatting, point-cloud deep learning, and generative world models**, with work shipped across AMap's products.",
-    "He is best known for **PointCNN** (NeurIPS 2018, 4,300+ citations), and holds B.E. & M.Eng. degrees from **Shandong University**, advised by **Prof. Baoquan Chen**.",
+    'Mingchao Sun is a Researcher at **Alibaba Group (AMap)**. He previously interned at Microsoft Research Asia (MSRA) and Alibaba AI Labs, and received his B.E. and M.Eng. degrees from **Shandong University**, where he was advised by [Prof. Baoquan Chen](https://baoquanchen.info/).',
+    'At AMap he leads research on **3D reconstruction, 3D generation, world models, and embodied intelligence**. He is best known for **PointCNN** (NeurIPS 2018, 4,300+ citations), a foundational convolution operator for point clouds.',
   ],
   zh: [
-    '孙铭超，阿里巴巴**算法技术负责人**（高德），负责三维实景重建与生成团队。研究方向聚焦 **3D 高斯泼溅（3DGS）、点云深度学习与生成式世界模型**，相关成果已在高德产品中落地。',
-    '以 **PointCNN**（NeurIPS 2018，4300+ 引用）为学界所知；本硕均毕业于**山东大学**，师从**陈宝权教授**。',
+    '孙铭超，**阿里巴巴（高德）**研究员。曾在微软亚洲研究院（MSRA）与 Alibaba AI Labs 实习；本硕均就读于**山东大学**，师从[陈宝权教授](https://baoquanchen.info/)。',
+    '在高德主导**三维重建、三维生成、世界模型与具身智能**等方向的研究。代表作 **PointCNN**（NeurIPS 2018，4300+ 引用）是点云深度学习的奠基性卷积工作。',
   ],
 };
 
@@ -111,8 +111,8 @@ export const experience: ExperienceEntry[] = [
   {
     org: 'Alibaba Group — AMap, Visual Technology Center',
     orgZh: '阿里巴巴 · 高德 视觉技术中心',
-    title: 'Algorithm Tech Lead',
-    titleZh: '算法专家 / 三维算法团队负责人',
+    title: 'Researcher',
+    titleZh: '研究员',
     years: '2021.11 – present',
     yearsNote: 'full-time since Jul 2020',
     desc: {
