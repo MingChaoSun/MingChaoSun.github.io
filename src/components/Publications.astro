@@ -24,8 +24,8 @@ const thumbSlug = (thumb?: string) => thumb?.split('/').pop()?.replace(/\.webp$/
 
 <Section id="work" label={{ en: 'selected work', zh: '代表论文' }} title={{ en: 'Publications', zh: '发表论文' }}>
   <p class="pubs__hint muted mono">
-    <span class="i18n i18n-en">{publications.length} papers · sorted by date (newest first)</span>
-    <span class="i18n i18n-zh">{publications.length} 篇 · 按时间倒序(最新在前)</span>
+    <span class="i18n i18n-en">sorted by date (newest first)</span>
+    <span class="i18n i18n-zh">按时间倒序(最新在前)</span>
   </p>
   <ul class="pubs">
     {

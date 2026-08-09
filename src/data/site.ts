@@ -17,8 +17,8 @@ export const profile = {
   team: '3D Reconstruction & Generation',
   // terminal `cat ./about.txt` one-liner (bilingual)
   tagline: {
-    en: 'generative worlds && embodied agents -> explore everything.',
-    zh: '生成式世界 && 具身智能体 -> 探索一切。',
+    en: 'pushing hard && beyond the limit -> embrace Dream!',
+    zh: '全力以赴 && 突破极限 -> 拥抱梦想!',
   } as Bi,
   location: 'Hangzhou, China',
   selfShort: 'M Sun', // abbreviated form in author lists → bolded automatically
