@@ -216,8 +216,8 @@ export const news: NewsEntry[] = [
 ];
 
 export const recruiting: Bi = {
-  en: "I'm recruiting self-motivated research interns passionate about 3D vision, 3D Gaussian Splatting, and generative world models. Interested? Reach out with your CV via WeChat (mcsun0) or email — happy to chat!",
-  zh: '欢迎对三维视觉、3DGS、生成式世界模型感兴趣的同学来实习；微信(mcsun0)或邮箱发简历联系我即可。',
+  en: "I'm recruiting self-motivated research interns passionate about 3D vision, 3D Gaussian Splatting, and generative world models. Interested? Reach out with your CV via WeChat or email — happy to chat!",
+  zh: '欢迎对三维视觉、3DGS、生成式世界模型感兴趣的同学来实习；微信或邮箱发简历联系我即可。',
 };
 
 export interface Publication {

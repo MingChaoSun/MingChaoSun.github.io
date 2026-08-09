@@ -7,20 +7,45 @@ import '@fontsource/jetbrains-mono/400.css';
 import '@fontsource/jetbrains-mono/500.css';
 import '@fontsource/jetbrains-mono/700.css';
 import '../styles/global.css';
+import { profile } from '../data/site';
 
 export interface Props {
   title?: string;
   description?: string;
 }
 const {
-  title = 'Mingchao Sun — Researcher · 3D & World Models',
+  title = 'Mingchao Sun 孙铭超 — Researcher · 3D & World Models',
   description =
-    'Mingchao Sun — researcher at Alibaba (AMap) working on 3D reconstruction & generation, 3D Gaussian Splatting, point-cloud deep learning, and generative world models. Author of PointCNN.',
+    'Mingchao Sun (孙铭超 / Sun Mingchao) — researcher at Alibaba (AMap) working on 3D reconstruction & generation, 3D Gaussian Splatting, point-cloud deep learning, and generative world models. Author of PointCNN.',
 } = Astro.props;
 
 const site = Astro.site ?? 'https://mingchaosun.com';
 const canonical = new URL(Astro.url.pathname, site);
 const ogImage = new URL('/og.png', site);
+
+// structured data: declare the name equivalences (romanization + Chinese) so
+// 孙铭超 and "Sun Mingchao" resolve to this entity in search.
+const personJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: profile.name,
+  alternateName: ['孙铭超', 'Sun Mingchao'],
+  givenName: 'Mingchao',
+  familyName: 'Sun',
+  jobTitle: profile.role,
+  worksFor: { '@type': 'Organization', name: profile.affiliation },
+  url: canonical.href,
+  image: new URL('/avatar.jpg', site).href,
+  sameAs: profile.socials.filter((s) => s.url.startsWith('http')).map((s) => s.url),
+  knowsAbout: [
+    '3D reconstruction',
+    '3D generation',
+    '3D Gaussian Splatting',
+    'point-cloud deep learning',
+    'world models',
+    'embodied intelligence',
+  ],
+};
 ---
 
 <!doctype html>
@@ -30,7 +55,7 @@ const ogImage = new URL('/og.png', site);
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
-    <meta name="author" content="Mingchao Sun" />
+    <meta name="author" content="Mingchao Sun (孙铭超)" />
     <meta name="color-scheme" content="dark" />
     <meta name="theme-color" content="#0a0d12" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
@@ -48,6 +73,9 @@ const ogImage = new URL('/og.png', site);
     <meta property="og:locale" content="en_US" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:image" content={ogImage} />
+
+    <!-- structured data: Person (name variants for search) -->
+    <script type="application/ld+json" set:html={JSON.stringify(personJsonLd)} />
   </head>
   <body>
     <a class="skip-link" href="#main">skip to content</a>

@@ -348,7 +348,7 @@ const shellOut = _shell[1] ?? '';
       if (ok && label) {
         // the label may hold bilingual spans — restore the markup, not just text
         const prev = label.innerHTML;
-        label.textContent = 'copied: ' + id;
+        label.textContent = 'copied';
         btn.classList.add('is-copied');
         setTimeout(() => {
           label.innerHTML = prev;
