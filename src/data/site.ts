@@ -12,12 +12,12 @@ export const profile = {
   nameZh: '孙铭超',
   role: 'Algorithm Tech Lead',
   roleZh: '算法技术负责人',
-  affiliation: 'Alibaba Group (Amap)',
+  affiliation: 'Alibaba Group (AMap)',
   affiliationZh: '阿里巴巴 · 高德',
   team: '3D Reconstruction & Generation',
   // terminal `cat ./about.txt` one-liner (bilingual)
   tagline: {
-    en: 'I build generative world models and embodied agents at Alibaba (Amap).',
+    en: 'I build generative world models and embodied agents at Alibaba (AMap).',
     zh: '我在阿里巴巴(高德)做生成式世界模型与具身智能体。',
   } as Bi,
   location: 'Hangzhou, China',
@@ -51,7 +51,7 @@ export const focusAreas = [
 // Experience / Education sections; the hero/profile keeps it to a tight 2-paragrab.
 export const bio: { en: string[]; zh: string[] } = {
   en: [
-    "Mingchao Sun is an **Algorithm Tech Lead** at **Alibaba Group (Amap)**, leading the 3D reconstruction & generation team. His research spans **3D Gaussian Splatting, point-cloud deep learning, and generative world models**, with work shipped across Amap's products.",
+    "Mingchao Sun is an **Algorithm Tech Lead** at **Alibaba Group (AMap)**, leading the 3D reconstruction & generation team. His research spans **3D Gaussian Splatting, point-cloud deep learning, and generative world models**, with work shipped across AMap's products.",
     "He is best known for **PointCNN** (NeurIPS 2018, 4,300+ citations), and holds B.E. & M.Eng. degrees from **Shandong University**, advised by **Prof. Baoquan Chen**.",
   ],
   zh: [
@@ -109,14 +109,14 @@ export interface ExperienceEntry {
 
 export const experience: ExperienceEntry[] = [
   {
-    org: 'Alibaba Group — Amap, Visual Technology Center',
+    org: 'Alibaba Group — AMap, Visual Technology Center',
     orgZh: '阿里巴巴 · 高德 视觉技术中心',
     title: 'Algorithm Tech Lead',
     titleZh: '算法专家 / 三维算法团队负责人',
     years: '2021.11 – present',
     yearsNote: 'full-time since Jul 2020',
     desc: {
-      en: 'Lead the 3D reconstruction & generation team (~10 people). Drove large-scale 3DGS rendering and generative 3D world models into Amap’s products.',
+      en: 'Lead the 3D reconstruction & generation team (~10 people). Drove large-scale 3DGS rendering and generative 3D world models into AMap’s products.',
       zh: '三维实景重建与生成算法负责人,带约 10 人团队;主导大规模 3DGS 渲染与生成式三维世界模型在高德产品中的落地。',
     },
   },
