@@ -17,8 +17,8 @@ export const profile = {
   team: '3D Reconstruction & Generation',
   // terminal `cat ./about.txt` one-liner (bilingual)
   tagline: {
-    en: 'I build generative world models and embodied agents at Alibaba (AMap).',
-    zh: '我在阿里巴巴(高德)做生成式世界模型与具身智能体。',
+    en: 'I build generative worlds — and the agents that explore them.',
+    zh: '我构建生成式世界，以及在其中探索的智能体。',
   } as Bi,
   location: 'Hangzhou, China',
   selfShort: 'M Sun', // abbreviated form in author lists → bolded automatically
