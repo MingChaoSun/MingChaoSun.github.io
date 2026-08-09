@@ -1,7 +1,8 @@
 // ============================================================
 // Central content source — single source of truth for the site.
 // Bilingual (English default + 中文 toggle). Data confirmed 2026-08-09.
-// Scholar: 19 papers · ~4.9k citations · h-index 7.
+// Scholar: 18 distinct papers · ~4.9k citations · h-index 7.
+//   (Scholar previously double-listed WorldRoamBench/WorldOdysseyBench — one work.)
 // ============================================================
 
 export type Bi = { en: string; zh: string };
