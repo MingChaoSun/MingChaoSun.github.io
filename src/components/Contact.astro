@@ -1,50 +1,154 @@
 ---
 import Section from './Section.astro';
 import { profile } from '../data/site';
+
+const slug = profile.name.toLowerCase().replace(/\s+/g, '');
+
+// short terminal-style key per channel, for aligned `key  value` rows
+const keyOf = (label: string) =>
+  (({ GitHub: 'github', 'Google Scholar': 'scholar', DBLP: 'dblp', Email: 'email' } as Record<string, string>)[
+    label
+  ] ?? label.toLowerCase());
+
+const pretty = (url: string) => url.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '');
 ---
 
 <Section id="contact" label={{ en: 'contact', zh: '联系' }} title={{ en: "Let's talk", zh: '保持联系' }}>
-  <div class="contact" data-reveal>
-    <pre class="mono contact__term"><code><span class="prompt"></span>cat ./contact.txt</code></pre>
-    <ul class="contact__list">
-      {
-        profile.socials.map((s) => (
-          <li>
-            <span class="contact__label mono dim">{s.label}</span>
-            <a href={s.url}>{s.handle || s.url.replace(/^https?:\/\//, '').replace(/\/$/, '')}</a>
-          </li>
-        ))
-      }
-    </ul>
+  <div class="term" data-reveal>
+    <div class="term__bar">
+      <span class="dot dot--red"></span>
+      <span class="dot dot--amber"></span>
+      <span class="dot dot--green"></span>
+      <span class="term__title mono">~/{slug} — zsh</span>
+    </div>
+
+    <div class="term__body">
+      <pre class="term__head mono"><code><span class="prompt"></span>whoami
+<span class="out-name">{profile.name}</span><span class="dim"> — {profile.role}, {profile.affiliation}</span>
+
+<span class="prompt"></span>cat ./contact.txt</pre>
+
+      <ul class="term__contact mono">
+        {
+          profile.socials.map((s) => (
+            <li>
+              <span class="key">{keyOf(s.label)}</span>
+              <a class="val" href={s.url}>
+                {s.label === 'Email' ? s.handle : pretty(s.url)}
+              </a>
+            </li>
+          ))
+        }
+        <li class="term__cursor">
+          <span class="prompt"></span><span class="cursor" aria-hidden="true"></span>
+        </li>
+      </ul>
+    </div>
   </div>
 </Section>
 
 <style>
-  .contact {
-    background: var(--bg-elev);
-    border: 1px solid var(--border-soft);
+  .term {
+    /* translucent (NOT backdrop-filtered) so it stays cheap to paint. */
+    background: rgba(13, 17, 23, 0.72);
+    border: 1px solid var(--border);
     border-radius: var(--radius);
-    padding: 1.4rem;
-    max-width: 620px;
+    overflow: hidden;
+    max-width: 680px;
+    box-shadow:
+      0 20px 60px -20px rgba(0, 0, 0, 0.6),
+      0 0 0 1px rgba(255, 255, 255, 0.02) inset;
   }
-  .contact__term {
-    margin: 0 0 1rem 0;
-    font-size: 0.85rem;
-    color: var(--text-muted);
+  .term__bar {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.7rem 0.9rem;
+    background: rgba(255, 255, 255, 0.03);
+    border-bottom: 1px solid var(--border-soft);
   }
-  .contact__list {
+  .dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    display: inline-block;
+  }
+  .dot--red { background: #ff5f57; }
+  .dot--amber { background: #febc2e; }
+  .dot--green { background: #28c840; }
+  .term__title {
+    color: var(--text-dim);
+    font-size: 0.78rem;
+    margin-left: 0.6rem;
+  }
+
+  .term__body {
+    padding: clamp(1rem, 3vw, 1.5rem);
+  }
+  .term__head {
+    margin: 0 0 1rem;
+    font-size: clamp(0.82rem, 2.2vw, 0.92rem);
+    line-height: 1.85;
+    color: var(--text);
+    white-space: pre;
+    overflow-x: auto;
+  }
+  .term__head code {
+    font-family: inherit;
+    background: none;
+    border: none;
+    padding: 0;
+    color: inherit;
+  }
+  .prompt {
+    color: var(--green);
+  }
+  .prompt::before {
+    content: '➜ ';
+  }
+  .out-name {
+    color: var(--accent);
+    font-weight: 700;
+  }
+
+  .term__contact {
     display: flex;
     flex-direction: column;
-    gap: 0.7rem;
+    gap: 0.5rem;
+    font-size: clamp(0.82rem, 2.2vw, 0.92rem);
   }
-  .contact__list li {
+  .term__contact li {
     display: flex;
-    gap: 1rem;
+    gap: 0.9rem;
     align-items: baseline;
   }
-  .contact__label {
-    width: 130px;
+  .term__contact .key {
+    color: var(--text-dim);
+    width: 5rem;
     flex-shrink: 0;
-    font-size: 0.82rem;
+  }
+  .term__contact .val {
+    color: var(--accent-2);
+    word-break: break-all;
+  }
+  .term__contact .val:hover {
+    color: var(--accent);
+    text-decoration: none;
+  }
+  .term__cursor {
+    margin-top: 0.4rem;
+  }
+  .cursor {
+    display: inline-block;
+    width: 0.6em;
+    height: 1.05em;
+    background: var(--accent);
+    vertical-align: text-bottom;
+    animation: blink 1.1s steps(1) infinite;
+  }
+  @keyframes blink { 50% { opacity: 0; } }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cursor { animation: none; }
   }
 </style>

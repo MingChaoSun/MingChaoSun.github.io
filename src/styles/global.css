@@ -126,11 +126,10 @@ code, .chip {
 }
 
 /* ============================================================
-   Bilingual toggle — English is default; <html class="lang-zh"> shows 中文.
-   Each .i18n pair renders both languages; CSS hides the inactive one.
+   i18n — the site is English-only now. Bilingual .i18n pairs still render
+   in markup, but 中文 is hidden permanently (kept dormant for easy revival).
    ============================================================ */
-html.lang-zh .i18n-en { display: none !important; }
-html:not(.lang-zh) .i18n-zh { display: none !important; }
+.i18n-zh { display: none !important; }
 
 /* ============================================================
    Reveal-on-scroll

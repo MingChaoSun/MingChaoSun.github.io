@@ -1,58 +1,40 @@
 ---
-import { profile, focusAreas } from '../data/site';
-
-const slug = profile.name.toLowerCase().replace(/\s+/g, '');
+import { profile, publications } from '../data/site';
 ---
 
 <section class="hero" id="top">
   <div class="hero__fx" aria-hidden="true"><canvas id="hero-canvas"></canvas></div>
+
   <div class="container hero__inner">
-    <div class="hero__id" data-reveal>
+    <div class="hero__content" data-reveal>
       <img class="hero__avatar" src="/avatar.jpg" alt={profile.name} width="96" height="96" loading="eager" />
-    </div>
-
-    <div class="terminal" data-reveal>
-      <div class="terminal__bar">
-        <span class="dot dot--red"></span>
-        <span class="dot dot--amber"></span>
-        <span class="dot dot--green"></span>
-        <span class="terminal__title mono">~/{slug} — zsh</span>
+      <h1 class="hero__name">{profile.name}</h1>
+      <p class="hero__role">{profile.role} · {profile.affiliation}</p>
+      <p class="hero__tagline">{profile.tagline.en}</p>
+      <p class="hero__stats mono">
+        <span class="hero__stat"><strong>{profile.stats.citations.toLocaleString('en-US')}</strong> citations</span>
+        <span class="hero__sep">·</span>
+        <span class="hero__stat">h-index <strong>{profile.stats.hIndex}</strong></span>
+        <span class="hero__sep">·</span>
+        <span class="hero__stat"><strong>{publications.length}</strong> papers</span>
+      </p>
+      <div class="hero__cta">
+        <a class="btn btn--primary" href="#work">view selected work</a>
+        <a class="btn btn--ghost" href="#contact">get in touch</a>
       </div>
-      <pre class="terminal__body mono"><code><span class="prompt"></span>whoami <span class="dim">--research</span>
-<span class="out-name">{profile.name}</span>
-<span class="out-role"><span class="i18n i18n-en">{profile.role}</span><span class="i18n i18n-zh">{profile.roleZh}</span></span>
-<span class="out-aff"><span class="i18n i18n-en">{profile.affiliation}</span><span class="i18n i18n-zh">{profile.affiliationZh}</span></span>
-
-<span class="prompt"></span>cat ./about.txt
-<span class="muted"><span class="i18n i18n-en">{profile.tagline.en}</span><span class="i18n i18n-zh">{profile.tagline.zh}</span></span>
-
-<span class="prompt"></span>ls ./focus
-<span class="out-focus">{focusAreas.join('  ')}</span>
-
-<span class="prompt"></span>scholar <span class="dim">--stats</span>
-<span class="muted">citations: {profile.stats.citations.toLocaleString('en-US')}  ·  h-index: {profile.stats.hIndex}  ·  i10: {profile.stats.i10Index}</span>
-
-<span class="prompt"></span><span class="cursor" aria-hidden="true"></span></code></pre>
     </div>
-
-    <div class="hero__cta" data-reveal>
-      <a class="btn btn--primary" href="#work"><span class="i18n i18n-en">view selected work</span><span class="i18n i18n-zh">查看代表论文</span></a>
-      <a class="btn btn--ghost" href="#contact"><span class="i18n i18n-en">get in touch</span><span class="i18n i18n-zh">联系我</span></a>
-    </div>
-
-    <a class="hero__scroll" href="#about" aria-label="Scroll to content">
-      <span class="hero__scroll-txt mono">
-        <span class="i18n i18n-en">scroll</span><span class="i18n i18n-zh">向下滚动</span>
-      </span>
-      <span class="hero__mouse" aria-hidden="true"><span class="hero__wheel"></span></span>
-    </a>
   </div>
+
+  <a class="hero__scroll" href="#about" aria-label="Scroll to content">
+    <span class="hero__scroll-txt mono">scroll</span>
+    <span class="hero__mouse" aria-hidden="true"><span class="hero__wheel"></span></span>
+  </a>
 </section>
 
 <script>
   // ---- Lightweight 2D interactive point-cloud (nod to point-cloud DL / 3DGS) ----
-  // Particles drift; near the cursor they brighten and link into a constellation.
-  // Guarded: reduced-motion → single static frame; pauses off-screen / tab-hidden.
+  // Static by default; drifts + forms a constellation only while the cursor is
+  // inside the hero. Paused off-screen / tab-hidden. reduced-motion → static.
   const canvas = document.getElementById('hero-canvas') as HTMLCanvasElement | null;
   const hero = document.querySelector('.hero') as HTMLElement | null;
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -277,7 +259,10 @@ const slug = profile.name.toLowerCase().replace(/\s+/g, '');
     position: relative;
     overflow: hidden;
     isolation: isolate;
-    padding-block: clamp(3rem, 9vw, 6rem) clamp(2rem, 5vw, 3rem);
+    min-height: min(82vh, 720px);
+    display: flex;
+    align-items: center;
+    padding-block: clamp(3.5rem, 9vw, 6rem) clamp(4rem, 8vw, 6rem);
   }
   .hero__fx {
     position: absolute;
@@ -296,90 +281,63 @@ const slug = profile.name.toLowerCase().replace(/\s+/g, '');
   .hero__inner {
     position: relative;
     z-index: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 1.8rem;
+    width: 100%;
   }
-  .hero__id {
-    display: flex;
-    justify-content: center;
+  .hero__content {
+    max-width: 640px;
   }
   .hero__avatar {
-    width: 96px;
-    height: 96px;
+    width: 84px;
+    height: 84px;
     border-radius: 50%;
     object-fit: cover;
     border: 2px solid var(--border);
     box-shadow:
       0 0 0 6px rgba(74, 227, 181, 0.05),
       0 10px 30px -10px rgba(0, 0, 0, 0.6);
+    margin-bottom: 1.3rem;
   }
-  .terminal {
-    /* translucent (NOT backdrop-filtered) so the point-cloud reads through it
-       without paying a per-frame blur cost over the animating canvas. */
-    background: rgba(13, 17, 23, 0.72);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    overflow: hidden;
-    box-shadow:
-      0 20px 60px -20px rgba(0, 0, 0, 0.6),
-      0 0 0 1px rgba(255, 255, 255, 0.02) inset;
+  .hero__name {
+    font-size: clamp(2.2rem, 6vw, 3.5rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.05;
   }
-  .terminal__bar {
+  .hero__role {
+    color: var(--accent);
+    font-size: clamp(1rem, 2.4vw, 1.18rem);
+    font-weight: 600;
+    margin-top: 0.5rem;
+  }
+  .hero__tagline {
+    color: var(--text-muted);
+    font-size: clamp(0.95rem, 2.2vw, 1.08rem);
+    line-height: 1.6;
+    max-width: 52ch;
+    margin-top: 0.85rem;
+  }
+  .hero__stats {
     display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.7rem 0.9rem;
-    background: rgba(255, 255, 255, 0.03);
-    border-bottom: 1px solid var(--border-soft);
+    gap: 0.55rem;
+    align-items: baseline;
+    flex-wrap: wrap;
+    margin-top: 1.2rem;
+    font-size: 0.82rem;
+    color: var(--text-muted);
   }
-  .dot {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    display: inline-block;
-  }
-  .dot--red { background: #ff5f57; }
-  .dot--amber { background: #febc2e; }
-  .dot--green { background: #28c840; }
-  .terminal__title {
-    color: var(--text-dim);
-    font-size: 0.78rem;
-    margin-left: 0.6rem;
-  }
-  .terminal__body {
-    margin: 0;
-    padding: clamp(1rem, 3vw, 1.6rem);
-    font-size: clamp(0.82rem, 2.2vw, 0.95rem);
-    line-height: 1.85;
-    overflow-x: auto;
-    white-space: pre;
+  .hero__stats strong {
     color: var(--text);
+    font-weight: 600;
   }
-  .terminal__body code {
-    font-family: inherit;
-    background: none;
-    border: none;
-    padding: 0;
+  .hero__sep {
+    color: var(--text-dim);
   }
-  .out-name { color: var(--accent); font-weight: 700; }
-  .out-role { color: var(--text); }
-  .out-aff { color: var(--text-muted); }
-  .out-focus { color: var(--accent-2); }
-  .cursor {
-    display: inline-block;
-    width: 0.6em;
-    height: 1.05em;
-    background: var(--accent);
-    vertical-align: text-bottom;
-    animation: blink 1.1s steps(1) infinite;
-  }
-  @keyframes blink { 50% { opacity: 0; } }
 
   .hero__cta {
     display: flex;
     gap: 0.8rem;
     flex-wrap: wrap;
+    margin-top: 1.6rem;
   }
   .btn {
     font-family: var(--mono);
@@ -410,16 +368,19 @@ const slug = profile.name.toLowerCase().replace(/\s+/g, '');
     text-decoration: none;
   }
 
-  /* scroll cue */
+  /* scroll cue pinned to the bottom of the hero */
   .hero__scroll {
+    position: absolute;
+    bottom: clamp(1rem, 3vw, 1.8rem);
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1;
     display: inline-flex;
     flex-direction: column;
     align-items: center;
     gap: 0.5rem;
-    margin-top: 0.4rem;
     color: var(--text-dim);
     text-decoration: none;
-    align-self: center;
   }
   .hero__scroll-txt {
     font-size: 0.66rem;
