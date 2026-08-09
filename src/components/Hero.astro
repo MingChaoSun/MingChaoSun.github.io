@@ -3,6 +3,11 @@ import { profile } from '../data/site';
 
 const scholar = profile.socials.find((s) => s.label === 'Google Scholar');
 const email = profile.socials.find((s) => s.label === 'Email');
+
+// hero shell tagline: split the motto into a typed "command" + a revealed "output"
+const _shell = profile.tagline.en.split(' -> ');
+const shellCmd = _shell[0] ?? '';
+const shellOut = _shell[1] ?? '';
 ---
 
 <section class="hero" id="top">
@@ -13,7 +18,17 @@ const email = profile.socials.find((s) => s.label === 'Email');
       <img class="hero__avatar" src="/avatar.jpg" alt={profile.name} width="96" height="96" loading="eager" />
       <h1 class="hero__name">{profile.name}</h1>
       <p class="hero__role">Researcher · {profile.affiliation}</p>
-      <p class="hero__lede">{profile.tagline.en}</p>
+      <p class="hero__lede hero__shell mono" aria-label={profile.tagline.en}>
+        <span class="sr-only">{profile.tagline.en}</span>
+        <span class="hero__shell-fx" aria-hidden="true">
+          <span class="shell__row">
+            <span class="shell__prompt">$</span><span class="shell__cmd" data-text={shellCmd}></span><span class="shell__caret"></span>
+          </span>
+          <span class="shell__row shell__row--out">
+            <span class="shell__out" data-text={shellOut}></span>
+          </span>
+        </span>
+      </p>
 
       <div class="hero__socials">
         {scholar && (
@@ -273,6 +288,42 @@ const email = profile.socials.find((s) => s.label === 'Email');
 </script>
 
 <script>
+  // hero shell tagline: type the command, then reveal the "output" (the dream)
+  const shellRoot = document.querySelector('.hero__shell');
+  if (shellRoot) {
+    const cmd = shellRoot.querySelector<HTMLElement>('.shell__cmd');
+    const out = shellRoot.querySelector<HTMLElement>('.shell__out');
+    const caret = shellRoot.querySelector<HTMLElement>('.shell__caret');
+    const outRow = shellRoot.querySelector<HTMLElement>('.shell__row--out');
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const cmdText = cmd?.dataset.text ?? '';
+    const outText = out?.dataset.text ?? '';
+
+    if (reduce || !cmdText) {
+      // static fallback: show the full motto immediately
+      if (cmd) cmd.textContent = cmdText;
+      if (out) { out.textContent = outText; out.classList.add('is-shown'); }
+    } else {
+      let i = 0;
+      const typeCmd = () => {
+        if (cmd) cmd.textContent = cmdText.slice(0, i);
+        i += 1;
+        if (i <= cmdText.length) {
+          window.setTimeout(typeCmd, 42);
+        } else {
+          // "enter" → caret drops to the output line, the dream fades in
+          window.setTimeout(() => {
+            if (outRow && caret) outRow.appendChild(caret);
+            if (out) { out.textContent = outText; out.classList.add('is-shown'); }
+          }, 360);
+        }
+      };
+      window.setTimeout(typeCmd, 400); // let the hero settle before "typing"
+    }
+  }
+</script>
+
+<script>
   // click the WeChat chip → copy the ID to the clipboard, flash "copied"
   const wcBtn = document.querySelector('[data-copy]');
   if (wcBtn instanceof HTMLElement) {
@@ -368,6 +419,44 @@ const email = profile.socials.find((s) => s.label === 'Email');
     line-height: 1.6;
     max-width: 60ch;
     margin-top: 0.7rem;
+  }
+  .hero__shell {
+    font-family: var(--mono);
+    line-height: 1.55;
+    letter-spacing: 0.01em;
+  }
+  .hero__shell .shell__row { display: block; }
+  .hero__shell .shell__prompt { color: var(--accent); margin-right: 0.45ch; }
+  .hero__shell .shell__cmd { color: var(--text-muted); }
+  .hero__shell .shell__out {
+    color: var(--accent);
+    opacity: 0;
+    transition: opacity 0.32s var(--ease);
+  }
+  .hero__shell .shell__out.is-shown { opacity: 1; }
+  .hero__shell .shell__caret {
+    display: inline-block;
+    width: 0.5ch;
+    height: 1.02em;
+    margin-left: 2px;
+    background: var(--accent);
+    vertical-align: -0.16em;
+    animation: shell-blink 1.05s steps(1) infinite;
+  }
+  @keyframes shell-blink { 50% { opacity: 0; } }
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .hero__shell .shell__caret { animation: none; }
   }
 
   .hero__socials {
