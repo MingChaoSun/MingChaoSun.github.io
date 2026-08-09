@@ -69,12 +69,6 @@ const thumbSlug = (thumb?: string) => thumb?.split('/').pop()?.replace(/\.webp$/
               <p class="pub__authors" set:html={boldSelf(p.authors, profile.selfShort)} />
               <p class="pub__meta mono">
                 <span class="venue">{p.venue}</span> <span class="dim">·</span> {p.year}
-                {p.citations && p.citations > 0 ? (
-                  <>
-                    {' '}<span class="dim">·</span>{' '}
-                    <span class="cites">{p.citations.toLocaleString('en-US')} cites</span>
-                  </>
-                ) : null}
               </p>
               {p.highlight && <p class="pub__hl muted">{p.highlight}</p>}
               <nav class="pub__links mono">
@@ -248,9 +242,6 @@ const thumbSlug = (thumb?: string) => thumb?.split('/').pop()?.replace(/\.webp$/
   }
   .pub__meta .venue {
     color: var(--accent-2);
-  }
-  .pub__meta .cites {
-    color: var(--green);
   }
   .pub__hl {
     font-size: 0.82rem;

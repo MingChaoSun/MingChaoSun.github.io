@@ -51,12 +51,12 @@ export const focusAreas = [
 // Experience / Education sections; the hero/profile keeps it to a tight 2-paragrab.
 export const bio: { en: string[]; zh: string[] } = {
   en: [
-    'Mingchao Sun is a Researcher at **Alibaba Group (AMap)**. He previously interned at Microsoft Research Asia (MSRA) and Alibaba AI Labs, and received his B.E. and M.Eng. degrees from **Shandong University**, where he was advised by [Prof. Baoquan Chen](https://baoquanchen.info/).',
-    'His research at AMap focuses on **3D reconstruction and generation, world models, and embodied intelligence**. He is best known for **PointCNN** (NeurIPS 2018, 4,300+ citations), a foundational convolution operator for point clouds co-authored with [Prof. Yangyan Li](https://yangyan.li/).',
+    'Mingchao Sun is a Researcher at **Alibaba Group (AMap)**. He previously interned at Microsoft Research Asia (MSRA) and Alibaba AI Labs, and received his B.Eng. and M.Eng. degrees from **Shandong University**, where he was advised by [Prof. Baoquan Chen](https://baoquanchen.info/).',
+    'His research at AMap focuses on **3D reconstruction and generation, world models, and embodied intelligence**. He is best known for **PointCNN** (NeurIPS 2018), a foundational convolution operator for point clouds co-authored with [Prof. Yangyan Li](https://yangyan.li/).',
   ],
   zh: [
     '孙铭超，**阿里巴巴（高德）**研究员。曾在微软亚洲研究院（MSRA）与 Alibaba AI Labs 实习；本硕均就读于**山东大学**，师从[陈宝权教授](https://baoquanchen.info/)。',
-    '他在高德的研究聚焦**三维重建与生成、世界模型与具身智能**等方向。代表作 **PointCNN**（NeurIPS 2018，4300+ 引用）是点云深度学习的奠基性卷积工作，与[李扬彦教授](https://yangyan.li/)合作完成。',
+    '他在高德的研究聚焦**三维重建与生成、世界模型与具身智能**等方向。代表作 **PointCNN**（NeurIPS 2018）是点云深度学习的奠基性卷积工作，与[李扬彦教授](https://yangyan.li/)合作完成。',
   ],
 };
 
@@ -87,7 +87,7 @@ export const education: EducationEntry[] = [
   {
     school: 'Shandong University',
     schoolZh: '山东大学',
-    degree: 'B.E.',
+    degree: 'B.Eng.',
     degreeZh: '学士',
     major: 'Software Engineering',
     majorZh: '软件工程',
