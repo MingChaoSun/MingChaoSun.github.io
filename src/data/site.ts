@@ -167,15 +167,8 @@ export const news: NewsEntry[] = [
   {
     year: '2026.07',
     text: {
-      en: 'Released **Abot-World**, our interactive generative world model playground — [try it live →](https://abot-world.amap.com/)',
-      zh: '发布 **Abot-World**,可交互的生成式世界模型体验——[在线体验 →](https://abot-world.amap.com/)',
-    },
-  },
-  {
-    year: '2026.06',
-    text: {
-      en: '**SocialNav** — CVPR 2026 Best Paper Candidate.',
-      zh: '**SocialNav** 入选 CVPR 2026 最佳论文候选。',
+      en: 'Released **Abot-World** and **ABot-3DWorld**, our generative world models — [explore live →](https://abot-world.amap.com/)',
+      zh: '发布 **Abot-World** 与 **ABot-3DWorld**,我们的生成式世界模型——[在线体验 →](https://abot-world.amap.com/)',
     },
   },
   {
@@ -183,6 +176,13 @@ export const news: NewsEntry[] = [
     text: {
       en: 'Released **ABot-Earth 0.5** — [try it live →](https://abot-earth.amap.com/)',
       zh: '发布 **ABot-Earth 0.5**——[在线体验 →](https://abot-earth.amap.com/)',
+    },
+  },
+  {
+    year: '2026.06',
+    text: {
+      en: '**SocialNav** — CVPR 2026 Best Paper Candidate.',
+      zh: '**SocialNav** 入选 CVPR 2026 最佳论文候选。',
     },
   },
   {
@@ -195,22 +195,15 @@ export const news: NewsEntry[] = [
   {
     year: '2026.02',
     text: {
+      en: '**PointCNN++** and **SocialNav** accepted to CVPR 2026.',
+      zh: '**PointCNN++** 与 **SocialNav** 被 CVPR 2026 接收。',
+    },
+  },
+  {
+    year: '2026.02',
+    text: {
       en: '**CLoD-GS** accepted to ICLR 2026.',
       zh: '**CLoD-GS** 被 ICLR 2026 接收。',
-    },
-  },
-  {
-    year: '2026',
-    text: {
-      en: '**PointCNN++** accepted to CVPR 2026.',
-      zh: '**PointCNN++** 被 CVPR 2026 接收。',
-    },
-  },
-  {
-    year: '2026',
-    text: {
-      en: 'Released **ABot-3DWorld**, our universal world model.',
-      zh: '发布 **ABot-3DWorld**——通用世界模型。',
     },
   },
 ];
