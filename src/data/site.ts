@@ -172,10 +172,17 @@ export const news: NewsEntry[] = [
     },
   },
   {
+    year: '2026.02',
+    text: {
+      en: '**CLoD-GS** accepted to ICLR 2026.',
+      zh: '**CLoD-GS** 被 ICLR 2026 接收。',
+    },
+  },
+  {
     year: '2026',
     text: {
-      en: '3× CVPR (PointCNN++, SocialNav, From Orbit to Ground *Findings*) + 1× ICLR (CLoD-GS).',
-      zh: '3 篇 CVPR(PointCNN++、SocialNav、From Orbit to Ground *Findings*)+ 1 篇 ICLR(CLoD-GS)。',
+      en: '3× CVPR (PointCNN++, SocialNav, From Orbit to Ground *Findings*).',
+      zh: '3 篇 CVPR(PointCNN++、SocialNav、From Orbit to Ground *Findings*)。',
     },
   },
   {
