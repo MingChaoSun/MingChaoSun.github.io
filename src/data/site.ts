@@ -167,8 +167,8 @@ export const news: NewsEntry[] = [
   {
     year: '2026.07',
     text: {
-      en: 'Released **Abot-World** and **ABot-3DWorld** — a universal world model that explores any 3D space, with infinite interactive rollout on a single GPU. [live demo →](https://abot-world.amap.com/)',
-      zh: '发布 **Abot-World** 与 **ABot-3DWorld**——可探索任意三维空间的通用世界模型,单卡即可无限交互推演。[在线体验 →](https://abot-world.amap.com/)',
+      en: 'Released **Abot-World** and **ABot-3DWorld** — a universal world model that explores any 3D space. [live demo →](https://abot-world.amap.com/)',
+      zh: '发布 **Abot-World** 与 **ABot-3DWorld**——可探索任意三维空间的通用世界模型。[在线体验 →](https://abot-world.amap.com/)',
     },
   },
   {
