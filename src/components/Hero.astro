@@ -11,12 +11,10 @@ const shellOut = _shell[1] ?? '';
 ---
 
 <section class="hero" id="top">
-  <div class="hero__fx" aria-hidden="true"><canvas id="hero-canvas"></canvas></div>
-
   <div class="container hero__inner">
     <div class="hero__content" data-reveal>
       <img class="hero__avatar" src="/avatar.jpg" alt={profile.name} width="96" height="96" loading="eager" />
-      <h1 class="hero__name">{profile.name}</h1>
+      <h1 class="hero__name">{profile.name} <span class="hero__name-zh">({profile.nameZh})</span></h1>
       <p class="hero__role">Researcher · {profile.affiliation}</p>
       <p class="hero__lede hero__shell mono" aria-label={profile.tagline.en}>
         <span class="sr-only">{profile.tagline.en}</span>
@@ -59,13 +57,12 @@ const shellOut = _shell[1] ?? '';
 
 <script>
   // ---- Lightweight 2D interactive point-cloud (nod to point-cloud DL / 3DGS) ----
-  // Static by default; drifts + forms a constellation only while the cursor is
-  // inside the hero. Paused off-screen / tab-hidden. reduced-motion → static.
+  // Fixed full-viewport background; drifts + forms a constellation only while the
+  // cursor is in the window. Paused when the tab is hidden. reduced-motion → static.
   const canvas = document.getElementById('hero-canvas') as HTMLCanvasElement | null;
-  const hero = document.querySelector('.hero') as HTMLElement | null;
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  if (canvas && hero && canvas.getContext) {
+  if (canvas && canvas.getContext) {
     const ctx = canvas.getContext('2d')!;
     const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
 
@@ -112,14 +109,14 @@ const shellOut = _shell[1] ?? '';
     };
 
     const resize = () => {
-      w = hero.clientWidth;
-      h = hero.clientHeight;
+      w = window.innerWidth;
+      h = window.innerHeight;
       canvas.width = Math.max(1, Math.round(w * dpr));
       canvas.height = Math.max(1, Math.round(h * dpr));
       canvas.style.width = w + 'px';
       canvas.style.height = h + 'px';
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      const target = Math.min(96, Math.max(36, Math.round((w * h) / 17000)));
+      const target = Math.min(110, Math.max(40, Math.round((w * h) / 17000)));
       if (pts.length !== target) seed(target);
     };
 
@@ -216,12 +213,11 @@ const shellOut = _shell[1] ?? '';
 
     let raf = 0;
     let visible = true;
-    let inView = true;
-    let pointerIn = false; // the cloud only animates while the cursor is inside the hero
+    let pointerIn = false; // the cloud only animates while the cursor is in the window
 
-    // run only when: tab visible, hero on-screen, cursor inside, motion allowed.
-    // Idle (no hover / scrolled away / hidden tab) → zero rAF cost.
-    const shouldRun = () => visible && inView && pointerIn && !reduce;
+    // run only when: tab visible, cursor in window, motion allowed.
+    // Idle (no hover / hidden tab) → zero rAF cost.
+    const shouldRun = () => visible && pointerIn && !reduce;
 
     const loop = () => {
       if (!shouldRun()) return;
@@ -231,18 +227,14 @@ const shellOut = _shell[1] ?? '';
     const start = () => { cancelAnimationFrame(raf); raf = requestAnimationFrame(loop); };
     const stop = () => cancelAnimationFrame(raf);
 
-    // pointer → hero-relative coords (canvas is pointer-events:none).
-    // cache the hero rect; refresh on scroll/resize so we don't re-layout per move.
-    let rect = hero.getBoundingClientRect();
+    // pointer → viewport coords (canvas is pointer-events:none and fills the viewport)
     const onMove = (e: PointerEvent) => {
-      mouse.x = e.clientX - rect.left;
-      mouse.y = e.clientY - rect.top;
-      const inside = mouse.x >= 0 && mouse.x <= w && mouse.y >= 0 && mouse.y <= h;
-      mouse.on = inside;
-      if (inside !== pointerIn) {
-        pointerIn = inside;
-        if (inside) { if (shouldRun()) start(); }
-        else { stop(); if (inView) render(); } // repaint a clean static frame
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
+      mouse.on = true;
+      if (!pointerIn) {
+        pointerIn = true;
+        if (shouldRun()) start();
       }
     };
     // pointer left the window entirely
@@ -252,20 +244,10 @@ const shellOut = _shell[1] ?? '';
       mouse.on = false;
       mouse.x = mouse.y = -9999;
       stop();
-      if (inView) render();
+      render(); // repaint a clean static frame
     };
     window.addEventListener('pointermove', onMove, { passive: true });
     window.addEventListener('mouseout', (e) => { if (!e.relatedTarget) onWinLeave(); }, { passive: true });
-
-    // pause when hero scrolled out of view
-    const io = new IntersectionObserver(
-      (entries) => {
-        inView = entries[0]?.isIntersecting ?? true;
-        if (shouldRun()) start(); else stop();
-      },
-      { threshold: 0.01 },
-    );
-    io.observe(hero);
 
     // pause when tab hidden
     document.addEventListener('visibilitychange', () => {
@@ -274,8 +256,7 @@ const shellOut = _shell[1] ?? '';
     });
 
     resize();
-    window.addEventListener('resize', () => { rect = hero.getBoundingClientRect(); resize(); }, { passive: true });
-    window.addEventListener('scroll', () => { rect = hero.getBoundingClientRect(); }, { passive: true });
+    window.addEventListener('resize', resize, { passive: true });
 
     // render a single static frame up front; the cloud animates only while hovered
     if (reduce) {
@@ -369,20 +350,6 @@ const shellOut = _shell[1] ?? '';
     align-items: center;
     padding-block: clamp(3.5rem, 9vw, 6rem) clamp(4rem, 8vw, 6rem);
   }
-  .hero__fx {
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-    pointer-events: none;
-    /* keep the cloud visible across the hero, just feather the very edges */
-    -webkit-mask-image: radial-gradient(135% 120% at 50% 38%, #000 58%, transparent 95%);
-    mask-image: radial-gradient(135% 120% at 50% 38%, #000 58%, transparent 95%);
-  }
-  .hero__fx canvas {
-    width: 100%;
-    height: 100%;
-    display: block;
-  }
   .hero__inner {
     position: relative;
     z-index: 1;
@@ -407,6 +374,14 @@ const shellOut = _shell[1] ?? '';
     font-weight: 700;
     letter-spacing: -0.03em;
     line-height: 1.05;
+  }
+  .hero__name-zh {
+    font-size: 0.36em;
+    font-weight: 500;
+    color: var(--text-muted);
+    letter-spacing: 0.04em;
+    margin-left: 0.18em;
+    white-space: nowrap;
   }
   .hero__role {
     color: var(--text);
@@ -577,7 +552,7 @@ const shellOut = _shell[1] ?? '';
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .hero__fx { opacity: 0.85; }
+    .bg-fx { opacity: 0.85; }
     .hero__wheel { animation: none; }
   }
   @media (max-width: 560px) {

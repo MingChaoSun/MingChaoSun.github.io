@@ -78,6 +78,7 @@ const personJsonLd = {
     <script type="application/ld+json" set:html={JSON.stringify(personJsonLd)} />
   </head>
   <body>
+    <div class="bg-fx" aria-hidden="true"><canvas id="hero-canvas"></canvas></div>
     <a class="skip-link" href="#main">skip to content</a>
     <slot />
 
@@ -96,5 +97,26 @@ const personJsonLd = {
       );
       document.querySelectorAll('[data-reveal]').forEach((el) => io.observe(el));
     </script>
+
+    <style is:global>
+      .bg-fx {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+      }
+      .bg-fx canvas {
+        width: 100%;
+        height: 100%;
+        display: block;
+      }
+      /* keep page content above the fixed background canvas */
+      #main,
+      .footer,
+      .skip-link {
+        position: relative;
+        z-index: 1;
+      }
+    </style>
   </body>
 </html>
