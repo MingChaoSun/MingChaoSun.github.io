@@ -172,6 +172,13 @@ export const news: NewsEntry[] = [
     },
   },
   {
+    year: '2026.06',
+    text: {
+      en: 'Released **ABot-Earth 0.5** — [try it live →](https://abot-earth.amap.com/)',
+      zh: '发布 **ABot-Earth 0.5**——[在线体验 →](https://abot-earth.amap.com/)',
+    },
+  },
+  {
     year: '2026.03',
     text: {
       en: '**From Orbit to Ground** accepted to CVPR 2026 *Findings*.',
@@ -195,8 +202,8 @@ export const news: NewsEntry[] = [
   {
     year: '2026',
     text: {
-      en: 'Released the ABot-Earth (generative 3D Earth) and ABot-3DWorld (universal world model) series.',
-      zh: '发布 ABot-Earth(生成式 3D 地球模型)与 ABot-3DWorld(通用世界模型)系列。',
+      en: 'Released **ABot-3DWorld**, our universal world model.',
+      zh: '发布 **ABot-3DWorld**——通用世界模型。',
     },
   },
 ];
