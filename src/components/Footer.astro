@@ -1,9 +1,12 @@
 ---
 import { profile } from '../data/site';
 const year = new Date().getFullYear();
+// an old motto — Mingchao's undergrad signature
+const motto = 'pushing hard && beyond the limit -> embrace Dream!';
 ---
 
 <footer class="footer">
+  <p class="container footer__motto mono dim">{motto}</p>
   <div class="container footer__inner mono">
     <span class="dim">© {year} {profile.name}</span>
     <span class="dim">
@@ -27,6 +30,13 @@ const year = new Date().getFullYear();
     margin-top: 2rem;
     position: relative;
     z-index: 1;
+  }
+  .footer__motto {
+    text-align: center;
+    font-size: 0.82rem;
+    letter-spacing: 0.02em;
+    margin-bottom: 1.25rem;
+    opacity: 0.75;
   }
   .footer__inner {
     display: flex;

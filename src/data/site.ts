@@ -17,8 +17,8 @@ export const profile = {
   team: '3D Reconstruction & Generation',
   // terminal `cat ./about.txt` one-liner (bilingual)
   tagline: {
-    en: 'I build generative worlds — and the agents that explore them.',
-    zh: '我构建生成式世界，以及在其中探索的智能体。',
+    en: 'generative worlds && embodied agents -> explore everything.',
+    zh: '生成式世界 && 具身智能体 -> 探索一切。',
   } as Bi,
   location: 'Hangzhou, China',
   selfShort: 'M Sun', // abbreviated form in author lists → bolded automatically
@@ -116,8 +116,8 @@ export const experience: ExperienceEntry[] = [
     years: '2021.11 – present',
     yearsNote: 'full-time since Jul 2020',
     desc: {
-      en: 'Lead the 3D reconstruction & generation team (~10 people). Drove large-scale 3DGS rendering and generative 3D world models into AMap’s products.',
-      zh: '三维实景重建与生成算法负责人,带约 10 人团队;主导大规模 3DGS 渲染与生成式三维世界模型在高德产品中的落地。',
+      en: 'Research interests: large-scale 3D Gaussian Splatting rendering, generative 3D world models, and embodied agents — with results deployed across AMap’s products.',
+      zh: '研究兴趣:大规模 3D 高斯泼溅渲染、生成式三维世界模型与具身智能体,相关成果已在高德产品中落地。',
     },
   },
   {
