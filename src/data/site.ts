@@ -172,6 +172,13 @@ export const news: NewsEntry[] = [
     },
   },
   {
+    year: '2026.07',
+    text: {
+      en: 'Released **WorldRoamBench**, an open-world benchmark for long-horizon world-model stability — [homepage →](https://worldroam.amap.com/)',
+      zh: '发布 **WorldRoamBench**,面向开放世界、长时序世界模型稳定性的基准——[主页 →](https://worldroam.amap.com/)',
+    },
+  },
+  {
     year: '2026.06',
     text: {
       en: 'Released **ABot-Earth 0.5** — [try it live →](https://abot-earth.amap.com/)',
@@ -188,8 +195,8 @@ export const news: NewsEntry[] = [
   {
     year: '2026.03',
     text: {
-      en: '**From Orbit to Ground** accepted to CVPR 2026 *Findings*.',
-      zh: '**From Orbit to Ground** 被 CVPR 2026 *Findings* 接收。',
+      en: '**From Orbit to Ground** accepted to CVPR 2026 *Findings* — [project →](https://pku-vcl-geometry.github.io/Orbit2Ground/)',
+      zh: '**From Orbit to Ground** 被 CVPR 2026 *Findings* 接收——[项目主页 →](https://pku-vcl-geometry.github.io/Orbit2Ground/)',
     },
   },
   {
