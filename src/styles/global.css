@@ -54,7 +54,6 @@ body {
   background-image:
     radial-gradient(900px 500px at 80% -10%, rgba(74, 227, 181, 0.06), transparent 60%),
     radial-gradient(700px 500px at 0% 0%, rgba(122, 162, 247, 0.05), transparent 55%);
-  background-attachment: fixed;
 }
 /* faint dot-grid backdrop */
 body::before {

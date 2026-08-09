@@ -66,25 +66,41 @@ const slug = profile.name.toLowerCase().replace(/\s+/g, '');
     const BLUE: [number, number, number] = [122, 162, 247]; // --accent-2
 
     let w = 0, h = 0;
-    type P = { x: number; y: number; vx: number; vy: number; r: number; t: number };
+    type P = { x: number; y: number; vx: number; vy: number; r: number; t: number; base: [number, number, number] };
     let pts: P[] = [];
 
     // mouse in CSS pixels, relative to hero
     const mouse = { x: -9999, y: -9999, on: false };
     const REACH = 180; // px — radius of cursor influence
     const LINK = 132; // px — max distance to draw a link between two near-cursor points
+    const REACH2 = REACH * REACH;
+    const LINK2 = LINK * LINK;
 
     const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
+    // a point's idle color (mint→blue by t) is constant — precompute it once
+    const baseColor = (t: number): [number, number, number] => [
+      (lerp(MINT[0], BLUE[0], t) + 0.5) | 0,
+      (lerp(MINT[1], BLUE[1], t) + 0.5) | 0,
+      (lerp(MINT[2], BLUE[2], t) + 0.5) | 0,
+    ];
+
+    // cached cursor-glow gradient — rebuilt only when the cursor actually moves
+    let glowGrad: CanvasGradient | null = null;
+    let glowKey = '';
 
     const seed = (n: number) => {
-      pts = Array.from({ length: n }, () => ({
-        x: Math.random() * w,
-        y: Math.random() * h,
-        vx: (Math.random() - 0.5) * 0.22,
-        vy: (Math.random() - 0.5) * 0.22,
-        r: Math.random() * 1.1 + 0.7,
-        t: Math.random(), // 0..1 color mix factor
-      }));
+      pts = Array.from({ length: n }, () => {
+        const t = Math.random();
+        return {
+          x: Math.random() * w,
+          y: Math.random() * h,
+          vx: (Math.random() - 0.5) * 0.22,
+          vy: (Math.random() - 0.5) * 0.22,
+          r: Math.random() * 1.1 + 0.7,
+          t,
+          base: baseColor(t),
+        };
+      });
     };
 
     const resize = () => {
@@ -95,19 +111,24 @@ const slug = profile.name.toLowerCase().replace(/\s+/g, '');
       canvas.style.width = w + 'px';
       canvas.style.height = h + 'px';
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      const target = Math.min(130, Math.max(42, Math.round((w * h) / 13000)));
+      const target = Math.min(96, Math.max(36, Math.round((w * h) / 17000)));
       if (pts.length !== target) seed(target);
     };
 
     const render = () => {
       ctx.clearRect(0, 0, w, h);
 
-      // soft glow hugging the cursor
+      // soft glow hugging the cursor (gradient cached per cursor position)
       if (mouse.on) {
-        const g = ctx.createRadialGradient(mouse.x, mouse.y, 0, mouse.x, mouse.y, REACH);
-        g.addColorStop(0, 'rgba(74,227,181,0.10)');
-        g.addColorStop(1, 'rgba(74,227,181,0)');
-        ctx.fillStyle = g;
+        const key = mouse.x + ',' + mouse.y;
+        if (key !== glowKey) {
+          const g = ctx.createRadialGradient(mouse.x, mouse.y, 0, mouse.x, mouse.y, REACH);
+          g.addColorStop(0, 'rgba(74,227,181,0.10)');
+          g.addColorStop(1, 'rgba(74,227,181,0)');
+          glowGrad = g;
+          glowKey = key;
+        }
+        ctx.fillStyle = glowGrad!;
         ctx.beginPath();
         ctx.arc(mouse.x, mouse.y, REACH, 0, Math.PI * 2);
         ctx.fill();
@@ -115,9 +136,11 @@ const slug = profile.name.toLowerCase().replace(/\s+/g, '');
 
       // points near the cursor — for linking
       const near: P[] = [];
-      for (const p of pts) {
-        const dx = p.x - mouse.x, dy = p.y - mouse.y;
-        if (mouse.on && dx * dx + dy * dy < REACH * REACH) near.push(p);
+      if (mouse.on) {
+        for (const p of pts) {
+          const dx = p.x - mouse.x, dy = p.y - mouse.y;
+          if (dx * dx + dy * dy < REACH2) near.push(p);
+        }
       }
 
       // constellation links among near-cursor points
@@ -129,9 +152,9 @@ const slug = profile.name.toLowerCase().replace(/\s+/g, '');
             const b = near[j];
             const dx = a.x - b.x, dy = a.y - b.y;
             const d2 = dx * dx + dy * dy;
-            if (d2 < LINK * LINK) {
+            if (d2 < LINK2) {
               const alpha = (1 - Math.sqrt(d2) / LINK) * 0.5;
-              ctx.strokeStyle = `rgba(74,227,181,${alpha})`;
+              ctx.strokeStyle = 'rgba(74,227,181,' + alpha + ')';
               ctx.beginPath();
               ctx.moveTo(a.x, a.y);
               ctx.lineTo(b.x, b.y);
@@ -143,24 +166,20 @@ const slug = profile.name.toLowerCase().replace(/\s+/g, '');
 
       // draw all points; brighten those near the cursor
       for (const p of pts) {
-        const dx = p.x - mouse.x, dy = p.y - mouse.y;
-        const dist = mouse.on ? Math.sqrt(dx * dx + dy * dy) : Infinity;
-        const hot = dist < REACH ? 1 - dist / REACH : 0; // 0..1
-        const col = [
-          Math.round(lerp(MINT[0], 255, hot * 0.4)),
-          Math.round(lerp(MINT[1], 255, hot * 0.4)),
-          Math.round(lerp(MINT[2], 255, hot * 0.4)),
-        ];
-        // blend mint→blue by the point's own t, then brighten when hot
-        const base = [
-          Math.round(lerp(MINT[0], BLUE[0], p.t)),
-          Math.round(lerp(MINT[1], BLUE[1], p.t)),
-          Math.round(lerp(MINT[2], BLUE[2], p.t)),
-        ];
-        const c = hot > 0 ? col : base;
+        let hot = 0;
+        if (mouse.on) {
+          const dx = p.x - mouse.x, dy = p.y - mouse.y;
+          const d2 = dx * dx + dy * dy;
+          if (d2 < REACH2) hot = 1 - Math.sqrt(d2) / REACH; // 0..1
+        }
+        // brighten the precomputed idle color toward white by `hot`
+        const b = p.base;
+        const rr = (b[0] + (255 - b[0]) * hot * 0.4) | 0;
+        const gg = (b[1] + (255 - b[1]) * hot * 0.4) | 0;
+        const bb = (b[2] + (255 - b[2]) * hot * 0.4) | 0;
         const a = 0.35 + hot * 0.6 + p.t * 0.05;
         const rad = p.r * (1 + hot * 1.8);
-        ctx.fillStyle = `rgba(${c[0]},${c[1]},${c[2]},${Math.min(1, a)})`;
+        ctx.fillStyle = 'rgba(' + rr + ',' + gg + ',' + bb + ',' + (a > 1 ? 1 : a) + ')';
         ctx.beginPath();
         ctx.arc(p.x, p.y, rad, 0, Math.PI * 2);
         ctx.fill();
@@ -196,9 +215,10 @@ const slug = profile.name.toLowerCase().replace(/\s+/g, '');
     };
     const stop = () => cancelAnimationFrame(raf);
 
-    // pointer → hero-relative coords (canvas is pointer-events:none)
+    // pointer → hero-relative coords (canvas is pointer-events:none).
+    // cache the hero rect; refresh on scroll/resize so we don't re-layout per move.
+    let rect = hero.getBoundingClientRect();
     const onMove = (e: PointerEvent) => {
-      const rect = hero.getBoundingClientRect();
       mouse.x = e.clientX - rect.left;
       mouse.y = e.clientY - rect.top;
       mouse.on = mouse.x >= 0 && mouse.x <= w && mouse.y >= 0 && mouse.y <= h;
@@ -229,7 +249,8 @@ const slug = profile.name.toLowerCase().replace(/\s+/g, '');
     });
 
     resize();
-    window.addEventListener('resize', resize, { passive: true });
+    window.addEventListener('resize', () => { rect = hero.getBoundingClientRect(); resize(); }, { passive: true });
+    window.addEventListener('scroll', () => { rect = hero.getBoundingClientRect(); }, { passive: true });
 
     if (reduce) {
       // static frame: park a constellation in the centre so it still reads
@@ -286,10 +307,9 @@ const slug = profile.name.toLowerCase().replace(/\s+/g, '');
       0 10px 30px -10px rgba(0, 0, 0, 0.6);
   }
   .terminal {
-    /* frosted glass so the point-cloud reads through it */
-    background: linear-gradient(180deg, rgba(17, 21, 29, 0.62) 0%, rgba(23, 29, 40, 0.6) 100%);
-    -webkit-backdrop-filter: blur(10px) saturate(125%);
-    backdrop-filter: blur(10px) saturate(125%);
+    /* translucent (NOT backdrop-filtered) so the point-cloud reads through it
+       without paying a per-frame blur cost over the animating canvas. */
+    background: rgba(13, 17, 23, 0.72);
     border: 1px solid var(--border);
     border-radius: var(--radius);
     overflow: hidden;
