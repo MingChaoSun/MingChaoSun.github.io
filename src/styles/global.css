@@ -1,0 +1,146 @@
+/* ============================================================
+   Design tokens — 技術風 / terminal aesthetic
+   ============================================================ */
+:root {
+  /* surfaces */
+  --bg: #0a0d12;
+  --bg-elev: #11151d;
+  --bg-elev-2: #171d28;
+  --border: #232b39;
+  --border-soft: #1a212c;
+
+  /* text */
+  --text: #e6edf3;
+  --text-muted: #9aa7b8;
+  --text-dim: #5c6773;
+
+  /* accents */
+  --accent: #4ae3b5;            /* mint/teal — primary */
+  --accent-soft: rgba(74, 227, 181, 0.10);
+  --accent-2: #7aa2f7;          /* soft blue — links */
+  --green: #39d353;             /* terminal prompt / success */
+  --amber: #e0af68;
+  --pink: #f7768e;
+
+  /* type */
+  --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
+  --sans: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+
+  /* shape & layout */
+  --radius: 12px;
+  --radius-sm: 8px;
+  --maxw: 1000px;
+  --gutter: clamp(1.1rem, 4vw, 2.5rem);
+
+  /* motion */
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ============================================================
+   Reset
+   ============================================================ */
+*, *::before, *::after { box-sizing: border-box; }
+* { margin: 0; }
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+body {
+  font-family: var(--sans);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.65;
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  min-height: 100vh;
+  background-image:
+    radial-gradient(900px 500px at 80% -10%, rgba(74, 227, 181, 0.06), transparent 60%),
+    radial-gradient(700px 500px at 0% 0%, rgba(122, 162, 247, 0.05), transparent 55%);
+  background-attachment: fixed;
+}
+/* faint dot-grid backdrop */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+  background-size: 22px 22px;
+  -webkit-mask-image: linear-gradient(to bottom, black, transparent 80%);
+  mask-image: linear-gradient(to bottom, black, transparent 80%);
+}
+img, svg { display: block; max-width: 100%; }
+a { color: var(--accent-2); text-decoration: none; }
+a:hover { text-decoration: underline; }
+button { font: inherit; cursor: pointer; }
+ul { list-style: none; padding: 0; }
+
+/* ============================================================
+   Layout primitives
+   ============================================================ */
+.container {
+  width: 100%;
+  max-width: var(--maxw);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+  position: relative;
+  z-index: 1;
+}
+main { position: relative; z-index: 1; }
+section { padding-block: clamp(3.5rem, 8vw, 6rem); }
+
+/* section heading: `// label` comment style */
+.section-label {
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+  text-transform: lowercase;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 0.5rem;
+}
+.section-label::before { content: "//"; color: var(--text-dim); }
+.section-title {
+  font-size: clamp(1.5rem, 3.5vw, 2rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-bottom: 2rem;
+}
+
+/* ============================================================
+   Mono / inline helpers
+   ============================================================ */
+.mono { font-family: var(--mono); }
+.dim { color: var(--text-dim); }
+.muted { color: var(--text-muted); }
+code, .chip {
+  font-family: var(--mono);
+  font-size: 0.85em;
+  background: var(--bg-elev-2);
+  border: 1px solid var(--border);
+  padding: 0.12em 0.5em;
+  border-radius: 6px;
+  color: var(--accent);
+}
+
+/* ============================================================
+   Reveal-on-scroll
+   ============================================================ */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 0.6s var(--ease), transform 0.6s var(--ease);
+}
+[data-reveal].is-visible { opacity: 1; transform: none; }
+
+/* ============================================================
+   Accessibility
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  [data-reveal] { opacity: 1; transform: none; transition: none; }
+  .cursor { animation: none !important; }
+}
+::selection { background: var(--accent); color: #062018; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }

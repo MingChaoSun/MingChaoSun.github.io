@@ -1,0 +1,152 @@
+---
+import Section from './Section.astro';
+import { publications, profile } from '../data/site';
+import { boldSelf } from '../utils/text';
+
+const scholarSearch = (q: string) =>
+  `https://scholar.google.com/scholar?q=${encodeURIComponent(q)}`;
+---
+
+<Section id="work" label="selected work" title="Publications">
+  <p class="pubs__hint muted mono">
+    {publications.length} entries · flagship &amp; first-author work first ·
+    {/* TODO: add project / code links per paper */}
+  </p>
+  <ul class="pubs">
+    {
+      publications.map((p) => {
+        // fall back to a Scholar search when no explicit link is set yet
+        const links =
+          p.links.length > 0
+            ? p.links
+            : [{ label: 'scholar', url: scholarSearch(p.title) }];
+        const first = links[0].url;
+        return (
+          <li class="pub" data-reveal>
+            <a class="pub__thumb" href={first} aria-label={p.title}>
+              {p.thumb ? (
+                <img src={p.thumb} alt="" loading="lazy" />
+              ) : (
+                <span class="pub__thumb-fallback mono">{p.year}</span>
+              )}
+            </a>
+            <div class="pub__main">
+              <h3 class="pub__title">
+                <a href={first}>{p.title}</a>
+              </h3>
+              <p class="pub__authors" set:html={boldSelf(p.authors, profile.selfShort)} />
+              <p class="pub__meta mono">
+                <span class="venue">{p.venue}</span> <span class="dim">·</span> {p.year}
+                {p.citations && p.citations > 0 ? (
+                  <>
+                    {' '}<span class="dim">·</span>{' '}
+                    <span class="cites">{p.citations.toLocaleString('en-US')} cites</span>
+                  </>
+                ) : null}
+              </p>
+              {p.highlight && <p class="pub__hl muted">{p.highlight}</p>}
+              <nav class="pub__links mono">
+                {links.map((l) => (
+                  <a href={l.url}>{l.label}</a>
+                ))}
+              </nav>
+            </div>
+          </li>
+        );
+      })
+    }
+  </ul>
+</Section>
+
+<style>
+  .pubs__hint {
+    margin-bottom: 1.5rem;
+    font-size: 0.78rem;
+  }
+  .pubs {
+    display: flex;
+    flex-direction: column;
+    gap: 1.4rem;
+  }
+  .pub {
+    display: grid;
+    grid-template-columns: 84px 1fr;
+    gap: 1.1rem;
+    padding: 1.1rem;
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius);
+    background: var(--bg-elev);
+    transition: border-color 0.2s var(--ease), transform 0.2s var(--ease);
+  }
+  .pub:hover {
+    border-color: var(--border);
+    transform: translateY(-2px);
+  }
+  .pub__thumb {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 1 / 1;
+    border-radius: var(--radius-sm);
+    background: var(--bg-elev-2);
+    border: 1px solid var(--border-soft);
+    overflow: hidden;
+  }
+  .pub__thumb-fallback {
+    color: var(--accent);
+    font-size: 0.95rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+  .pub__title {
+    font-size: 1.02rem;
+    font-weight: 600;
+    line-height: 1.35;
+  }
+  .pub__title a {
+    color: var(--text);
+  }
+  .pub__title a:hover {
+    color: var(--accent);
+    text-decoration: none;
+  }
+  .pub__authors {
+    font-size: 0.9rem;
+    margin-top: 0.25rem;
+  }
+  .pub__authors :global(strong) {
+    color: var(--accent);
+    font-weight: 600;
+  }
+  .pub__meta {
+    font-size: 0.8rem;
+    margin-top: 0.5rem;
+    color: var(--text-muted);
+  }
+  .pub__meta .venue {
+    color: var(--accent-2);
+  }
+  .pub__meta .cites {
+    color: var(--green);
+  }
+  .pub__hl {
+    font-size: 0.88rem;
+    margin-top: 0.5rem;
+  }
+  .pub__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.9rem;
+    margin-top: 0.6rem;
+    font-size: 0.78rem;
+  }
+  .pub__links a {
+    color: var(--accent);
+  }
+  @media (max-width: 560px) {
+    .pub {
+      grid-template-columns: 64px 1fr;
+      gap: 0.8rem;
+    }
+  }
+</style>

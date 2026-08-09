@@ -1,0 +1,50 @@
+---
+import Section from './Section.astro';
+import { profile } from '../data/site';
+---
+
+<Section id="contact" label="contact" title="Let's talk">
+  <div class="contact" data-reveal>
+    <pre class="mono contact__term"><code><span class="prompt"></span>cat ./contact.txt</code></pre>
+    <ul class="contact__list">
+      {
+        profile.socials.map((s) => (
+          <li>
+            <span class="contact__label mono dim">{s.label}</span>
+            <a href={s.url}>{s.handle || s.url.replace(/^https?:\/\//, '').replace(/\/$/, '')}</a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</Section>
+
+<style>
+  .contact {
+    background: var(--bg-elev);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius);
+    padding: 1.4rem;
+    max-width: 620px;
+  }
+  .contact__term {
+    margin: 0 0 1rem 0;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+  }
+  .contact__list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+  }
+  .contact__list li {
+    display: flex;
+    gap: 1rem;
+    align-items: baseline;
+  }
+  .contact__label {
+    width: 130px;
+    flex-shrink: 0;
+    font-size: 0.82rem;
+  }
+</style>

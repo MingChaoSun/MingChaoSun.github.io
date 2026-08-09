@@ -1,0 +1,149 @@
+---
+import { profile, focusAreas } from '../data/site';
+
+const slug = profile.name.toLowerCase().replace(/\s+/g, '');
+---
+
+<section class="hero" id="top">
+  <div class="container hero__inner">
+    <div class="terminal" data-reveal>
+      <div class="terminal__bar">
+        <span class="dot dot--red"></span>
+        <span class="dot dot--amber"></span>
+        <span class="dot dot--green"></span>
+        <span class="terminal__title mono">~/{slug} — zsh</span>
+      </div>
+      <pre class="terminal__body mono"><code><span class="prompt"></span>whoami <span class="dim">--research</span>
+<span class="out-name">{profile.name}</span>
+<span class="out-role">{profile.role}</span>
+
+<span class="prompt"></span>cat ./about.txt
+<span class="muted">{profile.tagline}</span>
+
+<span class="prompt"></span>ls ./focus
+<span class="out-focus">{focusAreas.join('  ')}</span>
+
+<span class="prompt"></span>scholar <span class="dim">--stats</span>
+<span class="muted">citations: {profile.stats.citations.toLocaleString('en-US')}  ·  h-index: {profile.stats.hIndex}  ·  i10: {profile.stats.i10Index}</span>
+
+<span class="prompt"></span><span class="cursor" aria-hidden="true"></span></code></pre>
+    </div>
+
+    <div class="hero__cta" data-reveal>
+      <a class="btn btn--primary" href="#work">view selected work</a>
+      <a class="btn btn--ghost" href="#contact">get in touch</a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    padding-block: clamp(3rem, 9vw, 6rem) clamp(2rem, 5vw, 3rem);
+  }
+  .hero__inner {
+    display: flex;
+    flex-direction: column;
+    gap: 1.8rem;
+  }
+  .terminal {
+    background: linear-gradient(180deg, var(--bg-elev) 0%, var(--bg-elev-2) 100%);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow:
+      0 20px 60px -20px rgba(0, 0, 0, 0.6),
+      0 0 0 1px rgba(255, 255, 255, 0.02) inset;
+  }
+  .terminal__bar {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.7rem 0.9rem;
+    background: rgba(255, 255, 255, 0.02);
+    border-bottom: 1px solid var(--border-soft);
+  }
+  .dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    display: inline-block;
+  }
+  .dot--red { background: #ff5f57; }
+  .dot--amber { background: #febc2e; }
+  .dot--green { background: #28c840; }
+  .terminal__title {
+    color: var(--text-dim);
+    font-size: 0.78rem;
+    margin-left: 0.6rem;
+  }
+  .terminal__body {
+    margin: 0;
+    padding: clamp(1rem, 3vw, 1.6rem);
+    font-size: clamp(0.82rem, 2.2vw, 0.95rem);
+    line-height: 1.85;
+    overflow-x: auto;
+    white-space: pre;
+    color: var(--text);
+  }
+  .terminal__body code {
+    font-family: inherit;
+    background: none;
+    border: none;
+    padding: 0;
+  }
+  .out-name {
+    color: var(--accent);
+    font-weight: 700;
+  }
+  .out-role {
+    color: var(--text-muted);
+  }
+  .out-focus {
+    color: var(--accent-2);
+  }
+  .cursor {
+    display: inline-block;
+    width: 0.6em;
+    height: 1.05em;
+    background: var(--accent);
+    vertical-align: text-bottom;
+    animation: blink 1.1s steps(1) infinite;
+  }
+  @keyframes blink {
+    50% { opacity: 0; }
+  }
+
+  .hero__cta {
+    display: flex;
+    gap: 0.8rem;
+    flex-wrap: wrap;
+  }
+  .btn {
+    font-family: var(--mono);
+    font-size: 0.88rem;
+    padding: 0.7em 1.2em;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+    transition: all 0.2s var(--ease);
+  }
+  .btn--primary {
+    background: var(--accent);
+    color: #062018;
+    border-color: var(--accent);
+    font-weight: 600;
+  }
+  .btn--primary:hover {
+    background: #6cf0c6;
+    text-decoration: none;
+    transform: translateY(-1px);
+  }
+  .btn--ghost {
+    color: var(--text);
+    background: transparent;
+  }
+  .btn--ghost:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    text-decoration: none;
+  }
+</style>
