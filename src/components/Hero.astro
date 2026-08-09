@@ -170,7 +170,14 @@ const email = profile.socials.find((s) => s.label === 'Email');
         const rr = (b[0] + (255 - b[0]) * hot * 0.4) | 0;
         const gg = (b[1] + (255 - b[1]) * hot * 0.4) | 0;
         const bb = (b[2] + (255 - b[2]) * hot * 0.4) | 0;
-        const a = 0.35 + hot * 0.6 + p.t * 0.05;
+        // dissolve points toward the top/bottom edges so the cloud fades out
+        // instead of cutting at a hard horizontal line
+        const fadeBand = h * 0.14;
+        let edge = 1;
+        if (p.y < fadeBand) edge = p.y / fadeBand;
+        else if (p.y > h - fadeBand) edge = (h - p.y) / fadeBand;
+        if (edge < 0) edge = 0;
+        const a = (0.35 + hot * 0.6 + p.t * 0.05) * edge;
         const rad = p.r * (1 + hot * 1.8);
         ctx.fillStyle = 'rgba(' + rr + ',' + gg + ',' + bb + ',' + (a > 1 ? 1 : a) + ')';
         ctx.beginPath();
@@ -357,7 +364,7 @@ const email = profile.socials.find((s) => s.label === 'Email');
   }
   .hero__lede {
     color: var(--text-muted);
-    font-size: clamp(0.95rem, 2.1vw, 1.12rem);
+    font-size: clamp(0.85rem, 1.6vw, 1rem);
     line-height: 1.6;
     max-width: 60ch;
     margin-top: 0.7rem;
