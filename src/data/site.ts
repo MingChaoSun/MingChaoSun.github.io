@@ -167,50 +167,50 @@ export const news: NewsEntry[] = [
   {
     year: '2026.07',
     text: {
-      en: 'Released **Abot-World** and **ABot-3DWorld**, our generative world models — [live demo →](https://abot-world.amap.com/)',
-      zh: '发布 **Abot-World** 与 **ABot-3DWorld**,我们的生成式世界模型——[在线体验 →](https://abot-world.amap.com/)',
+      en: 'Released **Abot-World** and **ABot-3DWorld** — a universal world model that explores any 3D space, with infinite interactive rollout on a single GPU. [live demo →](https://abot-world.amap.com/)',
+      zh: '发布 **Abot-World** 与 **ABot-3DWorld**——可探索任意三维空间的通用世界模型,单卡即可无限交互推演。[在线体验 →](https://abot-world.amap.com/)',
     },
   },
   {
     year: '2026.07',
     text: {
-      en: 'Released **WorldRoamBench**, an open-world benchmark for long-horizon world-model stability — [homepage →](https://worldroam.amap.com/)',
-      zh: '发布 **WorldRoamBench**,面向开放世界、长时序世界模型稳定性的基准——[主页 →](https://worldroam.amap.com/)',
+      en: 'Released **WorldRoamBench**, an open-world benchmark probing the long-horizon stability of interactive world models. [homepage →](https://worldroam.amap.com/)',
+      zh: '发布 **WorldRoamBench**,衡量交互式世界模型长时序稳定性的开放世界基准。[主页 →](https://worldroam.amap.com/)',
     },
   },
   {
     year: '2026.06',
     text: {
-      en: 'Released **ABot-Earth 0.5** — [live demo →](https://abot-earth.amap.com/)',
-      zh: '发布 **ABot-Earth 0.5**——[在线体验 →](https://abot-earth.amap.com/)',
+      en: 'Released **ABot-Earth 0.5**, a generative 3D model of the Earth. [live demo →](https://abot-earth.amap.com/)',
+      zh: '发布 **ABot-Earth 0.5**,生成式三维地球模型。[在线体验 →](https://abot-earth.amap.com/)',
     },
   },
   {
     year: '2026.06',
     text: {
-      en: '**SocialNav** — CVPR 2026 Best Paper Candidate.',
-      zh: '**SocialNav** 入选 CVPR 2026 最佳论文候选。',
+      en: '**SocialNav**, a human-inspired foundation model for socially-aware navigation — named a **CVPR 2026 Best Paper Candidate**!',
+      zh: '**SocialNav**,受人类启发的具身社会感知导航基础模型——入选 **CVPR 2026 最佳论文候选**!',
     },
   },
   {
     year: '2026.03',
     text: {
-      en: '**From Orbit to Ground** accepted to CVPR 2026 *Findings* — [project →](https://pku-vcl-geometry.github.io/Orbit2Ground/)',
-      zh: '**From Orbit to Ground** 被 CVPR 2026 *Findings* 接收——[项目主页 →](https://pku-vcl-geometry.github.io/Orbit2Ground/)',
+      en: '**From Orbit to Ground** accepted to CVPR 2026 *Findings* — generative city-scale photogrammetry from extreme off-nadir satellite imagery. [project →](https://pku-vcl-geometry.github.io/Orbit2Ground/)',
+      zh: '**From Orbit to Ground** 被 CVPR 2026 *Findings* 接收——从极端倾斜卫星影像做生成式城市级摄影测量。[项目主页 →](https://pku-vcl-geometry.github.io/Orbit2Ground/)',
     },
   },
   {
     year: '2026.02',
     text: {
-      en: '**PointCNN++** and **SocialNav** accepted to CVPR 2026.',
-      zh: '**PointCNN++** 与 **SocialNav** 被 CVPR 2026 接收。',
+      en: 'Two papers accepted to CVPR 2026 — **PointCNN++** (convolution on native points) and **SocialNav** (socially-aware navigation).',
+      zh: '两篇论文被 CVPR 2026 接收——**PointCNN++**(原生点卷积)与 **SocialNav**(社会感知导航)。',
     },
   },
   {
     year: '2026.02',
     text: {
-      en: '**CLoD-GS** accepted to ICLR 2026.',
-      zh: '**CLoD-GS** 被 ICLR 2026 接收。',
+      en: '**CLoD-GS** accepted to ICLR 2026 — continuous level-of-detail rendering built on 3D Gaussian Splatting.',
+      zh: '**CLoD-GS** 被 ICLR 2026 接收——基于 3D 高斯泼溅的连续细节层次渲染。',
     },
   },
 ];
