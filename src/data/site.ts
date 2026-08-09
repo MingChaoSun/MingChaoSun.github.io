@@ -17,8 +17,8 @@ export const profile = {
   team: '3D Reconstruction & Generation',
   // terminal `cat ./about.txt` one-liner (bilingual)
   tagline: {
-    en: 'I build world models & 3D intelligence — from point-cloud deep learning (PointCNN) to large-scale 3D Gaussian Splatting.',
-    zh: '我做世界模型与三维智能——从点云深度学习(PointCNN)到大规模 3D 高斯泼溅。',
+    en: 'I build generative world models and embodied agents at Alibaba (Amap).',
+    zh: '我在阿里巴巴(高德)做生成式世界模型与具身智能体。',
   } as Bi,
   location: 'Hangzhou, China',
   selfShort: 'M Sun', // abbreviated form in author lists → bolded automatically
@@ -165,6 +165,13 @@ export interface NewsEntry {
 
 export const news: NewsEntry[] = [
   {
+    year: '2026.07',
+    text: {
+      en: 'Released **Abot-World**, our interactive generative world model playground — [try it live →](https://abot-world.amap.com/)',
+      zh: '发布 **Abot-World**,可交互的生成式世界模型体验——[在线体验 →](https://abot-world.amap.com/)',
+    },
+  },
+  {
     year: '2026',
     text: {
       en: '3× CVPR (PointCNN++, SocialNav, From Orbit to Ground *Findings*) + 1× ICLR (CLoD-GS).',
@@ -176,20 +183,6 @@ export const news: NewsEntry[] = [
     text: {
       en: 'Released the ABot-Earth (generative 3D Earth) and ABot-3DWorld (universal world model) series.',
       zh: '发布 ABot-Earth(生成式 3D 地球模型)与 ABot-3DWorld(通用世界模型)系列。',
-    },
-  },
-  {
-    year: '2018',
-    text: {
-      en: 'PointCNN (NeurIPS) — 4,300+ citations, a representative point-cloud convolution work.',
-      zh: 'PointCNN(NeurIPS)累计引用 4300+,点云卷积代表性工作。',
-    },
-  },
-  {
-    year: '—',
-    text: {
-      en: 'Student era — national 1st/2nd prizes in top contests (Microsoft Imagine Cup, Intel Cup); a Google funding grant; a national-level college student innovation project.',
-      zh: '学生时代——微软创新杯、英特尔杯等顶级学生大赛全国一/二等奖；Google 基金项目；国家级大学生创新创业项目。',
     },
   },
 ];
