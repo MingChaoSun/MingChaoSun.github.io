@@ -174,6 +174,13 @@ export const news: NewsEntry[] = [
   {
     year: '2026.06',
     text: {
+      en: '**SocialNav** — CVPR 2026 Best Paper Candidate.',
+      zh: '**SocialNav** 入选 CVPR 2026 最佳论文候选。',
+    },
+  },
+  {
+    year: '2026.06',
+    text: {
       en: 'Released **ABot-Earth 0.5** — [try it live →](https://abot-earth.amap.com/)',
       zh: '发布 **ABot-Earth 0.5**——[在线体验 →](https://abot-earth.amap.com/)',
     },
@@ -195,8 +202,8 @@ export const news: NewsEntry[] = [
   {
     year: '2026',
     text: {
-      en: '2× CVPR (PointCNN++, SocialNav).',
-      zh: '2 篇 CVPR(PointCNN++、SocialNav)。',
+      en: '**PointCNN++** accepted to CVPR 2026.',
+      zh: '**PointCNN++** 被 CVPR 2026 接收。',
     },
   },
   {
