@@ -167,7 +167,7 @@ export const news: NewsEntry[] = [
   {
     year: '2026.07',
     text: {
-      en: 'Released **Abot-World** and **ABot-3DWorld**, our generative world models — [explore live →](https://abot-world.amap.com/)',
+      en: 'Released **Abot-World** and **ABot-3DWorld**, our generative world models — [live demo →](https://abot-world.amap.com/)',
       zh: '发布 **Abot-World** 与 **ABot-3DWorld**,我们的生成式世界模型——[在线体验 →](https://abot-world.amap.com/)',
     },
   },
@@ -181,7 +181,7 @@ export const news: NewsEntry[] = [
   {
     year: '2026.06',
     text: {
-      en: 'Released **ABot-Earth 0.5** — [try it live →](https://abot-earth.amap.com/)',
+      en: 'Released **ABot-Earth 0.5** — [live demo →](https://abot-earth.amap.com/)',
       zh: '发布 **ABot-Earth 0.5**——[在线体验 →](https://abot-earth.amap.com/)',
     },
   },
