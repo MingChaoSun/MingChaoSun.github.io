@@ -7,10 +7,16 @@ const year = new Date().getFullYear();
   <div class="container footer__inner mono">
     <span class="dim">© {year} {profile.name}</span>
     <span class="dim">
-      built with <a href="https://astro.build">astro</a> · deployed on
+      <span class="i18n i18n-en">built with</span>
+      <span class="i18n i18n-zh">由</span>{' '}
+      <a href="https://astro.build">astro</a>{' '}·{' '}
+      <span class="i18n i18n-en">deployed on</span>
+      <span class="i18n i18n-zh">部署于</span>{' '}
       <a href="https://pages.github.com">github pages</a>
     </span>
-    <a href="#top" class="footer__top">↑ top</a>
+    <a href="#top" class="footer__top">
+      ↑ <span class="i18n i18n-en">top</span><span class="i18n i18n-zh">顶部</span>
+    </a>
   </div>
 </footer>
 

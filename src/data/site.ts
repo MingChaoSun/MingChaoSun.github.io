@@ -1,23 +1,31 @@
 // ============================================================
-// Central content source. Everything user-facing reads from here.
-// Publications & stats are real (parsed from Google Scholar, 2026-08-09).
-// Bio / email / socials are still PLACEHOLDERS pending the detailed profile.
+// Central content source — single source of truth for the site.
+// Bilingual (English default + 中文 toggle). Data confirmed 2026-08-09.
+// Scholar: 19 papers · ~4.9k citations · h-index 7.
 // ============================================================
+
+export type Bi = { en: string; zh: string };
 
 export const profile = {
   name: 'Mingchao Sun',
-  role: '3D & World Model Algorithm Engineer',
-  affiliation: 'Alibaba Group',
-  // one-liner in the terminal `cat ./about.txt` — grounded in real work
-  tagline:
-    'I build world models and 3D intelligence — from point-cloud deep learning (PointCNN) to interactive 3D worlds.',
-  location: 'China',
-  selfShort: 'M Sun', // abbreviated form used in author lists → bolded automatically
+  nameZh: '孙铭超',
+  role: 'Algorithm Tech Lead',
+  roleZh: '算法技术负责人',
+  affiliation: 'Alibaba Group (Amap)',
+  affiliationZh: '阿里巴巴 · 高德',
+  team: '3D Reconstruction & Generation',
+  // terminal `cat ./about.txt` one-liner (bilingual)
+  tagline: {
+    en: 'I build world models & 3D intelligence — from point-cloud deep learning (PointCNN) to large-scale 3D Gaussian Splatting.',
+    zh: '我做世界模型与三维智能——从点云深度学习(PointCNN)到大规模 3D 高斯泼溅。',
+  } as Bi,
+  location: 'Hangzhou, China',
+  selfShort: 'M Sun', // abbreviated form in author lists → bolded automatically
   email: 'sun.mc@outlook.com',
   // Google Scholar stats (2026-08-09)
   stats: { citations: 4913, hIndex: 7, i10Index: 7 },
   socials: [
-    { label: 'GitHub', handle: '@MingChaoSun', url: 'https://github.com/MingChaoSun' },
+    { label: 'GitHub', handle: '@MingchaoSun', url: 'https://github.com/MingchaoSun' },
     {
       label: 'Google Scholar',
       handle: 'bqsITKQAAAAJ',
@@ -28,7 +36,7 @@ export const profile = {
   ],
 };
 
-// shown in the terminal `ls ./focus` line — reflects the real research arc
+// terminal `ls ./focus` line — reflects the real research arc
 export const focusAreas = [
   'world_models/',
   '3d_gaussian_splatting/',
@@ -37,114 +45,175 @@ export const focusAreas = [
   'generative_3d/',
 ];
 
+// full narrative bio — bilingual, markdown bold supported (**..**)
+// Concise premium credential arc (not a 流水账). Full detail lives in the
+// Experience / Education sections; the hero/profile keeps it to a tight 2-paragrab.
+export const bio: { en: string[]; zh: string[] } = {
+  en: [
+    "Mingchao Sun is an **Algorithm Tech Lead** at **Alibaba Group (Amap)**, leading the 3D reconstruction & generation team. His research spans **3D Gaussian Splatting, point-cloud deep learning, and generative world models**, with work shipped across Amap's products.",
+    "He is best known for **PointCNN** (NeurIPS 2018, 4,300+ citations), and holds B.E. & M.Eng. degrees from **Shandong University**, advised by **Prof. Baoquan Chen**.",
+  ],
+  zh: [
+    '孙铭超，阿里巴巴**算法技术负责人**（高德），负责三维实景重建与生成团队。研究方向聚焦 **3D 高斯泼溅（3DGS）、点云深度学习与生成式世界模型**，相关成果已在高德产品中落地。',
+    '以 **PointCNN**（NeurIPS 2018，4300+ 引用）为学界所知；本硕均毕业于**山东大学**，师从**陈宝权教授**。',
+  ],
+};
+
+export interface EducationEntry {
+  school: string;
+  schoolZh: string;
+  degree: string;
+  degreeZh: string;
+  major: string;
+  majorZh: string;
+  years: string;
+  advisor: string;
+  advisorZh: string;
+}
+
+export const education: EducationEntry[] = [
+  {
+    school: 'Shandong University',
+    schoolZh: '山东大学',
+    degree: 'M.Eng.',
+    degreeZh: '硕士',
+    major: 'Computer Science & Technology',
+    majorZh: '计算机科学与技术',
+    years: '2017.09 – 2020.07',
+    advisor: 'Prof. Baoquan Chen',
+    advisorZh: '陈宝权教授',
+  },
+  {
+    school: 'Shandong University',
+    schoolZh: '山东大学',
+    degree: 'B.E.',
+    degreeZh: '学士',
+    major: 'Software Engineering',
+    majorZh: '软件工程',
+    years: '2013.09 – 2017.07',
+    advisor: '',
+    advisorZh: '',
+  },
+];
+
+export interface ExperienceEntry {
+  org: string;
+  orgZh: string;
+  title: string;
+  titleZh: string;
+  years: string;
+  yearsNote: string;
+  desc: Bi;
+}
+
+export const experience: ExperienceEntry[] = [
+  {
+    org: 'Alibaba Group — Amap, Visual Technology Center',
+    orgZh: '阿里巴巴 · 高德 视觉技术中心',
+    title: 'Algorithm Tech Lead',
+    titleZh: '算法专家 / 三维算法团队负责人',
+    years: '2021.11 – present',
+    yearsNote: 'full-time since Jul 2020',
+    desc: {
+      en: 'Lead the 3D reconstruction & generation team (~10 people). Drove large-scale 3DGS rendering and generative 3D world models into Amap’s products.',
+      zh: '三维实景重建与生成算法负责人,带约 10 人团队;主导大规模 3DGS 渲染与生成式三维世界模型在高德产品中的落地。',
+    },
+  },
+  {
+    org: 'Alibaba Group · Alibaba Cloud, Video Cloud',
+    orgZh: '阿里巴巴 · 阿里云 视频云',
+    title: 'Algorithm Engineer',
+    titleZh: '算法工程师',
+    years: '2019.06 – 2021.11',
+    yearsNote: '',
+    desc: {
+      en: 'Video face algorithms (in-house landmark / X-Face on Tmall Genie); cloud–DingTalk integrated products (interactive whiteboard, 5M minutes in 100 days).',
+      zh: '视频人脸算法(自研关键点 / 换脸 X-Face,天猫精灵端上人脸);云钉一体云产品(互动白板,百日 500 万分钟)。',
+    },
+  },
+  {
+    org: 'Alibaba Group · AI Labs',
+    orgZh: '阿里巴巴 · AI Labs',
+    title: 'Research Intern',
+    titleZh: '研究实习生',
+    years: '2018.08 – 2019.06',
+    yearsNote: '',
+    desc: {
+      en: 'Autonomous driving & V2X: onboard LiDAR point-cloud 3D detection (F-PointCNN), roadside 3D perception (BEVCNN / DepthCNN).',
+      zh: '自动驾驶与车路协同:车载 LiDAR 点云 3D 检测(F-PointCNN)、路侧 3D 感知(BEVCNN / DepthCNN)。',
+    },
+  },
+  {
+    org: 'Microsoft Research Asia (MSRA)',
+    orgZh: '微软亚洲研究院(MSRA)',
+    title: 'Research Intern',
+    titleZh: '研究实习生',
+    years: '2016.08 – 2017.04',
+    yearsNote: '',
+    desc: {
+      en: 'Big-data BI platform (Bayesian-network query estimation); Azure cloud-node fault prediction.',
+      zh: '大数据 BI 平台(贝叶斯网络查询预估);Azure 云节点故障预测。',
+    },
+  },
+];
+
+export interface NewsEntry {
+  year: string;
+  text: Bi;
+}
+
+export const news: NewsEntry[] = [
+  {
+    year: '2026',
+    text: {
+      en: '3× CVPR (PointCNN++, SocialNav, From Orbit to Ground *Findings*) + 1× ICLR (CLoD-GS).',
+      zh: '3 篇 CVPR(PointCNN++、SocialNav、From Orbit to Ground *Findings*)+ 1 篇 ICLR(CLoD-GS)。',
+    },
+  },
+  {
+    year: '2026',
+    text: {
+      en: 'Released the ABot-Earth (generative 3D Earth) and ABot-3DWorld (universal world model) series.',
+      zh: '发布 ABot-Earth(生成式 3D 地球模型)与 ABot-3DWorld(通用世界模型)系列。',
+    },
+  },
+  {
+    year: '2018',
+    text: {
+      en: 'PointCNN (NeurIPS) — 4,300+ citations, a representative point-cloud convolution work.',
+      zh: 'PointCNN(NeurIPS)累计引用 4300+,点云卷积代表性工作。',
+    },
+  },
+  {
+    year: '—',
+    text: {
+      en: 'Student era — national 1st/2nd prizes in top contests (Microsoft Imagine Cup, Intel Cup); a Google funding grant; a national-level college student innovation project.',
+      zh: '学生时代——微软创新杯、英特尔杯等顶级学生大赛全国一/二等奖；Google 基金项目；国家级大学生创新创业项目。',
+    },
+  },
+];
+
+export const recruiting: Bi = {
+  en: "I'm recruiting self-motivated research interns passionate about 3D vision, 3D Gaussian Splatting, and generative world models. If interested, reach out at sun.mc@outlook.com with your CV — happy to chat!",
+  zh: '欢迎对三维视觉、3DGS、生成式世界模型感兴趣的同学来实习，把简历发到 sun.mc@outlook.com 联系我即可。',
+};
+
 export interface Publication {
   title: string;
-  authors: string; // plain string; the author's own short name is bolded
+  authors: string; // plain string; the author's own short name is bolded automatically
   venue: string;
   year: number;
   citations?: number;
-  highlight?: string;
-  thumb?: string;
-  // TODO: swap the arXiv/scholar links for real project / code pages where available.
+  highlight?: string; // English one-liner (titles stay English to control maintenance)
+  thumb?: string; // teaser figure path under /pub (e.g. '/pub/pointcnn.webp')
+  featured?: boolean; // flagship papers get an accent treatment
   links: { label: string; url: string }[];
 }
 
-// Real list, ordered to tell a story: flagship / first-author work first,
-// then recent work, then earlier foundational papers. (Not pure recency.)
+// Ordered by Google Scholar date sort (newest → oldest). Links verified 2026-08-09.
+// NOTE: Scholar also lists "WorldOdysseyBench" (subtitle identical to WorldRoamBench)
+// — excluded pending confirmation (possible rename / duplicate). Add if confirmed real.
 export const publications: Publication[] = [
-  {
-    title: 'ABot-3DWorld 0: A Universal World Model to Explore Any 3D Space',
-    authors: 'M Sun, L Tang, Y Liu, X Yan, Z Li, Y Zhang, F Yu, Z Ge, Y Liu, J Zhang, et al.',
-    venue: 'arXiv',
-    year: 2026,
-    citations: 1,
-    highlight:
-      'A universal world model that can explore and interact with any 3D space. (first-author)',
-    links: [{ label: 'arXiv', url: 'https://arxiv.org/abs/2607.11673' }],
-  },
-  {
-    title: 'PointCNN++: Performant Convolution on Native Points',
-    authors: 'L Li, H Zhong, R Bu, M Sun, W Chen, B Chen, Y Li',
-    venue: 'CVPR',
-    year: 2026,
-    citations: 1,
-    highlight:
-      'A performant convolution operator that works directly on native (un-sampled) point clouds.',
-    links: [],
-  },
-  {
-    title: 'CLoD-GS: Continuous Level-of-Detail via 3D Gaussian Splatting',
-    authors: 'Z Cheng, M Sun, Y Liu, Z Ge, L Tang, M Xu, Y Li, P Pan',
-    venue: 'ICLR',
-    year: 2026,
-    citations: 3,
-    highlight: 'Continuous level-of-detail rendering built on 3D Gaussian Splatting.',
-    links: [],
-  },
-  {
-    title: 'SocialNav: Training a Human-Inspired Foundation Model for Socially-Aware Embodied Navigation',
-    authors: 'Z Chen, Y Guo, Z Chu, M Luo, Y Shen, M Sun, J Hu, S Xie, Y Kuan, P Shi, et al.',
-    venue: 'CVPR',
-    year: 2026,
-    citations: 15,
-    highlight: 'A human-inspired foundation model for socially-aware embodied navigation.',
-    links: [],
-  },
-  {
-    title: 'Abot-n0: Technical Report on the VLA Foundation Model for Versatile Embodied Navigation',
-    authors: 'Z Chu, S Xie, X Wu, Y Shen, M Luo, Z Wang, F Liu, X Leng, J Hu, M Yin, et al.',
-    venue: 'arXiv',
-    year: 2026,
-    citations: 15,
-    highlight: 'A vision-language-action (VLA) foundation model for versatile embodied navigation.',
-    links: [{ label: 'arXiv', url: 'https://arxiv.org/abs/2602.11598' }],
-  },
-  {
-    title: 'ABot-Earth 0.5: Generative 3D Earth Model',
-    authors: 'M Qian, T Ouyang, M Sun, Z Wang, J Xiong, J Han, Y Zhang, J Zhang, et al.',
-    venue: 'arXiv',
-    year: 2026,
-    citations: 1,
-    highlight: 'A generative 3D model of the Earth.',
-    links: [{ label: 'arXiv', url: 'https://arxiv.org/abs/2606.09967' }],
-  },
-  {
-    title: 'PointCNN: Convolution on X-Transformed Points',
-    authors: 'Y Li, R Bu, M Sun, W Wu, X Di, B Chen',
-    venue: 'NeurIPS',
-    year: 2018,
-    citations: 4357,
-    highlight:
-      'A foundational convolution operator for deep learning on point clouds — the seed of the PointCNN line.',
-    links: [],
-  },
-  {
-    title: 'From Orbit to Ground: Generative City Photogrammetry from Extreme Off-Nadir Satellite Images',
-    authors: 'F Yu, Y Liu, L Tang, M Sun, Z Ge, R Bu, Y Jin, H Zhao, H Sun, Y Li, M Xu, et al.',
-    venue: 'CVPR',
-    year: 2026,
-    citations: 2,
-    highlight: 'Generative city-scale photogrammetry from extreme off-nadir satellite imagery.',
-    links: [],
-  },
-  {
-    title: 'WorldRoamBench: An Open-World Benchmark for Long-Horizon Stability of Interactive World Models',
-    authors: 'TB Xu, J Sui, Z Gao, K Shi, W Yang, Z Liu, Z Sun, M Sun, H Pan, F Jiang, et al.',
-    venue: 'arXiv',
-    year: 2026,
-    citations: 1,
-    highlight: 'A benchmark probing long-horizon stability of interactive world models.',
-    links: [{ label: 'arXiv', url: 'https://arxiv.org/abs/2606.31672' }],
-  },
-  {
-    title: 'POINav: Benchmarking and Enhancing Final-Meters Arrival in Real-World Vision-Language Navigation',
-    authors: 'R Gong, M Zhang, Y Zhao, M Sun, Y Shen, Z Chu, Z Gu, W Guo, X Cheng, et al.',
-    venue: 'arXiv',
-    year: 2026,
-    citations: 1,
-    highlight: 'Benchmarking and enhancing final-meters arrival in real-world VLN.',
-    links: [{ label: 'arXiv', url: 'https://arxiv.org/abs/2605.28237' }],
-  },
   {
     title: 'ABot-World-0: Infinite Interactive World Rollout on a Single Desktop GPU',
     authors: 'F Jiang, Z Sun, M Wang, Z Zhu, C Wang, Y Zhang, W Liu, Y Wang, et al.',
@@ -153,6 +222,17 @@ export const publications: Publication[] = [
     citations: 0,
     highlight: 'Infinite interactive world rollout that fits on a single desktop GPU.',
     links: [{ label: 'arXiv', url: 'https://arxiv.org/abs/2607.19191' }],
+  },
+  {
+    title: 'ABot-3DWorld 0: A Universal World Model to Explore Any 3D Space',
+    authors: 'M Sun, L Tang, Y Liu, X Yan, Z Li, Y Zhang, F Yu, Z Ge, Y Liu, J Zhang, et al.',
+    venue: 'arXiv',
+    year: 2026,
+    citations: 1,
+    highlight: 'A universal world model that can explore and interact with any 3D space. (first-author)',
+    thumb: '/pub/abot3dworld.webp',
+    featured: true,
+    links: [{ label: 'arXiv', url: 'https://arxiv.org/abs/2607.11673' }],
   },
   {
     title: 'ABot-N1: Toward a General Visual-Language Navigation Foundation Model',
@@ -164,13 +244,95 @@ export const publications: Publication[] = [
     links: [{ label: 'arXiv', url: 'https://arxiv.org/abs/2607.10383' }],
   },
   {
-    title: 'WorldOdysseyBench: An Open-World Benchmark for Long-Horizon Stability of Interactive World Models',
+    title: 'WorldRoamBench: An Open-World Benchmark for Long-Horizon Stability of Interactive World Models',
     authors: 'TB Xu, J Sui, Z Gao, K Shi, W Yang, Z Liu, Z Sun, M Sun, H Pan, F Jiang, et al.',
     venue: 'arXiv',
     year: 2026,
     citations: 1,
-    highlight: 'An open-world benchmark for long-horizon stability of interactive world models.',
+    highlight: 'A benchmark probing long-horizon stability of interactive world models.',
     links: [{ label: 'arXiv', url: 'https://arxiv.org/abs/2606.31672' }],
+  },
+  {
+    title: 'ABot-EARTH 0.5: Generative 3D Earth Model',
+    authors: 'M Qian, T Ouyang, M Sun, Z Wang, J Xiong, J Han, Y Zhang, J Zhang, et al.',
+    venue: 'arXiv',
+    year: 2026,
+    citations: 1,
+    highlight: 'A generative 3D model of the Earth.',
+    thumb: '/pub/abotearth.webp',
+    featured: true,
+    links: [{ label: 'arXiv', url: 'https://arxiv.org/abs/2606.09967' }],
+  },
+  {
+    title: 'POINav: Benchmarking and Enhancing Final-Meters Arrival in Real-World Vision-Language Navigation',
+    authors: 'R Gong, M Zhang, Y Zhao, M Sun, Y Shen, Z Chu, Z Gu, W Guo, X Cheng, et al.',
+    venue: 'arXiv',
+    year: 2026,
+    citations: 1,
+    highlight: 'Benchmarking and enhancing final-meters arrival in real-world VLN.',
+    links: [{ label: 'arXiv', url: 'https://arxiv.org/abs/2605.28237' }],
+  },
+  {
+    title: 'Abot-n0: Technical Report on the VLA Foundation Model for Versatile Embodied Navigation',
+    authors: 'Z Chu, S Xie, X Wu, Y Shen, M Luo, Z Wang, F Liu, X Leng, J Hu, M Yin, et al.',
+    venue: 'arXiv',
+    year: 2026,
+    citations: 15,
+    highlight: 'A vision-language-action (VLA) foundation model for versatile embodied navigation.',
+    links: [{ label: 'arXiv', url: 'https://arxiv.org/abs/2602.11598' }],
+  },
+  {
+    title: 'From Orbit to Ground: Generative City Photogrammetry from Extreme Off-Nadir Satellite Images',
+    authors: 'F Yu, Y Liu, L Tang, M Sun, Z Ge, R Bu, Y Jin, H Zhao, H Sun, Y Li, M Xu, et al.',
+    venue: 'CVPR 2026 Findings',
+    year: 2026,
+    citations: 2,
+    highlight: 'Generative city-scale photogrammetry from extreme off-nadir satellite imagery.',
+    thumb: '/pub/orbit2ground.webp',
+    featured: true,
+    links: [
+      { label: 'arXiv', url: 'https://arxiv.org/abs/2512.07527' },
+      { label: 'project', url: 'https://pku-vcl-geometry.github.io/Orbit2Ground/' },
+    ],
+  },
+  {
+    title: 'PointCNN++: Performant Convolution on Native Points',
+    authors: 'L Li, H Zhong, R Bu, M Sun, W Chen, B Chen, Y Li',
+    venue: 'CVPR',
+    year: 2026,
+    citations: 1,
+    highlight: 'A performant convolution operator that works directly on native (un-sampled) point clouds.',
+    thumb: '/pub/pointcnnpp.webp',
+    featured: true,
+    links: [
+      { label: 'arXiv', url: 'https://arxiv.org/abs/2511.23227' },
+      { label: 'code', url: 'https://github.com/ant-research/pointelligence' },
+    ],
+  },
+  {
+    title: 'SocialNav: Training a Human-Inspired Foundation Model for Socially-Aware Embodied Navigation',
+    authors: 'Z Chen, Y Guo, Z Chu, M Luo, Y Shen, M Sun, J Hu, S Xie, Y Kuan, P Shi, et al.',
+    venue: 'CVPR',
+    year: 2026,
+    citations: 15,
+    highlight: 'A human-inspired foundation model for socially-aware embodied navigation.',
+    thumb: '/pub/socialnav.webp',
+    featured: true,
+    links: [
+      { label: 'arXiv', url: 'https://arxiv.org/abs/2511.21135' },
+      { label: 'project', url: 'https://amap-eai.github.io/SocialNav/' },
+    ],
+  },
+  {
+    title: 'CLoD-GS: Continuous Level-of-Detail via 3D Gaussian Splatting',
+    authors: 'Z Cheng, M Sun, Y Liu, Z Ge, L Tang, M Xu, Y Li, P Pan',
+    venue: 'ICLR',
+    year: 2026,
+    citations: 3,
+    highlight: 'Continuous level-of-detail rendering built on 3D Gaussian Splatting.',
+    thumb: '/pub/clodgs.webp',
+    featured: true,
+    links: [{ label: 'arXiv', url: 'https://arxiv.org/abs/2510.09997' }],
   },
   {
     title: 'DO-Conv: Depthwise Over-Parameterized Convolutional Layer',
@@ -179,7 +341,10 @@ export const publications: Publication[] = [
     year: 2022,
     citations: 351,
     highlight: 'A depthwise over-parameterized convolutional layer that boosts 2D CNN backbones.',
-    links: [],
+    links: [
+      { label: 'code', url: 'https://github.com/yangyanli/DO-Conv' },
+      { label: 'PubMed', url: 'https://pubmed.ncbi.nlm.nih.gov/35594231/' },
+    ],
   },
   {
     title: 'DeepPipes: Learning 3D Pipelines Reconstruction from Point Clouds',
@@ -200,13 +365,13 @@ export const publications: Publication[] = [
     links: [],
   },
   {
-    title: 'Large-Scale 3D Shape Reconstruction and Segmentation from ShapeNetCore55',
-    authors: 'L Yi, L Shao, M Savva, H Huang, Y Zhou, Q Wang, B Graham, M Engelcke, et al.',
+    title: 'First and Complementary Neighborhood Combination of Adjacency Matrix for Graph Learning',
+    authors: 'X Di, P Yu, M Sun, R Bu',
     venue: 'arXiv',
-    year: 2017,
-    citations: 78,
-    highlight: 'The large-scale ShapeNetCore55 reconstruction & segmentation benchmark.',
-    links: [{ label: 'arXiv', url: 'https://arxiv.org/abs/1710.06104' }],
+    year: 2019,
+    citations: 0,
+    highlight: 'Combining first-order and complementary neighborhoods for graph learning.',
+    links: [{ label: 'arXiv', url: 'https://arxiv.org/abs/1905.08509' }],
   },
   {
     title: 'Neighborhood Enlargement in Graph Neural Networks',
@@ -218,41 +383,75 @@ export const publications: Publication[] = [
     links: [],
   },
   {
-    title: 'First and Complementary Neighborhood Combination of Adjacency Matrix for Graph Learning',
-    authors: 'X Di, P Yu, M Sun, R Bu',
+    title: 'PointCNN: Convolution on X-Transformed Points',
+    authors: 'Y Li, R Bu, M Sun, W Wu, X Di, B Chen',
+    venue: 'NeurIPS',
+    year: 2018,
+    citations: 4357,
+    highlight: 'A foundational convolution operator for deep learning on point clouds — the seed of the PointCNN line.',
+    thumb: '/pub/pointcnn.webp',
+    featured: true,
+    links: [
+      { label: 'arXiv', url: 'https://arxiv.org/abs/1801.07791' },
+      { label: 'code', url: 'https://github.com/yangyanli/PointCNN' },
+      { label: 'neurips', url: 'https://proceedings.neurips.cc/paper/2018/hash/f5f8590cd58a54e94377e6ae2eded4d9-Abstract.html' },
+    ],
+  },
+  {
+    title: 'Large-Scale 3D Shape Reconstruction and Segmentation from ShapeNetCore55',
+    authors: 'L Yi, L Shao, M Savva, H Huang, Y Zhou, Q Wang, B Graham, M Engelcke, et al.',
     venue: 'arXiv',
-    year: 2019,
-    citations: 0,
-    highlight: 'Combining first-order and complementary neighborhoods for graph learning.',
-    links: [{ label: 'arXiv', url: 'https://arxiv.org/abs/1905.08509' }],
+    year: 2017,
+    citations: 78,
+    highlight: 'The large-scale ShapeNetCore55 reconstruction & segmentation benchmark.',
+    links: [{ label: 'arXiv', url: 'https://arxiv.org/abs/1710.06104' }],
   },
 ];
 
 export interface Project {
   name: string;
-  blurb: string;
+  blurb: Bi;
   tags: string[];
   url?: string;
 }
 
-// PLACEHOLDERS — the ABot series & PointCNN line could each become a project card.
+// Research lines — thematic groupings that span multiple papers, distinct from the
+// paper-by-paper Publications list above. Each links to a representative entry point.
 export const projects: Project[] = [
   {
-    name: 'ABot',
-    blurb: 'A family of world models for embodied agents — 3DWorld, Earth, World, N1.',
-    tags: ['World Model', 'Embodied AI'],
-    url: '#',
+    name: 'ABot — Generative World Models',
+    blurb: {
+      en: 'A family of generative 3D world models: universal 3D worlds (3DWorld), Earth-scale generation (Earth), and infinite interactive rollout (World-0).',
+      zh: '一系列生成式三维世界模型:通用三维世界(3DWorld)、地球级生成(Earth)与无限交互式推演(World-0)。',
+    },
+    tags: ['World Model', 'Generative 3D', '2026'],
+    url: 'https://arxiv.org/abs/2607.11673',
   },
   {
-    name: 'PointCNN',
-    blurb: 'Convolution on X-transformed points — deep learning directly on point clouds.',
-    tags: ['3D', 'Point Cloud'],
-    url: '#',
+    name: 'Point-Cloud Deep Learning',
+    blurb: {
+      en: 'The PointCNN line — convolution directly on points. From PointCNN (NeurIPS 2018, 4.3k+ citations) to PointCNN++ (CVPR 2026, native-point convolution).',
+      zh: 'PointCNN 研究线——直接在点上的卷积。从 PointCNN(NeurIPS 2018,4300+ 引用)到 PointCNN++(CVPR 2026,原生点卷积)。',
+    },
+    tags: ['Point Cloud', 'NeurIPS 2018', 'CVPR 2026'],
+    url: 'https://github.com/yangyanli/PointCNN',
   },
   {
-    name: 'CLoD-GS',
-    blurb: 'Continuous level-of-detail rendering via 3D Gaussian Splatting.',
-    tags: ['3DGS', 'Rendering'],
-    url: '#',
+    name: 'Embodied Navigation',
+    blurb: {
+      en: 'Foundation models & benchmarks for embodied navigation — Abot-n0 (VLA), SocialNav (socially-aware), POINav (final-meters arrival).',
+      zh: '具身导航的基础模型与基准——Abot-n0(VLA)、SocialNav(社会感知)、POINav(末端到达)。',
+    },
+    tags: ['VLN', 'Foundation Model', '2026'],
+    url: 'https://amap-eai.github.io/SocialNav/',
+  },
+  {
+    name: '3D Gaussian Splatting',
+    blurb: {
+      en: 'Rendering & reconstruction with 3DGS — continuous level-of-detail (CLoD-GS, ICLR 2026) and city-scale generative photogrammetry (Orbit to Ground).',
+      zh: '基于 3D 高斯泼溅的渲染与重建——连续细节层次(CLoD-GS,ICLR 2026)与城市级生成式摄影测量(Orbit to Ground)。',
+    },
+    tags: ['3DGS', 'Rendering', 'ICLR 2026'],
+    url: 'https://arxiv.org/abs/2510.09997',
   },
 ];

@@ -1,16 +1,22 @@
 ---
+import type { Bi } from '../data/site';
+
 export interface Props {
   id: string;
-  label: string;
-  title: string;
+  label: Bi; // e.g. { en: 'selected work', zh: '代表论文' }
+  title: Bi; // e.g. { en: 'Publications', zh: '发表论文' }
 }
 const { id, label, title } = Astro.props;
 ---
 
 <section id={id} class="section">
   <div class="container">
-    <p class="section-label">{label}</p>
-    <h2 class="section-title">{title}</h2>
+    <p class="section-label">
+      <span class="i18n i18n-en">{label.en}</span><span class="i18n i18n-zh">{label.zh}</span>
+    </p>
+    <h2 class="section-title">
+      <span class="i18n i18n-en">{title.en}</span><span class="i18n i18n-zh">{title.zh}</span>
+    </h2>
     <slot />
   </div>
 </section>

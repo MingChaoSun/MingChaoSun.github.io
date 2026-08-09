@@ -1,0 +1,62 @@
+---
+import Section from './Section.astro';
+import { education } from '../data/site';
+---
+
+<Section id="education" label={{ en: 'education', zh: '教育' }} title={{ en: 'Education', zh: '教育背景' }}>
+  <ul class="edu">
+    {
+      education.map((e) => (
+        <li class="edu__item" data-reveal>
+          <div class="edu__head">
+            <span class="edu__school">
+              <span class="i18n i18n-en">{e.school}</span>
+              <span class="i18n i18n-zh">{e.schoolZh}</span>
+            </span>
+            <span class="edu__years mono">{e.years}</span>
+          </div>
+          <p class="edu__detail muted mono">
+            <span class="i18n i18n-en">
+              {e.degree} · {e.major}{e.advisor ? ` · advised by ${e.advisor}` : ''}
+            </span>
+            <span class="i18n i18n-zh">
+              {e.degreeZh} · {e.majorZh}{e.advisorZh ? ` · 师从 ${e.advisorZh}` : ''}
+            </span>
+          </p>
+        </li>
+      ))
+    }
+  </ul>
+</Section>
+
+<style>
+  .edu {
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+  }
+  .edu__item {
+    padding: 0.9rem 1.1rem;
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius);
+    background: var(--bg-elev);
+  }
+  .edu__head {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    align-items: baseline;
+    flex-wrap: wrap;
+  }
+  .edu__school {
+    font-weight: 600;
+  }
+  .edu__years {
+    color: var(--accent-2);
+    font-size: 0.82rem;
+  }
+  .edu__detail {
+    font-size: 0.86rem;
+    margin-top: 0.35rem;
+  }
+</style>

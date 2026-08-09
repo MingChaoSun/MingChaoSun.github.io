@@ -18,3 +18,13 @@ export function escapeHtml(s: string): string {
     }
   });
 }
+
+// Minimal inline-markdown → HTML for bilingual bio paragraphs.
+// Escapes first (safe), then renders **bold**, *italic* and `code`.
+export function mdInline(src: string): string {
+  let s = escapeHtml(src);
+  s = s.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+  s = s.replace(/(^|[^*])\*(?!\s)([^*]*?)\*/g, '$1<em>$2</em>');
+  s = s.replace(/`([^`]+)`/g, '<code>$1</code>');
+  return s;
+}

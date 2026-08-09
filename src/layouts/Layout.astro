@@ -7,18 +7,21 @@ import '@fontsource/jetbrains-mono/400.css';
 import '@fontsource/jetbrains-mono/500.css';
 import '@fontsource/jetbrains-mono/700.css';
 import '../styles/global.css';
+import Lang from '../components/Lang.astro';
 
 export interface Props {
   title?: string;
   description?: string;
 }
-
 const {
-  title = 'Mingchao Sun — 3D & World Model Engineer',
-  description = 'Mingchao Sun. Algorithm engineer working on 3D vision, neural rendering and world models.',
+  title = 'Mingchao Sun — Algorithm Tech Lead · 3D & World Models',
+  description =
+    'Mingchao Sun — Algorithm Tech Lead at Alibaba (Amap). Research on 3D reconstruction & generation, 3D Gaussian Splatting, point-cloud deep learning and generative world models. Author of PointCNN.',
 } = Astro.props;
 
-const canonical = new URL(Astro.url.pathname, Astro.site ?? 'https://mingchaosun.com');
+const site = Astro.site ?? 'https://mingchaosun.com';
+const canonical = new URL(Astro.url.pathname, site);
+const ogImage = new URL('/og.png', site);
 ---
 
 <!doctype html>
@@ -39,9 +42,29 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? 'https://mingchaosun
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
-    <meta name="twitter:card" content="summary" />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Mingchao Sun — Algorithm Tech Lead · 3D & World Models" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:locale:alternate" content="zh_CN" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content={ogImage} />
+
+    <!-- apply saved language before paint to avoid a flash -->
+    <script is:inline>
+      (function () {
+        try {
+          if (localStorage.getItem('lang') === 'zh') {
+            document.documentElement.classList.add('lang-zh');
+          }
+        } catch (e) {}
+      })();
+    </script>
   </head>
   <body>
+    <a class="skip-link" href="#main">skip to content</a>
+    <Lang />
     <slot />
 
     <script>
@@ -58,6 +81,21 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? 'https://mingchaosun
         { threshold: 0.12 }
       );
       document.querySelectorAll('[data-reveal]').forEach((el) => io.observe(el));
+    </script>
+
+    <script is:inline>
+      // 中 / EN toggle — flip the language class, update <html lang>, persist.
+      var btn = document.getElementById('langToggle');
+      if (btn) {
+        btn.addEventListener('click', function () {
+          var html = document.documentElement;
+          var zh = html.classList.toggle('lang-zh');
+          html.lang = zh ? 'zh' : 'en';
+          try {
+            localStorage.setItem('lang', zh ? 'zh' : 'en');
+          } catch (e) {}
+        });
+      }
     </script>
   </body>
 </html>

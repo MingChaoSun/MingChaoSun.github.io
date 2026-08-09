@@ -5,34 +5,66 @@ import { boldSelf } from '../utils/text';
 
 const scholarSearch = (q: string) =>
   `https://scholar.google.com/scholar?q=${encodeURIComponent(q)}`;
+
+// Relabel raw link labels into styled, prominent chips.
+// arxiv -> "PDF" (filled mint, most prominent); project -> "Project" (outline).
+const LINK_META: Record<string, { text: string; kind: 'primary' | 'accent' | 'ghost' }> = {
+  arxiv: { text: 'PDF', kind: 'primary' },
+  project: { text: 'Project', kind: 'accent' },
+  code: { text: 'Code', kind: 'ghost' },
+  video: { text: 'Video', kind: 'ghost' },
+  neurips: { text: 'NeurIPS', kind: 'ghost' },
+  scholar: { text: 'Scholar', kind: 'ghost' },
+  PubMed: { text: 'PubMed', kind: 'ghost' },
+};
+const meta = (label: string) => LINK_META[label] ?? { text: label, kind: 'ghost' as const };
+
+const thumbSlug = (thumb?: string) => thumb?.split('/').pop()?.replace(/\.webp$/, '');
 ---
 
-<Section id="work" label="selected work" title="Publications">
+<Section id="work" label={{ en: 'selected work', zh: '代表论文' }} title={{ en: 'Publications', zh: '发表论文' }}>
   <p class="pubs__hint muted mono">
-    {publications.length} entries · flagship &amp; first-author work first ·
-    {/* TODO: add project / code links per paper */}
+    <span class="i18n i18n-en">{publications.length} papers · sorted by date (newest first)</span>
+    <span class="i18n i18n-zh">{publications.length} 篇 · 按时间倒序(最新在前)</span>
   </p>
   <ul class="pubs">
     {
       publications.map((p) => {
-        // fall back to a Scholar search when no explicit link is set yet
+        const pdf = p.links.find((l) => l.label === 'arxiv');
+        const proj = p.links.find((l) => l.label === 'project');
+        const primaryUrl =
+          pdf?.url || proj?.url || p.links[0]?.url || scholarSearch(p.title);
         const links =
-          p.links.length > 0
-            ? p.links
-            : [{ label: 'scholar', url: scholarSearch(p.title) }];
-        const first = links[0].url;
+          p.links.length > 0 ? p.links : [{ label: 'scholar', url: scholarSearch(p.title) }];
+        const slug = thumbSlug(p.thumb);
         return (
-          <li class="pub" data-reveal>
-            <a class="pub__thumb" href={first} aria-label={p.title}>
+          <li class="pub" data-reveal data-featured={p.featured || undefined}>
+            <a
+              class="pub__media"
+              href={primaryUrl}
+              aria-label={p.title}
+              target="_blank"
+              rel="noopener noreferrer"
+              data-thumb={slug}
+            >
               {p.thumb ? (
-                <img src={p.thumb} alt="" loading="lazy" />
+                <img src={p.thumb} alt="" loading="lazy" decoding="async" />
               ) : (
-                <span class="pub__thumb-fallback mono">{p.year}</span>
+                <span class="pub__ph">
+                  <span class="ph__venue mono">{p.venue}</span>
+                  <span class="ph__year mono">{p.year}</span>
+                  <span class="ph__tag mono">
+                    <span class="i18n i18n-en">// teaser pending</span>
+                    <span class="i18n i18n-zh">// 待补图</span>
+                  </span>
+                </span>
               )}
             </a>
-            <div class="pub__main">
+            <div class="pub__body">
               <h3 class="pub__title">
-                <a href={first}>{p.title}</a>
+                <a href={primaryUrl} target="_blank" rel="noopener noreferrer">
+                  {p.title}
+                </a>
               </h3>
               <p class="pub__authors" set:html={boldSelf(p.authors, profile.selfShort)} />
               <p class="pub__meta mono">
@@ -46,9 +78,20 @@ const scholarSearch = (q: string) =>
               </p>
               {p.highlight && <p class="pub__hl muted">{p.highlight}</p>}
               <nav class="pub__links mono">
-                {links.map((l) => (
-                  <a href={l.url}>{l.label}</a>
-                ))}
+                {links.map((l) => {
+                  const m = meta(l.label);
+                  return (
+                    <a
+                      class={`lk lk--${m.kind}`}
+                      href={l.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <span>{m.text}</span>
+                      {m.kind !== 'ghost' && <span class="lk__arrow">↗</span>}
+                    </a>
+                  );
+                })}
               </nav>
             </div>
           </li>
@@ -60,46 +103,124 @@ const scholarSearch = (q: string) =>
 
 <style>
   .pubs__hint {
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.3rem;
     font-size: 0.78rem;
   }
   .pubs {
-    display: flex;
-    flex-direction: column;
-    gap: 1.4rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 1.1rem;
   }
   .pub {
-    display: grid;
-    grid-template-columns: 84px 1fr;
-    gap: 1.1rem;
-    padding: 1.1rem;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
     border: 1px solid var(--border-soft);
     border-radius: var(--radius);
     background: var(--bg-elev);
-    transition: border-color 0.2s var(--ease), transform 0.2s var(--ease);
+    transition: border-color 0.22s var(--ease), transform 0.22s var(--ease),
+      box-shadow 0.22s var(--ease);
   }
   .pub:hover {
     border-color: var(--border);
-    transform: translateY(-2px);
+    transform: translateY(-3px);
+    box-shadow: 0 16px 40px -20px rgba(0, 0, 0, 0.7);
   }
-  .pub__thumb {
+  /* flagship papers: subtle mint tab along the top edge */
+  .pub[data-featured]::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    z-index: 3;
+    background: linear-gradient(90deg, var(--accent), rgba(74, 227, 181, 0));
+  }
+
+  /* ---- banner media ---- */
+  .pub__media {
+    position: relative;
+    display: block;
+    aspect-ratio: 16 / 10;
+    background: var(--bg-elev-2);
+    border-bottom: 1px solid var(--border-soft);
+    overflow: hidden;
+  }
+  .pub__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    transition: transform 0.4s var(--ease);
+  }
+  .pub:hover .pub__media img {
+    transform: scale(1.04);
+  }
+  /* the PointCNN permutation figure is a wide/short diagram — show it whole */
+  .pub__media[data-thumb='pointcnn'] img {
+    object-fit: contain;
+    padding: 8px;
+  }
+
+  /* terminal-art placeholder for papers without a teaser */
+  .pub__ph {
+    position: absolute;
+    inset: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    aspect-ratio: 1 / 1;
-    border-radius: var(--radius-sm);
-    background: var(--bg-elev-2);
-    border: 1px solid var(--border-soft);
-    overflow: hidden;
+    background-image: radial-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+    background-size: 16px 16px;
   }
-  .pub__thumb-fallback {
-    color: var(--accent);
-    font-size: 0.95rem;
-    font-weight: 600;
-    letter-spacing: 0.02em;
+  .pub__ph::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(420px 200px at 50% 40%, rgba(74, 227, 181, 0.07), transparent 70%);
+  }
+  .ph__venue {
+    position: absolute;
+    top: 0.6rem;
+    left: 0.75rem;
+    font-size: 0.66rem;
+    letter-spacing: 0.04em;
+    color: var(--accent-2);
+    opacity: 0.7;
+    z-index: 1;
+  }
+  .ph__year {
+    position: relative;
+    z-index: 1;
+    font-size: 2.6rem;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    color: var(--text);
+    opacity: 0.16;
+  }
+  .ph__tag {
+    position: absolute;
+    bottom: 0.6rem;
+    left: 0;
+    right: 0;
+    text-align: center;
+    z-index: 1;
+    font-size: 0.6rem;
+    letter-spacing: 0.06em;
+    color: var(--text-dim);
+    opacity: 0.85;
+  }
+
+  /* ---- body ---- */
+  .pub__body {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    padding: 1rem 1.05rem 1.05rem;
   }
   .pub__title {
-    font-size: 1.02rem;
+    font-size: 1rem;
     font-weight: 600;
     line-height: 1.35;
   }
@@ -111,15 +232,17 @@ const scholarSearch = (q: string) =>
     text-decoration: none;
   }
   .pub__authors {
-    font-size: 0.9rem;
-    margin-top: 0.25rem;
+    font-size: 0.85rem;
+    line-height: 1.45;
+    margin-top: 0.3rem;
+    color: var(--text-muted);
   }
   .pub__authors :global(strong) {
     color: var(--accent);
     font-weight: 600;
   }
   .pub__meta {
-    font-size: 0.8rem;
+    font-size: 0.76rem;
     margin-top: 0.5rem;
     color: var(--text-muted);
   }
@@ -130,23 +253,62 @@ const scholarSearch = (q: string) =>
     color: var(--green);
   }
   .pub__hl {
-    font-size: 0.88rem;
+    font-size: 0.82rem;
+    line-height: 1.5;
     margin-top: 0.5rem;
   }
   .pub__links {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.9rem;
-    margin-top: 0.6rem;
-    font-size: 0.78rem;
+    gap: 0.45rem;
+    margin-top: auto;
+    padding-top: 0.8rem;
+    font-size: 0.72rem;
   }
-  .pub__links a {
+
+  /* ---- link chips ---- */
+  .lk {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.3rem 0.58rem;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    letter-spacing: 0.02em;
+    text-decoration: none;
+    transition: color 0.18s var(--ease), background 0.18s var(--ease),
+      border-color 0.18s var(--ease), box-shadow 0.18s var(--ease);
+  }
+  .lk:hover {
+    text-decoration: none;
+  }
+  .lk__arrow {
+    font-size: 0.85em;
+    opacity: 0.85;
+  }
+  .lk--ghost:hover {
     color: var(--accent);
+    border-color: rgba(74, 227, 181, 0.4);
+    background: var(--accent-soft);
   }
-  @media (max-width: 560px) {
-    .pub {
-      grid-template-columns: 64px 1fr;
-      gap: 0.8rem;
-    }
+  .lk--accent {
+    color: var(--accent);
+    border-color: rgba(74, 227, 181, 0.45);
+    background: var(--accent-soft);
+  }
+  .lk--accent:hover {
+    background: rgba(74, 227, 181, 0.18);
+    border-color: var(--accent);
+  }
+  .lk--primary {
+    color: #062018;
+    background: var(--accent);
+    border-color: var(--accent);
+    font-weight: 600;
+  }
+  .lk--primary:hover {
+    background: #6cf0c6;
+    box-shadow: 0 6px 20px -8px rgba(74, 227, 181, 0.7);
   }
 </style>

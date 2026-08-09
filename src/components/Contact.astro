@@ -3,7 +3,7 @@ import Section from './Section.astro';
 import { profile } from '../data/site';
 ---
 
-<Section id="contact" label="contact" title="Let's talk">
+<Section id="contact" label={{ en: 'contact', zh: '联系' }} title={{ en: "Let's talk", zh: '保持联系' }}>
   <div class="contact" data-reveal>
     <pre class="mono contact__term"><code><span class="prompt"></span>cat ./contact.txt</code></pre>
     <ul class="contact__list">

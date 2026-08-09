@@ -1,0 +1,60 @@
+---
+import Section from './Section.astro';
+import { recruiting, profile } from '../data/site';
+---
+
+<Section id="recruiting" label={{ en: 'openings', zh: '招聘' }} title={{ en: 'Join the team', zh: '加入我们' }}>
+  <div class="recruit" data-reveal>
+    <span class="recruit__pulse" aria-hidden="true"></span>
+    <p class="recruit__text">
+      <span class="i18n i18n-en">{recruiting.en}</span>
+      <span class="i18n i18n-zh">{recruiting.zh}</span>
+    </p>
+    <a class="btn btn--primary recruit__btn" href={`mailto:${profile.email}`}>
+      <span class="i18n i18n-en">send your CV</span>
+      <span class="i18n i18n-zh">发送简历</span>
+    </a>
+  </div>
+</Section>
+
+<style>
+  .recruit {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    flex-wrap: wrap;
+    padding: 1.4rem 1.6rem;
+    border: 1px solid var(--accent-soft);
+    border-left: 3px solid var(--accent);
+    border-radius: var(--radius);
+    background: linear-gradient(180deg, var(--bg-elev), var(--bg-elev-2));
+    max-width: 780px;
+  }
+  .recruit__pulse {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--accent);
+    flex-shrink: 0;
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(74, 227, 181, 0.5); }
+    70% { box-shadow: 0 0 0 12px rgba(74, 227, 181, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(74, 227, 181, 0); }
+  }
+  .recruit__text {
+    flex: 1 1 320px;
+    font-size: 0.98rem;
+    line-height: 1.7;
+  }
+  .recruit__btn {
+    font-family: var(--mono);
+    font-size: 0.85rem;
+    padding: 0.6em 1.1em;
+    border-radius: var(--radius-sm);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .recruit__pulse { animation: none; }
+  }
+</style>

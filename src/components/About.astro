@@ -1,0 +1,33 @@
+---
+import Section from './Section.astro';
+import { bio } from '../data/site';
+import { mdInline } from '../utils/text';
+---
+
+<Section id="about" label={{ en: 'about', zh: '关于' }} title={{ en: 'Profile', zh: '简介' }}>
+  <div class="about" data-reveal>
+    <div class="i18n i18n-en">
+      {bio.en.map((p) => <p set:html={mdInline(p)} />)}
+    </div>
+    <div class="i18n i18n-zh">
+      {bio.zh.map((p) => <p set:html={mdInline(p)} />)}
+    </div>
+  </div>
+</Section>
+
+<style>
+  .about {
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+    max-width: 760px;
+  }
+  .about p {
+    font-size: 1rem;
+    line-height: 1.8;
+  }
+  .about :global(strong) {
+    color: var(--accent);
+    font-weight: 600;
+  }
+</style>

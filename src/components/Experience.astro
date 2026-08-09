@@ -1,0 +1,82 @@
+---
+import Section from './Section.astro';
+import { experience } from '../data/site';
+---
+
+<Section id="experience" label={{ en: 'experience', zh: '经历' }} title={{ en: 'Experience', zh: '工作经历' }}>
+  <ol class="exp">
+    {
+      experience.map((j) => (
+        <li class="exp__item" data-reveal>
+          <div class="exp__head">
+            <span class="exp__org">
+              <span class="i18n i18n-en">{j.org}</span>
+              <span class="i18n i18n-zh">{j.orgZh}</span>
+            </span>
+            <span class="exp__years mono">{j.years}</span>
+          </div>
+          <p class="exp__title mono">
+            <span class="i18n i18n-en">{j.title}</span>
+            <span class="i18n i18n-zh">{j.titleZh}</span>
+            {j.yearsNote && (
+              <span class="dim"> · {j.yearsNote}</span>
+            )}
+          </p>
+          <p class="exp__desc muted">
+            <span class="i18n i18n-en">{j.desc.en}</span>
+            <span class="i18n i18n-zh">{j.desc.zh}</span>
+          </p>
+        </li>
+      ))
+    }
+  </ol>
+</Section>
+
+<style>
+  .exp {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  .exp__item {
+    padding-left: 1.3rem;
+    border-left: 2px solid var(--border-soft);
+    position: relative;
+  }
+  .exp__item::before {
+    content: '';
+    position: absolute;
+    left: -6px;
+    top: 0.4rem;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 0 3px rgba(74, 227, 181, 0.15);
+  }
+  .exp__head {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    align-items: baseline;
+    flex-wrap: wrap;
+  }
+  .exp__org {
+    font-weight: 600;
+  }
+  .exp__years {
+    color: var(--accent-2);
+    font-size: 0.82rem;
+    flex-shrink: 0;
+  }
+  .exp__title {
+    color: var(--accent);
+    font-size: 0.88rem;
+    margin-top: 0.25rem;
+  }
+  .exp__desc {
+    font-size: 0.92rem;
+    margin-top: 0.45rem;
+    line-height: 1.65;
+  }
+</style>

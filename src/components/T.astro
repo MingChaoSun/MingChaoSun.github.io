@@ -1,0 +1,11 @@
+---
+// Inline bilingual span pair. Renders both languages; CSS hides the inactive one
+// based on <html class="lang-zh">. Use for short labels, buttons, headings.
+interface Props {
+  en: string;
+  zh: string;
+  class?: string;
+}
+const { en, zh, class: className = '' } = Astro.props;
+---
+<span class:list={['i18n', 'i18n-en', className]}>{en}</span><span class:list={['i18n', 'i18n-zh', className]}>{zh}</span>

@@ -1,0 +1,148 @@
+---
+// Minimal sticky nav — terminal styled. Scrollspy highlights the active section.
+const items = [
+  { id: 'about', en: 'about', zh: '关于' },
+  { id: 'news', en: 'news', zh: '动态' },
+  { id: 'work', en: 'work', zh: '论文' },
+  { id: 'projects', en: 'projects', zh: '项目' },
+  { id: 'experience', en: 'experience', zh: '经历' },
+  { id: 'education', en: 'edu', zh: '学历' },
+  { id: 'contact', en: 'contact', zh: '联系' },
+];
+---
+
+<nav class="nav" aria-label="Section navigation">
+  <div class="container nav__inner">
+    <a class="nav__home mono" href="#top">~/mingchao<span class="nav__blink">_</span></a>
+    <ul class="nav__links mono">
+      {
+        items.map((i) => (
+          <li>
+            <a class="nav__link" href={`#${i.id}`} data-nav={i.id}>
+              <span class="i18n i18n-en">{i.en}</span>
+              <span class="i18n i18n-zh">{i.zh}</span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</nav>
+
+<script>
+  // scrollspy: mark the link whose section is closest to the top of the viewport
+  const links = Array.from(document.querySelectorAll<HTMLAnchorElement>('.nav__link'));
+  const byId = new Map(links.map((l) => [l.dataset.nav, l]));
+  const sections = links
+    .map((l) => document.getElementById(l.dataset.nav!))
+    .filter((el): el is HTMLElement => !!el);
+
+  let active: HTMLAnchorElement | null = null;
+  const setActive = (id: string | null) => {
+    const next = id ? byId.get(id) ?? null : null;
+    if (next === active) return;
+    active?.removeAttribute('aria-current');
+    active?.classList.remove('is-active');
+    if (next) {
+      next.setAttribute('aria-current', 'true');
+      next.classList.add('is-active');
+    }
+    active = next;
+  };
+
+  const io = new IntersectionObserver(
+    (entries) => {
+      // pick the topmost intersecting section
+      const visible = entries
+        .filter((e) => e.isIntersecting)
+        .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+      if (visible[0]) setActive(visible[0].target.id);
+    },
+    { rootMargin: '-45% 0px -50% 0px', threshold: 0 },
+  );
+  sections.forEach((s) => io.observe(s));
+
+  // condensed state once the user scrolls past the hero
+  const nav = document.querySelector('.nav');
+  if (nav) {
+    const onScroll = () => {
+      nav.classList.toggle('is-scrolled', window.scrollY > 40);
+    };
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+  }
+</script>
+
+<style>
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(10, 13, 18, 0.72);
+    -webkit-backdrop-filter: blur(12px) saturate(130%);
+    backdrop-filter: blur(12px) saturate(130%);
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.25s var(--ease), background 0.25s var(--ease);
+  }
+  .nav.is-scrolled {
+    border-bottom-color: var(--border-soft);
+  }
+  .nav__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-block: 0.55rem;
+  }
+  .nav__home {
+    color: var(--text);
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  .nav__home:hover { text-decoration: none; color: var(--accent); }
+  .nav__blink {
+    color: var(--accent);
+    animation: caret 1.1s steps(1) infinite;
+  }
+  @keyframes caret { 50% { opacity: 0; } }
+
+  .nav__links {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+  .nav__link {
+    display: inline-block;
+    padding: 0.32rem 0.62rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color 0.18s var(--ease), background 0.18s var(--ease);
+  }
+  .nav__link:hover {
+    color: var(--accent);
+    text-decoration: none;
+    background: var(--accent-soft);
+  }
+  .nav__link.is-active {
+    color: var(--accent);
+  }
+  .nav__link.is-active::before {
+    content: '// ';
+    color: var(--text-dim);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .nav__blink { animation: none; }
+  }
+  @media (max-width: 620px) {
+    /* on small screens, keep home + a few primary links to avoid crowding */
+    .nav__links li:nth-child(n+5) { display: none; }
+    .nav__home { font-size: 0.82rem; }
+  }
+</style>

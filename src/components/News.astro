@@ -1,0 +1,58 @@
+---
+import Section from './Section.astro';
+import { news } from '../data/site';
+import { mdInline } from '../utils/text';
+---
+
+<Section id="news" label={{ en: 'highlights', zh: '动态' }} title={{ en: 'News', zh: '最新动态' }}>
+  <ul class="news">
+    {
+      news.map((n) => (
+        <li class="news__item" data-reveal>
+          <span class="news__year mono">{n.year}</span>
+          <span class="news__text">
+            <span class="i18n i18n-en" set:html={mdInline(n.text.en)} />
+            <span class="i18n i18n-zh" set:html={mdInline(n.text.zh)} />
+          </span>
+        </li>
+      ))
+    }
+  </ul>
+</Section>
+
+<style>
+  .news {
+    display: flex;
+    flex-direction: column;
+  }
+  .news__item {
+    display: grid;
+    grid-template-columns: 72px 1fr;
+    gap: 1rem;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--border-soft);
+    align-items: baseline;
+  }
+  .news__item:last-child {
+    border-bottom: none;
+  }
+  .news__year {
+    color: var(--accent);
+    font-size: 0.8rem;
+    font-weight: 600;
+  }
+  .news__text {
+    font-size: 0.95rem;
+    line-height: 1.65;
+  }
+  .news__text :global(em) {
+    color: var(--text-muted);
+    font-style: italic;
+  }
+  @media (max-width: 560px) {
+    .news__item {
+      grid-template-columns: 1fr;
+      gap: 0.15rem;
+    }
+  }
+</style>
