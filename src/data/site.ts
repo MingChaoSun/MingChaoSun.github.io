@@ -116,20 +116,20 @@ export const experience: ExperienceEntry[] = [
     years: '2021.11 – present',
     yearsNote: 'full-time since Jul 2020',
     desc: {
-      en: 'Research interests: large-scale 3D Gaussian Splatting rendering, generative 3D world models, and embodied agents — with results deployed across AMap’s products.',
-      zh: '研究兴趣:大规模 3D 高斯泼溅渲染、生成式三维世界模型与具身智能体,相关成果已在高德产品中落地。',
+      en: 'HD Map · 3DGS · World Models',
+      zh: '高精地图 · 3DGS · 世界模型',
     },
   },
   {
-    org: 'Alibaba Group · Alibaba Cloud, Video Cloud',
-    orgZh: '阿里巴巴 · 阿里云 视频云',
+    org: 'Alibaba Group · Alibaba Cloud, Video Cloud & DingTalk',
+    orgZh: '阿里巴巴 · 阿里云 视频云 & 钉钉',
     title: 'Algorithm Engineer',
     titleZh: '算法工程师',
     years: '2019.06 – 2021.11',
     yearsNote: '',
     desc: {
-      en: 'Video face algorithms (in-house landmark / X-Face on Tmall Genie); cloud–DingTalk integrated products (interactive whiteboard, 5M minutes in 100 days).',
-      zh: '视频人脸算法(自研关键点 / 换脸 X-Face,天猫精灵端上人脸);云钉一体云产品(互动白板,百日 500 万分钟)。',
+      en: 'Face & Video algorithms',
+      zh: '人脸与视频算法',
     },
   },
   {
@@ -140,8 +140,8 @@ export const experience: ExperienceEntry[] = [
     years: '2018.08 – 2019.06',
     yearsNote: '',
     desc: {
-      en: 'Autonomous driving & V2X: onboard LiDAR point-cloud 3D detection (F-PointCNN), roadside 3D perception (BEVCNN / DepthCNN).',
-      zh: '自动驾驶与车路协同:车载 LiDAR 点云 3D 检测(F-PointCNN)、路侧 3D 感知(BEVCNN / DepthCNN)。',
+      en: 'Autonomous driving & V2X',
+      zh: '自动驾驶与车路协同',
     },
   },
   {
@@ -152,8 +152,8 @@ export const experience: ExperienceEntry[] = [
     years: '2016.08 – 2017.04',
     yearsNote: '',
     desc: {
-      en: 'Big-data BI platform (Bayesian-network query estimation); Azure cloud-node fault prediction.',
-      zh: '大数据 BI 平台(贝叶斯网络查询预估);Azure 云节点故障预测。',
+      en: 'Machine Learning & BI',
+      zh: '机器学习与 BI',
     },
   },
 ];
@@ -216,8 +216,8 @@ export const news: NewsEntry[] = [
 ];
 
 export const recruiting: Bi = {
-  en: "I'm recruiting self-motivated research interns passionate about 3D vision, 3D Gaussian Splatting, and generative world models. If interested, reach out at sun.mc@outlook.com with your CV — happy to chat!",
-  zh: '欢迎对三维视觉、3DGS、生成式世界模型感兴趣的同学来实习，把简历发到 sun.mc@outlook.com 联系我即可。',
+  en: "I'm recruiting self-motivated research interns passionate about 3D vision, 3D Gaussian Splatting, and generative world models. Interested? Reach out with your CV via WeChat (mcsun0) or email — happy to chat!",
+  zh: '欢迎对三维视觉、3DGS、生成式世界模型感兴趣的同学来实习；微信(mcsun0)或邮箱发简历联系我即可。',
 };
 
 export interface Publication {

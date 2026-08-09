@@ -1,6 +1,6 @@
 ---
 import Section from './Section.astro';
-import { experience } from '../data/site';
+import { experience, education } from '../data/site';
 ---
 
 <Section id="experience" label={{ en: 'experience', zh: '经历' }} title={{ en: 'Experience', zh: '工作经历' }}>
@@ -25,6 +25,34 @@ import { experience } from '../data/site';
           <p class="exp__desc muted">
             <span class="i18n i18n-en">{j.desc.en}</span>
             <span class="i18n i18n-zh">{j.desc.zh}</span>
+          </p>
+        </li>
+      ))
+    }
+  </ol>
+
+  <h3 class="exp__sub mono">
+    <span class="i18n i18n-en">// education</span>
+    <span class="i18n i18n-zh">// 教育背景</span>
+  </h3>
+  <ol class="exp">
+    {
+      education.map((e) => (
+        <li class="exp__item" data-reveal>
+          <div class="exp__head">
+            <span class="exp__org">
+              <span class="i18n i18n-en">{e.school}</span>
+              <span class="i18n i18n-zh">{e.schoolZh}</span>
+            </span>
+            <span class="exp__years mono">{e.years}</span>
+          </div>
+          <p class="exp__title mono">
+            <span class="i18n i18n-en">
+              {e.degree} · {e.major}{e.advisor ? ` · advised by ${e.advisor}` : ''}
+            </span>
+            <span class="i18n i18n-zh">
+              {e.degreeZh} · {e.majorZh}{e.advisorZh ? ` · 师从 ${e.advisorZh}` : ''}
+            </span>
           </p>
         </li>
       ))
@@ -78,5 +106,12 @@ import { experience } from '../data/site';
     font-size: 0.92rem;
     margin-top: 0.45rem;
     line-height: 1.65;
+  }
+  .exp__sub {
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    letter-spacing: 0.04em;
+    margin: 2.2rem 0 0.4rem;
   }
 </style>
