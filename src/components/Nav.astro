@@ -4,7 +4,7 @@ const items = [
   { id: 'about', en: 'about', zh: '关于' },
   { id: 'news', en: 'news', zh: '动态' },
   { id: 'work', en: 'work', zh: '论文' },
-  { id: 'experience', en: 'experience', zh: '经历' },
+  { id: 'experience', en: 'experience', zh: '经历', short: 'exp' },
 ];
 ---
 
@@ -16,7 +16,16 @@ const items = [
         items.map((i) => (
           <li>
             <a class="nav__link" href={`#${i.id}`} data-nav={i.id}>
-              <span class="i18n i18n-en">{i.en}</span>
+              <span class="i18n i18n-en">
+                {i.short ? (
+                  <>
+                    <span class="nav__long">{i.en}</span>
+                    <span class="nav__short">{i.short}</span>
+                  </>
+                ) : (
+                  i.en
+                )}
+              </span>
               <span class="i18n i18n-zh">{i.zh}</span>
             </a>
           </li>
@@ -131,6 +140,8 @@ const items = [
     content: '// ';
     color: var(--text-dim);
   }
+  /* abbreviated label is mobile-only; full word on desktop */
+  .nav__short { display: none; }
 
   @media (prefers-reduced-motion: reduce) {
     .nav__blink { animation: none; }
@@ -139,5 +150,7 @@ const items = [
     /* on small screens, keep home + a few primary links to avoid crowding */
     .nav__links li:nth-child(n+5) { display: none; }
     .nav__home { font-size: 0.82rem; }
+    .nav__long { display: none; }
+    .nav__short { display: inline; }
   }
 </style>
