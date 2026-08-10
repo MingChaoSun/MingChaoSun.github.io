@@ -392,18 +392,6 @@ export const publications: Publication[] = [
     ],
   },
   {
-    title: 'Neighborhood Enlargement in Graph Neural Networks',
-    authors: 'X Di, P Yu, M Sun, R Bu',
-    venue: 'Machine Learning',
-    year: 2019,
-    citations: 1,
-    highlight: 'Enlarging the receptive field of graph neural networks.',
-    links: [
-      { label: 'code', url: 'https://github.com/CODE-SUBMIT/Neighborhood-Enlargement-in-Graph-Network' },
-      { label: 'scholar', url: 'https://scholar.google.com/scholar?q=Neighborhood%20Enlargement%20in%20Graph%20Neural%20Networks' },
-    ],
-  },
-  {
     title: 'PointCNN: Convolution on X-Transformed Points',
     authors: 'Y Li, R Bu, M Sun, W Wu, X Di, B Chen',
     venue: 'NeurIPS',
