@@ -133,6 +133,23 @@ const thumbSlug = (thumb?: string) => thumb?.split('/').pop()?.replace(/\.webp$/
   </ul>
 </Section>
 
+<script>
+  // Reveal each thumbnail once it loads (and drop the spinner). On a slow
+  // international connection the <img> can take a moment; this fades it in
+  // instead of popping, and clears the loading ring. Placeholder cards (no
+  // <img>) are skipped — they render a terminal-art graphic immediately.
+  document.querySelectorAll('.pub__media').forEach((media) => {
+    const img = media.querySelector('img');
+    if (!img) return;
+    const reveal = () => media.classList.add('is-loaded');
+    if (img.complete && img.naturalWidth > 0) reveal();
+    else {
+      img.addEventListener('load', reveal, { once: true });
+      img.addEventListener('error', reveal, { once: true });
+    }
+  });
+</script>
+
 <style>
   .pubs__hint {
     margin-bottom: 1.3rem;
@@ -224,7 +241,44 @@ const thumbSlug = (thumb?: string) => thumb?.split('/').pop()?.replace(/\.webp$/
     height: 100%;
     object-fit: cover;
     object-position: center;
-    transition: transform 0.4s var(--ease);
+    /* start transparent; fade in once loaded (JS toggles .is-loaded) so a slow
+       international connection sees a spinner, not a blank void */
+    opacity: 0;
+    transition: opacity 0.35s var(--ease), transform 0.4s var(--ease);
+  }
+  .pub__media.is-loaded img {
+    opacity: 1;
+  }
+  /* loading spinner: a rotating mint ring centred in the media, shown only while
+     a thumbnail <img> is still loading. :has(img) keeps it off the placeholder
+     cards (which render a terminal-art graphic instead). */
+  .pub__media:has(img)::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 26px;
+    height: 26px;
+    margin: -13px 0 0 -13px;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.14);
+    border-top-color: var(--accent);
+    animation: pub-spin 0.8s linear infinite;
+    z-index: 2;
+    pointer-events: none;
+  }
+  .pub__media:has(img).is-loaded::before {
+    display: none;
+  }
+  @keyframes pub-spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .pub__media:has(img)::before {
+      animation: none;
+    }
   }
   .pub:hover .pub__media img {
     transform: scale(1.04);

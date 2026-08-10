@@ -29,16 +29,16 @@ const shellOut = _shell[1] ?? '';
       </p>
 
       <div class="hero__socials">
+        <button class="hero__social-link hero__social-link--home" type="button" data-copy="https://www.mingchaosun.com" title="Homepage — copy link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+          <span data-label>Main Page</span>
+        </button>
         {scholar && (
           <a class="hero__social-link" href={scholar.url} target="_blank" rel="noopener noreferrer" title="Google Scholar">
             <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M5.242 13.769L0 9.5 12 0l12 9.5-5.242 4.269C17.548 11.249 14.978 9.5 12 9.5c-2.977 0-5.548 1.748-6.758 4.269zM12 10a7 7 0 1 0 0 14 7 7 0 1 0 0-14z"></path></svg>
             Google Scholar
           </a>
         )}
-        <button class="hero__social-link hero__social-link--home" type="button" data-copy="https://www.mingchaosun.com" title="Homepage — copy link">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
-          <span data-label>www.mingchaosun.com</span>
-        </button>
         <button class="hero__social-link" type="button" data-copy={profile.wechat} title="Copy WeChat ID">
           <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8.6 3C4 3 0 6.1 0 10.1c0 2.2 1.1 4.2 3 5.5l-1 2.9 3.3-1.7c1.1.3 2.2.4 3.3.4.1 0 .2 0 .3 0-1-4.2 2-7.8 6.4-7.8.4 0 .8 0 1.2.1C15 5.7 12 3 8.6 3zm-2.4 4c.6 0 1.1.5 1.1 1.1C7.3 8.7 6.8 9.1 6.2 9.1 5.6 9.1 5.1 8.7 5.1 8.1 5.1 7.6 5.6 7 6.2 7zm4.8 0c.6 0 1.1.5 1.1 1.1 0 .6-.5 1.1-1.1 1.1-.6 0-1.1-.5-1.1-1.1C9.9 7.6 10.4 7 11 7zM17.1 10.3c-3.5 0-6.4 2.4-6.4 5.4 0 3 2.9 5.4 6.4 5.4 1 0 2-.2 2.9-.6l2.9 1.5-.9-2.5c1.6-1.1 2.6-2.8 2.6-4.7 0-3-2.9-5.5-6.4-5.5zm-2.1 3.5c.5 0 .9.4.9.9s-.4.9-.9.9-.9-.4-.9-.9.4-.9.9-.9zm4.2 0c.5 0 .9.4.9.9s-.4.9-.9.9-.9-.4-.9-.9.4-.9.9-.9z"></path></svg>
             <span data-label>WeChat</span>
