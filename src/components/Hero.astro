@@ -29,7 +29,7 @@ const shellOut = _shell[1] ?? '';
       </p>
 
       <div class="hero__socials">
-        <button class="hero__social-link hero__social-link--home" type="button" data-copy="https://www.mingchaosun.com" title="Homepage — copy link">
+        <button class="hero__social-link hero__social-link--home" type="button" data-copy-cycle="mingchaosun.com,mcsun.cn,mcs0.com,mcsun.com.cn,mingchaosun.github.io" title="Copy a site link — cycles through domains">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
           <span data-label>Main Page</span>
         </button>
@@ -49,6 +49,7 @@ const shellOut = _shell[1] ?? '';
             Email
           </a>
         )}
+        <div class="hero__copy-toast" role="status" aria-live="polite"></div>
       </div>
     </div>
   </div>
@@ -344,6 +345,60 @@ const shellOut = _shell[1] ?? '';
   });
 </script>
 
+<script>
+  // Main-Page button: each click copies the NEXT site address in turn —
+  // mingchaosun.com → mcsun.cn → mcs0.com → mcsun.com.cn → mingchaosun.github.io
+  // → repeat. The chip pulses bright-mint and a toast pops beneath the row
+  // reading "✓ <domain> copied" (kept off the chip so a long address reads
+  // clearly on phones too).
+  document.querySelectorAll('[data-copy-cycle]').forEach((el) => {
+    const btn = el instanceof HTMLElement ? el : null;
+    if (!btn) return;
+    const domains = (btn.dataset.copyCycle || '')
+      .split(',')
+      .map((s) => s.trim())
+      .filter(Boolean);
+    if (!domains.length) return;
+    const toast = btn.closest('.hero__socials')?.querySelector<HTMLElement>('.hero__copy-toast');
+    let i = 0;
+    let pulseTimer = 0;
+    let toastTimer = 0;
+
+    const copy = async (text: string) => {
+      try {
+        await navigator.clipboard.writeText(text);
+        return true;
+      } catch {}
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      let ok = false;
+      try { ok = document.execCommand('copy'); } catch {}
+      ta.remove();
+      return ok;
+    };
+
+    btn.addEventListener('click', async () => {
+      const domain = domains[i];
+      i = (i + 1) % domains.length; // advance so the next click copies the next address
+      const ok = await copy('https://' + domain);
+      if (!ok) return;
+      btn.classList.add('is-copied');
+      window.clearTimeout(pulseTimer);
+      pulseTimer = window.setTimeout(() => btn.classList.remove('is-copied'), 1400);
+      if (toast) {
+        toast.textContent = '✓ ' + domain + ' copied';
+        toast.classList.add('is-visible');
+        window.clearTimeout(toastTimer);
+        toastTimer = window.setTimeout(() => toast.classList.remove('is-visible'), 1400);
+      }
+    });
+  });
+</script>
+
 <style>
   .hero {
     position: relative;
@@ -441,10 +496,38 @@ const shellOut = _shell[1] ?? '';
   }
 
   .hero__socials {
+    position: relative;
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem;
     margin-top: 1.4rem;
+  }
+  /* confirmation toast that pops under the socials when the Main-Page button
+     copies a link — shows "✓ <domain> copied". Kept off the chip itself so a
+     long address (e.g. mingchaosun.github.io) reads clearly on phones too. */
+  .hero__copy-toast {
+    position: absolute;
+    top: calc(100% + 0.55rem);
+    left: 0;
+    display: inline-flex;
+    align-items: center;
+    padding: 0.4rem 0.7rem;
+    border-radius: var(--radius-sm);
+    background: var(--bg-elev-2);
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    font-family: var(--mono);
+    font-size: 0.76rem;
+    white-space: nowrap;
+    opacity: 0;
+    transform: translateY(-4px);
+    pointer-events: none;
+    transition: opacity 0.18s var(--ease), transform 0.18s var(--ease);
+    z-index: 5;
+  }
+  .hero__copy-toast.is-visible {
+    opacity: 1;
+    transform: translateY(0);
   }
   .hero__social-link {
     display: inline-flex;
@@ -583,5 +666,22 @@ const shellOut = _shell[1] ?? '';
   }
   @media (max-width: 560px) {
     .hero__scroll { display: none; }
+    /* 4 social chips can't share one row on a phone — a 2×2 grid reads as
+       deliberate instead of a ragged flex-wrap. Cells centre their content. */
+    .hero__socials {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.5rem;
+    }
+    .hero__social-link {
+      justify-content: center;
+      font-size: 0.74rem;
+      padding: 0.7em 0.5em;
+    }
+  }
+  @media (max-width: 400px) {
+    /* keep "Mingchao Sun (孙铭超)" from overflowing the narrowest phones
+       (the name clamp bottoms out at 2.2rem, which is too wide under ~400px) */
+    .hero__name { font-size: 1.8rem; }
   }
 </style>

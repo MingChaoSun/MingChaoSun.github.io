@@ -157,7 +157,7 @@ const thumbSlug = (thumb?: string) => thumb?.split('/').pop()?.replace(/\.webp$/
   }
   .pubs {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(min(340px, 100%), 1fr));
     gap: 1.1rem;
   }
   .pub {
@@ -263,14 +263,14 @@ const thumbSlug = (thumb?: string) => thumb?.split('/').pop()?.replace(/\.webp$/
     border-radius: 50%;
     border: 2px solid rgba(255, 255, 255, 0.14);
     border-top-color: var(--accent);
-    animation: pub-spin 0.8s linear infinite;
+    animation: pub-loader 0.8s linear infinite;
     z-index: 2;
     pointer-events: none;
   }
   .pub__media:has(img).is-loaded::before {
     display: none;
   }
-  @keyframes pub-spin {
+  @keyframes pub-loader {
     to {
       transform: rotate(360deg);
     }
@@ -570,5 +570,27 @@ const thumbSlug = (thumb?: string) => thumb?.split('/').pop()?.replace(/\.webp$/
     border-color: #6cf2c6;
     color: #062018;
     box-shadow: 0 7px 20px -6px rgba(74, 227, 181, 0.72);
+  }
+
+  /* touch screens have no real hover — :hover goes "sticky" after a tap, which
+     would otherwise leave a tapped card permanently lifted with a spinning
+     light ring + a zoomed thumbnail. Drop every hover affordance here and give
+     a light press instead. (Pointer devices keep the full hover effect above.) */
+  @media (hover: none) {
+    .pub:hover {
+      transform: none;
+      border-color: var(--border-soft);
+      box-shadow: none;
+    }
+    .pub:hover::before {
+      opacity: 0;
+      animation: none;
+    }
+    .pub:hover .pub__media img {
+      transform: none;
+    }
+    .pub:active {
+      transform: translateY(-1px);
+    }
   }
 </style>
