@@ -377,7 +377,12 @@ export const publications: Publication[] = [
     year: 2020,
     citations: 49,
     highlight: 'Reconstructing 3D pipeline structures from point clouds.',
-    links: [],
+    thumb: '/pub/deeppipes.webp',
+    whiteThumb: true,
+    links: [
+      { label: 'pdf', url: 'https://cfcs.pku.edu.cn/baoquan/docs/2021-06/20210608144312059165.pdf' },
+      { label: 'code', url: 'https://github.com/ZENULI/PyPipes' },
+    ],
   },
   {
     title: 'Mutual Information Maximization in Graph Neural Networks',

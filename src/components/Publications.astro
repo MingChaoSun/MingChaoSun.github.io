@@ -11,6 +11,7 @@ const scholarSearch = (q: string) =>
 // arXiv -> classic red; code/project -> mint outline; venues -> white ghost.
 const LINK_META: Record<string, { text: string; kind: 'accent' | 'ghost' | 'arxiv' }> = {
   arxiv: { text: 'arXiv', kind: 'arxiv' },
+  pdf: { text: 'PDF', kind: 'arxiv' },
   project: { text: 'Project', kind: 'accent' },
   code: { text: 'Code', kind: 'accent' },
   video: { text: 'Video', kind: 'ghost' },
