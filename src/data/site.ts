@@ -228,6 +228,7 @@ export interface Publication {
   citations?: number;
   highlight?: string; // English one-liner (titles stay English to control maintenance)
   thumb?: string; // teaser figure path under /pub (e.g. '/pub/pointcnn.webp')
+  whiteThumb?: boolean; // figure has a white bg → show whole image (contain) on a white field
   featured?: boolean; // flagship papers get an accent treatment
   award?: string; // honor/distinction badge shown on the card
   links: { label: string; url: string; stars?: number }[]; // stars → GitHub ⭐ count
@@ -386,6 +387,7 @@ export const publications: Publication[] = [
     citations: 37,
     highlight: 'A mutual-information maximization objective for graph neural networks.',
     thumb: '/pub/mutualinfo.webp',
+    whiteThumb: true,
     links: [
       { label: 'arxiv', url: 'https://arxiv.org/abs/1905.08509' },
       { label: 'code', url: 'https://github.com/CODE-SUBMIT/Graph_Neighborhood_1' },
@@ -400,6 +402,7 @@ export const publications: Publication[] = [
     highlight: 'A foundational convolution operator for deep learning on point clouds.',
     award: '2021 WAIC Youth Outstanding Paper Award',
     thumb: '/pub/pointcnn.webp',
+    whiteThumb: true,
     featured: true,
     links: [
       { label: 'arXiv', url: 'https://arxiv.org/abs/1801.07791' },

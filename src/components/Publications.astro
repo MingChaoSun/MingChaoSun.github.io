@@ -55,6 +55,7 @@ const thumbSlug = (thumb?: string) => thumb?.split('/').pop()?.replace(/\.webp$/
               target="_blank"
               rel="noopener noreferrer"
               data-thumb={slug}
+              data-white={p.whiteThumb || undefined}
             >
               {p.thumb ? (
                 <img src={p.thumb} alt="" loading="lazy" decoding="async" />
@@ -164,6 +165,17 @@ const thumbSlug = (thumb?: string) => thumb?.split('/').pop()?.replace(/\.webp$/
   .pub:hover .pub__media img {
     transform: scale(1.04);
   }
+  /* white-background figures (e.g. paper diagrams): show the whole image
+     (contain) on a white field with a small margin so nothing is cropped */
+  .pub__media[data-white] {
+    background: #fff;
+  }
+  .pub__media[data-white] img {
+    object-fit: contain;
+    box-sizing: border-box;
+    padding: 14px;
+  }
+
   /* terminal-art placeholder for papers without a teaser */
   .pub__ph {
     position: absolute;
