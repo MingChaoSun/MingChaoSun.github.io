@@ -195,8 +195,8 @@ export const news: NewsEntry[] = [
   {
     year: '2026.03',
     text: {
-      en: '**From Orbit to Ground** accepted to CVPR 2026 *Findings* — generative city-scale photogrammetry from extreme off-nadir satellite imagery. [project →](https://pku-vcl-geometry.github.io/Orbit2Ground/)',
-      zh: '**From Orbit to Ground** 被 CVPR 2026 *Findings* 接收——从极端倾斜卫星影像做生成式城市级摄影测量。[项目主页 →](https://pku-vcl-geometry.github.io/Orbit2Ground/)',
+      en: '**From Orbit to Ground** accepted to CVPR 2026 Findings — generative city-scale photogrammetry from extreme off-nadir satellite imagery. [project →](https://pku-vcl-geometry.github.io/Orbit2Ground/)',
+      zh: '**From Orbit to Ground** 被 CVPR 2026 Findings 接收——从极端倾斜卫星影像做生成式城市级摄影测量。[项目主页 →](https://pku-vcl-geometry.github.io/Orbit2Ground/)',
     },
   },
   {
@@ -223,6 +223,7 @@ export const recruiting: Bi = {
 export interface Publication {
   title: string;
   authors: string; // plain string; the author's own short name is bolded automatically
+  fullAuthors?: string; // complete list (for "..., et al." papers) shown in a hover popover
   venue: string;
   year: number;
   citations?: number;
@@ -242,16 +243,19 @@ export const publications: Publication[] = [
   {
     title: 'ABot-World-0: Infinite Interactive World Rollout on a Single Desktop GPU',
     authors: 'F Jiang, Z Sun, M Wang, Z Zhu, C Wang, Y Zhang, W Liu, Y Wang, et al.',
-    venue: 'arXiv',
+    fullAuthors: 'Fan Jiang, Zhaoxu Sun, Mengchao Wang, Ziyu Zhu, Chiyu Wang, Yunpeng Zhang, Wenlin Liu, Yun Wang, Xue Zheng, Rui Sun, Junfeng Ni, Hongyu Pan, Zhongxu Sun, Fei Yu, Zengye Ge, Mengmeng Du, Nianfei Fan, Mingchao Sun, Yu Liu, Yongchang Zhang, Yanqing Zhu, Jiahang Wang, Ning Ying, Yuze Xuan, Di Yang, Zhicheng Liu, Zhe Gao, Tingbing Xu, Jiacheng Sui, Wenjin Yang, Junnan Lai, Shufeng Liu, Yuan Liu, Zheng Zhou, Yingliang Peng, Dawei Cao, Kaifeng Sheng, Yuxiang Cai, Fei Lu, Mu Xu, Ning Guo',
+    venue: 'Technical Report',
     year: 2026,
     citations: 0,
     highlight: 'Infinite interactive world rollout that fits on a single desktop GPU.',
+    thumb: '/pub/abotworld.webp',
     links: [{ label: 'arXiv', url: 'https://arxiv.org/abs/2607.19191' }],
   },
   {
     title: 'ABot-3DWorld 0: A Universal World Model to Explore Any 3D Space',
     authors: 'M Sun, L Tang, Y Liu, X Yan, Z Li, Y Zhang, F Yu, Z Ge, Y Liu, J Zhang, et al.',
-    venue: 'arXiv',
+    fullAuthors: 'Mingchao Sun, Luyang Tang, Yu Liu, Xu Yan, Zhan Li, Yunwei Zhang, Fei Yu, Zengye Ge, Yumin Liu, Jiacheng Zhang, Yongchang Zhang, Jiawei Zhang, Zhicheng Liu, Zhongxu Sun, Tianjian Ouyang, Wenzheng Chen, Shixing Yang, Nianfei Fan, Guodong Sun, Huan Li, Zheng Zhou, Yongze Li, Yingliang Peng, Mengmeng Du, Yuan Liu, Haozhe Shi, Chunnuo Gong, Chengzhen Yu, Chunxue Jia, Yang Liu, Shiying Zeng, Junnan Lai, Hang Zhang, Ning Guo, Baoquan Chen, Mu Xu, Hongyu Pan',
+    venue: 'Technical Report',
     year: 2026,
     citations: 1,
     highlight: 'A universal world model that can explore and interact with any 3D space. (first-author)',
@@ -262,7 +266,8 @@ export const publications: Publication[] = [
   {
     title: 'ABot-N1: Toward a General Visual-Language Navigation Foundation Model',
     authors: 'R Gong, Y Guo, J Hu, J Kong, X Leng, T Li, W Li, F Liu, Z Liu, J Lu, M Luo, et al.',
-    venue: 'arXiv',
+    fullAuthors: 'Ruiyan Gong, Yingnan Guo, Junjun Hu, Jintao Kong, Xiaoxu Leng, Tianlun Li, Weize Li, Fei Liu, Zhicheng Liu, Jia Lu, Minghua Luo, Chenlin Ming, Yanfen Shen, Jiyue Tao, Zhengbo Wang, Mingyang Yin, Minqi Gu, Zihao Guan, Wei Guo, Guoqing Liu, Huachong Pang, Menglin Yang, Zeqian Ye, Xiaoxiao Geng, Zhining Gu, Honglin Han, Di Jing, Hongyu Pan, Mingchao Sun, Kuan Yang, Jianfang Zhang, Yanghong Chen, Ye He, Wei Mei, Jiahao Shi, Xiangpo Yang, Yanqing Zhu, Yang Cai, Jingjing Ma, Shihui Su, Zixiao Tang, Linbo Zheng, Zedong Chu, Xiaolong Wu, Wenbin Tang, Mu Xu',
+    venue: 'Technical Report',
     year: 2026,
     citations: 0,
     highlight: 'A general visual-language navigation foundation model.',
@@ -271,6 +276,7 @@ export const publications: Publication[] = [
   {
     title: 'WorldRoamBench: An Open-World Benchmark for Long-Horizon Stability of Interactive World Models',
     authors: 'TB Xu, J Sui, Z Gao, K Shi, W Yang, Z Liu, Z Sun, M Sun, H Pan, F Jiang, et al.',
+    fullAuthors: 'Ting-Bing Xu, Jiacheng Sui, Zhe Gao, Kewei Shi, Wenjin Yang, Zhicheng Liu, Zhaoxu Sun, Mingchao Sun, Hongyu Pan, Fan Jiang, Mu Xu, Qi Fan, Yang Gao, Yong Li, Baoquan Chen',
     venue: 'arXiv',
     year: 2026,
     citations: 1,
@@ -280,7 +286,8 @@ export const publications: Publication[] = [
   {
     title: 'ABot-EARTH 0.5: Generative 3D Earth Model',
     authors: 'M Qian, T Ouyang, M Sun, Z Wang, J Xiong, J Han, Y Zhang, J Zhang, et al.',
-    venue: 'arXiv',
+    fullAuthors: 'Ming Qian, Tianjian Ouyang, Mingchao Sun, Zijian Wang, Jincheng Xiong, Jiarong Han, Yongchang Zhang, Jiawei Zhang, Xu Wang, Yu Liu, Luyang Tang, Fei Yu, Zengye Ge, Mengmeng Du, Yuan Liu, Nianfei Fan, Song Wang, Yingliang Peng, Chunxue Jia, Yang Liu, Shiying Zeng, Haozhe Shi, Junnan Lai, Hongyu Pan, Zheng Wu, Ning Guo, Mu Xu, Hang Zhang',
+    venue: 'Technical Report',
     year: 2026,
     citations: 1,
     highlight: 'A generative 3D model of the Earth.',
@@ -291,6 +298,7 @@ export const publications: Publication[] = [
   {
     title: 'POINav: Benchmarking and Enhancing Final-Meters Arrival in Real-World Vision-Language Navigation',
     authors: 'R Gong, M Zhang, Y Zhao, M Sun, Y Shen, Z Chu, Z Gu, W Guo, X Cheng, et al.',
+    fullAuthors: 'Ruiyan Gong, Meisheng Zhang, Yuxiang Zhao, Mingchao Sun, Yanfen Shen, Zedong Chu, Zhining Gu, Wei Guo, Xiaolong Cheng, Qiming Li, Kangning Niu, Yanqing Zhu, Xiaolong Wu, Tianlun Li, Mu Xu',
     venue: 'arXiv',
     year: 2026,
     citations: 1,
@@ -300,7 +308,8 @@ export const publications: Publication[] = [
   {
     title: 'Abot-n0: Technical Report on the VLA Foundation Model for Versatile Embodied Navigation',
     authors: 'Z Chu, S Xie, X Wu, Y Shen, M Luo, Z Wang, F Liu, X Leng, J Hu, M Yin, et al.',
-    venue: 'arXiv',
+    fullAuthors: 'Zedong Chu, Shichao Xie, Xiaolong Wu, Yanfen Shen, Minghua Luo, Zhengbo Wang, Fei Liu, Xiaoxu Leng, Junjun Hu, Mingyang Yin, Jia Lu, Yingnan Guo, Kai Yang, Jiawei Han, Xu Chen, Yanqing Zhu, Yuxiang Zhao, Xin Liu, Yirong Yang, Ye He, Jiahang Wang, Yang Cai, Tianlin Zhang, Li Gao, Liu Liu, Mingchao Sun, Fan Jiang, Chiyu Wang, Zhicheng Liu, Hongyu Pan, Honglin Han, Zhining Gu, Kuan Yang, Jianfang Zhang, Di Jing, Zihao Guan, Wei Guo, Guoqing Liu, Di Yang, Xiangpo Yang, Menglin Yang, Hongguang Xing, Weiguo Li, Mu Xu',
+    venue: 'Technical Report',
     year: 2026,
     citations: 15,
     highlight: 'A vision-language-action (VLA) foundation model for versatile embodied navigation.',
@@ -309,15 +318,18 @@ export const publications: Publication[] = [
   {
     title: 'From Orbit to Ground: Generative City Photogrammetry from Extreme Off-Nadir Satellite Images',
     authors: 'F Yu, Y Liu, L Tang, M Sun, Z Ge, R Bu, Y Jin, H Zhao, H Sun, Y Li, M Xu, et al.',
+    fullAuthors: 'Fei Yu, Yu Liu, Luyang Tang, Mingchao Sun, Zengye Ge, Rui Bu, Yuchao Jin, Haisen Zhao, He Sun, Yangyan Li, Mu Xu, Wenzheng Chen, Baoquan Chen',
     venue: 'CVPR 2026 Findings',
     year: 2026,
     citations: 2,
     highlight: 'Generative city-scale photogrammetry from extreme off-nadir satellite imagery.',
     thumb: '/pub/orbit2ground.webp',
+    whiteThumb: true,
     featured: true,
     links: [
       { label: 'arXiv', url: 'https://arxiv.org/abs/2512.07527' },
       { label: 'project', url: 'https://pku-vcl-geometry.github.io/Orbit2Ground/' },
+      { label: 'code', url: 'https://github.com/PKU-VCL-Geometry/Orbit2Ground' },
     ],
   },
   {
@@ -326,17 +338,23 @@ export const publications: Publication[] = [
     venue: 'CVPR',
     year: 2026,
     citations: 1,
-    highlight: 'A performant convolution operator that works directly on native (un-sampled) point clouds.',
+    highlight: 'A performant convolution operator that works directly on native point clouds.',
     thumb: '/pub/pointcnnpp.webp',
+    whiteThumb: true,
     featured: true,
     links: [
       { label: 'arXiv', url: 'https://arxiv.org/abs/2511.23227' },
       { label: 'code', url: 'https://github.com/ant-research/pointelligence' },
+      {
+        label: 'supplement',
+        url: 'https://openaccess.thecvf.com/content/CVPR2026/supplemental/Li_PointCNN_Performant_Convolution_CVPR_2026_supplemental.pdf',
+      },
     ],
   },
   {
     title: 'SocialNav: Training a Human-Inspired Foundation Model for Socially-Aware Embodied Navigation',
     authors: 'Z Chen, Y Guo, Z Chu, M Luo, Y Shen, M Sun, J Hu, S Xie, Y Kuan, P Shi, et al.',
+    fullAuthors: 'Ziyi Chen, Yingnan Guo, Zedong Chu, Minghua Luo, Yanfen Shen, Mingchao Sun, Junjun Hu, Shichao Xie, Kuan Yang, Pei Shi, Zhining Gu, Lu Liu, Honglin Han, Xiaolong Wu, Mu Xu, Yu Zhang, Ning Guo',
     venue: 'CVPR',
     year: 2026,
     citations: 15,
@@ -347,7 +365,7 @@ export const publications: Publication[] = [
     links: [
       { label: 'arXiv', url: 'https://arxiv.org/abs/2511.21135' },
       { label: 'code', url: 'https://github.com/AMAP-EAI/SocialNav' },
-      { label: 'projpage', url: 'https://amap-eai.github.io/SocialNav/' },
+      { label: 'project', url: 'https://amap-eai.github.io/SocialNav/' },
     ],
   },
   {
