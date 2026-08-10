@@ -174,8 +174,8 @@ export const news: NewsEntry[] = [
   {
     year: '2026.07',
     text: {
-      en: 'Released **WorldRoamBench**, an open-world benchmark probing the long-horizon stability of interactive world models. [homepage →](https://worldroam.amap.com/)',
-      zh: '发布 **WorldRoamBench**,衡量交互式世界模型长时序稳定性的开放世界基准。[主页 →](https://worldroam.amap.com/)',
+      en: 'Released **WorldRoamBench**, an open-world benchmark probing the long-horizon stability of interactive world models. [Benchmark homepage →](https://worldroam.amap.com/)',
+      zh: '发布 **WorldRoamBench**,衡量交互式世界模型长时序稳定性的开放世界基准。[Benchmark 主页 →](https://worldroam.amap.com/)',
     },
   },
   {
@@ -188,15 +188,22 @@ export const news: NewsEntry[] = [
   {
     year: '2026.06',
     text: {
-      en: '**SocialNav**, a human-inspired foundation model for socially-aware navigation — selected as a **CVPR 2026 Best Paper Candidate**!',
-      zh: '**SocialNav**,受人类启发的具身社会感知导航基础模型——入选 **CVPR 2026 最佳论文候选**!',
+      en: '**SocialNav**, a human-inspired foundation model for socially-aware navigation — selected as a **CVPR 2026 Best Paper Candidate**! [project →](https://amap-eai.github.io/SocialNav/)',
+      zh: '**SocialNav**,受人类启发的具身社会感知导航基础模型——入选 **CVPR 2026 最佳论文候选**![项目主页 →](https://amap-eai.github.io/SocialNav/)',
+    },
+  },
+  {
+    year: '2026.05',
+    text: {
+      en: '🏆 Won **1st place** at the **AGIBOT World Model Challenge**.',
+      zh: '🏆 荣获 **AGIBOT World Model Challenge** 大赛**冠军**。',
     },
   },
   {
     year: '2026.03',
     text: {
-      en: '**From Orbit to Ground** accepted to CVPR 2026 Findings — generative city-scale photogrammetry from extreme off-nadir satellite imagery. [project →](https://pku-vcl-geometry.github.io/Orbit2Ground/)',
-      zh: '**From Orbit to Ground** 被 CVPR 2026 Findings 接收——从极端倾斜卫星影像做生成式城市级摄影测量。[项目主页 →](https://pku-vcl-geometry.github.io/Orbit2Ground/)',
+      en: '**From Orbit to Ground** accepted to CVPR 2026 Findings — generative city-scale photogrammetry from extreme off-nadir satellite imagery. [project →](https://pku-vcl-geometry.github.io/Orbit2Ground/) [news →](https://mp.weixin.qq.com/s/Ntnd1ooLbcJ-kNB9sQ4jzQ)',
+      zh: '**From Orbit to Ground** 被 CVPR 2026 Findings 接收——从极端倾斜卫星影像做生成式城市级摄影测量。[项目主页 →](https://pku-vcl-geometry.github.io/Orbit2Ground/) [机器之心报道 →](https://mp.weixin.qq.com/s/Ntnd1ooLbcJ-kNB9sQ4jzQ)',
     },
   },
   {
@@ -211,6 +218,13 @@ export const news: NewsEntry[] = [
     text: {
       en: '**CLoD-GS** accepted to ICLR 2026 — continuous level-of-detail rendering built on 3D Gaussian Splatting.',
       zh: '**CLoD-GS** 被 ICLR 2026 接收——基于 3D 高斯泼溅的连续细节层次渲染。',
+    },
+  },
+  {
+    year: '2025.08',
+    text: {
+      en: 'Gave a talk on **"Yunjing" (云境)**, AMap\'s immersive AI product — sharing its core capabilities and AMap\'s recent advances in digital-twin technology and applications. [news →](https://mp.weixin.qq.com/s/mZhDBmQXgsPaHyNINRfJ7A?scene=1)',
+      zh: '分享高德地图沉浸式 AI 产品**"云境"**的核心技术能力,展示高德近期在数字孪生领域的技术成果与应用场景。[公众号文章 →](https://mp.weixin.qq.com/s/mZhDBmQXgsPaHyNINRfJ7A?scene=1)',
     },
   },
 ];
@@ -247,9 +261,13 @@ export const publications: Publication[] = [
     venue: 'Technical Report',
     year: 2026,
     citations: 0,
-    highlight: 'Infinite interactive world rollout that fits on a single desktop GPU.',
+    highlight: 'An action-conditioned video world model enabling real-time, long-horizon closed-loop interaction, trained on AAA games, simulators, and web video.',
     thumb: '/pub/abotworld.webp',
-    links: [{ label: 'arXiv', url: 'https://arxiv.org/abs/2607.19191' }],
+    links: [
+      { label: 'demo', url: 'https://abot-world.amap.com/' },
+      { label: 'arXiv', url: 'https://arxiv.org/abs/2607.19191' },
+      { label: 'code', url: 'https://github.com/amap-cvlab/ABot-World' },
+    ],
   },
   {
     title: 'ABot-3DWorld 0: A Universal World Model to Explore Any 3D Space',
@@ -258,10 +276,13 @@ export const publications: Publication[] = [
     venue: 'Technical Report',
     year: 2026,
     citations: 1,
-    highlight: 'A universal world model that can explore and interact with any 3D space. (first-author)',
+    highlight: 'A universal multimodal 3D world model that turns text, image, and video inputs into high-fidelity, explorable 3D worlds.',
     thumb: '/pub/abot3dworld.webp',
     featured: true,
-    links: [{ label: 'arXiv', url: 'https://arxiv.org/abs/2607.11673' }],
+    links: [
+      { label: 'demo', url: 'https://abot-world.amap.com/plaza' },
+      { label: 'arXiv', url: 'https://arxiv.org/abs/2607.11673' },
+    ],
   },
   {
     title: 'ABot-N1: Toward a General Visual-Language Navigation Foundation Model',
@@ -270,18 +291,28 @@ export const publications: Publication[] = [
     venue: 'Technical Report',
     year: 2026,
     citations: 0,
-    highlight: 'A general visual-language navigation foundation model.',
-    links: [{ label: 'arXiv', url: 'https://arxiv.org/abs/2607.10383' }],
+    highlight: 'A step toward a general Visual Language Navigation foundation model, decoupling cognition from control via a slow-fast architecture guided by dual visual-language signals.',
+    thumb: '/pub/abotn1.webp',
+    whiteThumb: true,
+    links: [
+      { label: 'arXiv', url: 'https://arxiv.org/abs/2607.10383' },
+      { label: 'project', url: 'https://amap-cvlab.github.io/ABot-Navigation/ABot-N1/' },
+      { label: 'code', url: 'https://github.com/amap-cvlab/ABot-Navigation/tree/ABotN-Bench' },
+    ],
   },
   {
     title: 'WorldRoamBench: An Open-World Benchmark for Long-Horizon Stability of Interactive World Models',
     authors: 'TB Xu, J Sui, Z Gao, K Shi, W Yang, Z Liu, Z Sun, M Sun, H Pan, F Jiang, et al.',
     fullAuthors: 'Ting-Bing Xu, Jiacheng Sui, Zhe Gao, Kewei Shi, Wenjin Yang, Zhicheng Liu, Zhaoxu Sun, Mingchao Sun, Hongyu Pan, Fan Jiang, Mu Xu, Qi Fan, Yang Gao, Yong Li, Baoquan Chen',
-    venue: 'arXiv',
+    venue: 'Benchmark',
     year: 2026,
     citations: 1,
     highlight: 'A benchmark probing long-horizon stability of interactive world models.',
-    links: [{ label: 'arXiv', url: 'https://arxiv.org/abs/2606.31672' }],
+    thumb: '/pub/worldroambench.webp',
+    links: [
+      { label: 'benchmark', url: 'https://worldroam.amap.com/' },
+      { label: 'arXiv', url: 'https://arxiv.org/abs/2606.31672' },
+    ],
   },
   {
     title: 'ABot-EARTH 0.5: Generative 3D Earth Model',
@@ -290,10 +321,14 @@ export const publications: Publication[] = [
     venue: 'Technical Report',
     year: 2026,
     citations: 1,
-    highlight: 'A generative 3D model of the Earth.',
+    highlight: 'A generative 3D framework that synthesizes vast, seamless 3D environments from ubiquitous, geospatially referenced satellite imagery.',
     thumb: '/pub/abotearth.webp',
+    whiteThumb: true,
     featured: true,
-    links: [{ label: 'arXiv', url: 'https://arxiv.org/abs/2606.09967' }],
+    links: [
+      { label: 'demo', url: 'https://abot-earth.amap.com/' },
+      { label: 'arXiv', url: 'https://arxiv.org/abs/2606.09967' },
+    ],
   },
   {
     title: 'POINav: Benchmarking and Enhancing Final-Meters Arrival in Real-World Vision-Language Navigation',
@@ -302,7 +337,9 @@ export const publications: Publication[] = [
     venue: 'arXiv',
     year: 2026,
     citations: 1,
-    highlight: 'Benchmarking and enhancing final-meters arrival in real-world VLN.',
+    highlight: 'POINav-Bench, the first benchmark designed for closed-loop evaluation of real-world POI-goal navigation, and the POINav Brain-Action Framework, where a Brain module performs POI-grounded reasoning to guide an Action module in predicting continuous waypoints for real-world execution.',
+    thumb: '/pub/poinav.webp',
+    whiteThumb: true,
     links: [{ label: 'arXiv', url: 'https://arxiv.org/abs/2605.28237' }],
   },
   {
@@ -312,8 +349,15 @@ export const publications: Publication[] = [
     venue: 'Technical Report',
     year: 2026,
     citations: 15,
-    highlight: 'A vision-language-action (VLA) foundation model for versatile embodied navigation.',
-    links: [{ label: 'arXiv', url: 'https://arxiv.org/abs/2602.11598' }],
+    highlight: 'A unified Vision-Language-Action (VLA) foundation model that achieves a "Grand Unification" across 5 core tasks.',
+    thumb: '/pub/abotn0.webp',
+    whiteThumb: true,
+    featured: true,
+    links: [
+      { label: 'arXiv', url: 'https://arxiv.org/abs/2602.11598' },
+      { label: 'project', url: 'https://amap-cvlab.github.io/ABot-Navigation/ABot-N0/' },
+      { label: 'code', url: 'https://github.com/amap-cvlab/ABot-Navigation/tree/ABot-N0' },
+    ],
   },
   {
     title: 'From Orbit to Ground: Generative City Photogrammetry from Extreme Off-Nadir Satellite Images',
@@ -362,6 +406,7 @@ export const publications: Publication[] = [
     thumb: '/pub/socialnav.webp',
     featured: true,
     frame: true,
+    award: 'CVPR 2026 Best Paper Candidate',
     links: [
       { label: 'arXiv', url: 'https://arxiv.org/abs/2511.21135' },
       { label: 'code', url: 'https://github.com/AMAP-EAI/SocialNav' },

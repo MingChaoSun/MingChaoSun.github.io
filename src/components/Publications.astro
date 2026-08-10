@@ -9,11 +9,13 @@ const scholarSearch = (q: string) =>
 // Relabel raw link labels into styled chips (label matched case-insensitively,
 // so 'arXiv' / 'arxiv' / 'PubMed' / 'pubmed' all resolve).
 // arXiv -> classic red; code/project -> mint outline; venues -> white ghost.
-const LINK_META: Record<string, { text: string; kind: 'accent' | 'ghost' | 'arxiv' }> = {
+const LINK_META: Record<string, { text: string; kind: 'accent' | 'ghost' | 'arxiv' | 'demo' | 'benchmark' }> = {
   arxiv: { text: 'arXiv', kind: 'arxiv' },
   pdf: { text: 'PDF', kind: 'arxiv' },
   project: { text: 'Project Page', kind: 'accent' },
   code: { text: 'Code', kind: 'accent' },
+  demo: { text: 'Live Demo', kind: 'demo' },
+  benchmark: { text: 'Benchmark', kind: 'benchmark' },
   video: { text: 'Video', kind: 'ghost' },
   neurips: { text: 'NeurIPS', kind: 'ghost' },
   scholar: { text: 'Scholar', kind: 'ghost' },
@@ -118,7 +120,7 @@ const thumbSlug = (thumb?: string) => thumb?.split('/').pop()?.replace(/\.webp$/
                           <span class="lk__star" aria-hidden="true">★</span>{fmtStars(l.stars)}
                         </span>
                       )}
-                      {m.kind !== 'ghost' && <span class="lk__arrow">↗</span>}
+                      {m.kind !== 'ghost' && m.kind !== 'demo' && m.kind !== 'benchmark' && <span class="lk__arrow">↗</span>}
                     </a>
                   );
                 })}
@@ -307,6 +309,11 @@ const thumbSlug = (thumb?: string) => thumb?.split('/').pop()?.replace(/\.webp$/
     font-size: 1rem;
     font-weight: 600;
     line-height: 1.35;
+    /* `pretty` avoids a lone orphan word on the last line, WITHOUT the
+       aggressive mid-line rebalancing of `balance` (which made titles break
+       oddly near the middle). Line count stays natural to the card width:
+       long titles wrap to 2 lines on desktop, more on narrow viewports. */
+    text-wrap: pretty;
   }
   .pub__title a {
     color: var(--text);
@@ -468,5 +475,46 @@ const thumbSlug = (thumb?: string) => thumb?.split('/').pop()?.replace(/\.webp$/
     color: #fff;
     background: #b31b1b;
     border-color: #b31b1b;
+  }
+
+  /* Live Demo — primary CTA. Solid mint fill + soft glow + a CSS play glyph,
+     so it sits a step above the outlined project/code chips. The triangle is
+     drawn with borders (not a Unicode glyph) so it can't render as an emoji. */
+  .lk--demo {
+    color: #062018;
+    background: var(--accent);
+    border-color: var(--accent);
+    font-weight: 700;
+    box-shadow: 0 4px 14px -6px rgba(74, 227, 181, 0.55);
+  }
+  .lk--demo::before {
+    content: '';
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0.32em 0 0.32em 0.5em;
+    border-color: transparent transparent transparent currentColor;
+  }
+  .lk--demo:hover {
+    background: #6cf2c6;
+    border-color: #6cf2c6;
+    color: #062018;
+    box-shadow: 0 7px 20px -6px rgba(74, 227, 181, 0.72);
+  }
+
+  /* Benchmark — same solid-mint prominence as Live Demo, but without the play
+     glyph (it links to a leaderboard/dataset, not a playable demo). */
+  .lk--benchmark {
+    color: #062018;
+    background: var(--accent);
+    border-color: var(--accent);
+    font-weight: 700;
+    box-shadow: 0 4px 14px -6px rgba(74, 227, 181, 0.55);
+  }
+  .lk--benchmark:hover {
+    background: #6cf2c6;
+    border-color: #6cf2c6;
+    color: #062018;
+    box-shadow: 0 7px 20px -6px rgba(74, 227, 181, 0.72);
   }
 </style>
