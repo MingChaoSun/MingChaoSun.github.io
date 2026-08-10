@@ -128,7 +128,7 @@ export const experience: ExperienceEntry[] = [
     years: '2019.06 – 2021.11',
     yearsNote: '',
     desc: {
-      en: 'Face & Video algorithms',
+      en: 'Face & Video Algorithms',
       zh: '人脸与视频算法',
     },
   },
@@ -140,7 +140,7 @@ export const experience: ExperienceEntry[] = [
     years: '2018.08 – 2019.06',
     yearsNote: '',
     desc: {
-      en: 'Autonomous driving & V2X',
+      en: 'Autonomous Driving & V2X',
       zh: '自动驾驶与车路协同',
     },
   },
@@ -418,14 +418,5 @@ export const publications: Publication[] = [
       { label: 'code', url: 'https://github.com/yangyanli/PointCNN' },
       { label: 'neurips', url: 'https://proceedings.neurips.cc/paper/2018/hash/f5f8590cd58a54e94377e6ae2eded4d9-Abstract.html' },
     ],
-  },
-  {
-    title: 'Large-Scale 3D Shape Reconstruction and Segmentation from ShapeNetCore55',
-    authors: 'L Yi, L Shao, M Savva, H Huang, Y Zhou, Q Wang, B Graham, M Engelcke, et al.',
-    venue: 'arXiv',
-    year: 2017,
-    citations: 78,
-    highlight: 'The large-scale ShapeNetCore55 reconstruction & segmentation benchmark.',
-    links: [{ label: 'arXiv', url: 'https://arxiv.org/abs/1710.06104' }],
   },
 ];
