@@ -229,6 +229,7 @@ export interface Publication {
   highlight?: string; // English one-liner (titles stay English to control maintenance)
   thumb?: string; // teaser figure path under /pub (e.g. '/pub/pointcnn.webp')
   whiteThumb?: boolean; // figure has a white bg → show whole image (contain) on a white field
+  frame?: boolean; // photo figure → draw a thin white keyline around it
   featured?: boolean; // flagship papers get an accent treatment
   award?: string; // honor/distinction badge shown on the card
   links: { label: string; url: string; stars?: number }[]; // stars → GitHub ⭐ count
@@ -342,9 +343,11 @@ export const publications: Publication[] = [
     highlight: 'A human-inspired foundation model for socially-aware embodied navigation.',
     thumb: '/pub/socialnav.webp',
     featured: true,
+    frame: true,
     links: [
       { label: 'arXiv', url: 'https://arxiv.org/abs/2511.21135' },
-      { label: 'project', url: 'https://amap-eai.github.io/SocialNav/' },
+      { label: 'code', url: 'https://github.com/AMAP-EAI/SocialNav' },
+      { label: 'projpage', url: 'https://amap-eai.github.io/SocialNav/' },
     ],
   },
   {
@@ -353,7 +356,7 @@ export const publications: Publication[] = [
     venue: 'ICLR',
     year: 2026,
     citations: 3,
-    highlight: 'Continuous level-of-detail rendering built on 3D Gaussian Splatting.',
+    highlight: 'A framework that integrates a continuous LoD mechanism directly into a 3DGS representation.',
     thumb: '/pub/clodgs.webp',
     whiteThumb: true,
     featured: true,
@@ -382,7 +385,7 @@ export const publications: Publication[] = [
     authors: 'L Cheng, Z Wei, M Sun, S Xin, A Sharf, Y Li, B Chen, C Tu',
     venue: 'Graphical Models',
     year: 2020,
-    citations: 49,
+    citations: 50,
     highlight: 'Reconstructing 3D pipeline structures from point clouds.',
     thumb: '/pub/deeppipes.webp',
     whiteThumb: true,

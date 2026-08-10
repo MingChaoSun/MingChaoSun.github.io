@@ -13,6 +13,7 @@ const LINK_META: Record<string, { text: string; kind: 'accent' | 'ghost' | 'arxi
   arxiv: { text: 'arXiv', kind: 'arxiv' },
   pdf: { text: 'PDF', kind: 'arxiv' },
   project: { text: 'Project', kind: 'accent' },
+  projpage: { text: 'Proj Page', kind: 'accent' },
   code: { text: 'Code', kind: 'accent' },
   video: { text: 'Video', kind: 'ghost' },
   neurips: { text: 'NeurIPS', kind: 'ghost' },
@@ -27,7 +28,7 @@ const fmtStars = (n: number) =>
   n >= 1000 ? (n / 1000).toFixed(1).replace(/\.0$/, '') + 'k' : String(n);
 
 // highly-cited papers get a small citation badge in the meta line
-const CITE_BADGE_MIN = 100;
+const CITE_BADGE_MIN = 30;
 
 const thumbSlug = (thumb?: string) => thumb?.split('/').pop()?.replace(/\.webp$/, '');
 ---
@@ -57,6 +58,7 @@ const thumbSlug = (thumb?: string) => thumb?.split('/').pop()?.replace(/\.webp$/
               rel="noopener noreferrer"
               data-thumb={slug}
               data-white={p.whiteThumb || undefined}
+              data-frame={p.frame || undefined}
             >
               {p.thumb ? (
                 <img src={p.thumb} alt="" loading="lazy" decoding="async" />
@@ -147,6 +149,56 @@ const thumbSlug = (thumb?: string) => thumb?.split('/').pop()?.replace(/\.webp$/
     box-shadow: 0 16px 40px -20px rgba(0, 0, 0, 0.7);
   }
 
+  /* flowing-light border: a thin rotating gradient ring that fades in on
+     hover (mint -> blue), masked to a 1.5px perimeter. Falls back to a
+     static gradient ring if @property / angle animation is unsupported. */
+  @property --pub-angle {
+    syntax: '<angle>';
+    initial-value: 0deg;
+    inherits: false;
+  }
+  .pub::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: var(--radius);
+    padding: 1.5px;
+    background: conic-gradient(
+      from var(--pub-angle),
+      transparent 0%,
+      rgba(74, 227, 181, 0.95) 16%,
+      rgba(122, 162, 247, 0.95) 33%,
+      transparent 52%,
+      transparent 100%
+    );
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.3s var(--ease);
+    pointer-events: none;
+    z-index: 1;
+  }
+  .pub:hover::before {
+    opacity: 1;
+    animation: pub-spin 3.5s linear infinite;
+  }
+  @keyframes pub-spin {
+    to {
+      --pub-angle: 360deg;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .pub:hover::before {
+      animation: none;
+    }
+  }
+
   /* ---- banner media ---- */
   .pub__media {
     position: relative;
@@ -166,15 +218,28 @@ const thumbSlug = (thumb?: string) => thumb?.split('/').pop()?.replace(/\.webp$/
   .pub:hover .pub__media img {
     transform: scale(1.04);
   }
-  /* white-background figures (e.g. paper diagrams): show the whole image
-     (contain) on a white field with a small margin so nothing is cropped */
+  /* white-background figures (e.g. paper diagrams): shown whole (contain) on
+     a white field. The box keeps the grid's fixed 16/10 height so every card
+     media stays aligned; the figure is centred and white fills the rest. */
   .pub__media[data-white] {
     background: #fff;
   }
   .pub__media[data-white] img {
+    width: 100%;
+    height: 100%;
     object-fit: contain;
     box-sizing: border-box;
-    padding: 14px;
+    padding: 8px;
+  }
+  /* thin white keyline around photo figures that sit on a dark field, so the
+     image edge reads cleanly instead of bleeding into the card. */
+  .pub__media[data-frame]::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border: 2px solid rgba(255, 255, 255, 0.85);
+    pointer-events: none;
+    z-index: 1;
   }
 
   /* terminal-art placeholder for papers without a teaser */
@@ -245,7 +310,7 @@ const thumbSlug = (thumb?: string) => thumb?.split('/').pop()?.replace(/\.webp$/
     text-decoration: none;
   }
   .pub__authors {
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     line-height: 1.45;
     margin-top: 0.3rem;
     color: var(--text-muted);
