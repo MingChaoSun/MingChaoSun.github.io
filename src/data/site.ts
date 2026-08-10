@@ -188,8 +188,8 @@ export const news: NewsEntry[] = [
   {
     year: '2026.06',
     text: {
-      en: '**SocialNav**, a human-inspired foundation model for socially-aware navigation — selected as a **CVPR 2026 Best Paper Candidate**! [project →](https://amap-eai.github.io/SocialNav/)',
-      zh: '**SocialNav**,受人类启发的具身社会感知导航基础模型——入选 **CVPR 2026 最佳论文候选**![项目主页 →](https://amap-eai.github.io/SocialNav/)',
+      en: '**SocialNav**, a human-inspired foundation model for socially-aware navigation — selected as a **CVPR 2026 Best Paper Candidate**! [project →](https://amap-eai.github.io/SocialNav/) [news →](https://mp.weixin.qq.com/s/R_hkGIct9qQ6nNxuR5eTyQ?scene=1)',
+      zh: '**SocialNav**,受人类启发的具身社会感知导航基础模型——入选 **CVPR 2026 最佳论文候选**![项目主页 →](https://amap-eai.github.io/SocialNav/) [高德报道 →](https://mp.weixin.qq.com/s/R_hkGIct9qQ6nNxuR5eTyQ?scene=1)',
     },
   },
   {
