@@ -240,20 +240,12 @@ const thumbSlug = (thumb?: string) => thumb?.split('/').pop()?.replace(/\.webp$/
     box-sizing: border-box;
     padding: 8px;
   }
-  /* thin white keyline around photo figures that sit on a dark field, so the
-     image edge reads cleanly instead of bleeding into the card. The photo is
-     inset (dark mat) so the framed content reads a touch smaller. */
+  /* photo figures inset on a dark mat so the content reads a touch smaller
+     than a full-bleed cover. No keyline: keeps the edge clean under the hover
+     zoom (a static white ring read as a stuck border while the image scaled). */
   .pub__media[data-frame] img {
     box-sizing: border-box;
     padding: 10px;
-  }
-  .pub__media[data-frame]::after {
-    content: '';
-    position: absolute;
-    inset: 10px;
-    border: 2px solid rgba(255, 255, 255, 0.85);
-    pointer-events: none;
-    z-index: 1;
   }
 
   /* terminal-art placeholder for papers without a teaser */
