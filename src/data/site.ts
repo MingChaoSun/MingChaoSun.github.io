@@ -355,8 +355,12 @@ export const publications: Publication[] = [
     citations: 3,
     highlight: 'Continuous level-of-detail rendering built on 3D Gaussian Splatting.',
     thumb: '/pub/clodgs.webp',
+    whiteThumb: true,
     featured: true,
-    links: [{ label: 'arXiv', url: 'https://arxiv.org/abs/2510.09997' }],
+    links: [
+      { label: 'arXiv', url: 'https://arxiv.org/abs/2510.09997' },
+      { label: 'code', url: 'https://github.com/amap-cvlab/CLoD-GS' },
+    ],
   },
   {
     title: 'DO-Conv: Depthwise Over-Parameterized Convolutional Layer',
