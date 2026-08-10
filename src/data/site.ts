@@ -410,7 +410,7 @@ export const publications: Publication[] = [
     venue: 'NeurIPS',
     year: 2018,
     citations: 4357,
-    highlight: 'A foundational convolution operator for deep learning on point clouds — the seed of the PointCNN line.',
+    highlight: 'A foundational convolution operator for deep learning on point clouds — 2021 World Artificial Intelligence Conference Youth Outstanding Paper Award.',
     thumb: '/pub/pointcnn.webp',
     featured: true,
     links: [

@@ -11,7 +11,7 @@ const scholarSearch = (q: string) =>
 const LINK_META: Record<string, { text: string; kind: 'primary' | 'accent' | 'ghost' }> = {
   arxiv: { text: 'PDF', kind: 'primary' },
   project: { text: 'Project', kind: 'accent' },
-  code: { text: 'Code', kind: 'ghost' },
+  code: { text: 'Code', kind: 'accent' },
   video: { text: 'Video', kind: 'ghost' },
   neurips: { text: 'NeurIPS', kind: 'ghost' },
   scholar: { text: 'Scholar', kind: 'ghost' },
@@ -120,17 +120,6 @@ const thumbSlug = (thumb?: string) => thumb?.split('/').pop()?.replace(/\.webp$/
     border-color: var(--border);
     transform: translateY(-3px);
     box-shadow: 0 16px 40px -20px rgba(0, 0, 0, 0.7);
-  }
-  /* flagship papers: subtle mint tab along the top edge */
-  .pub[data-featured]::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 2px;
-    z-index: 3;
-    background: linear-gradient(90deg, var(--accent), rgba(74, 227, 181, 0));
   }
 
   /* ---- banner media ---- */
@@ -277,6 +266,9 @@ const thumbSlug = (thumb?: string) => thumb?.split('/').pop()?.replace(/\.webp$/
   .lk__arrow {
     font-size: 0.85em;
     opacity: 0.85;
+  }
+  .lk--ghost {
+    color: var(--text);
   }
   .lk--ghost:hover {
     color: var(--accent);
