@@ -167,22 +167,22 @@ export const news: NewsEntry[] = [
   {
     year: '2026.07',
     text: {
-      en: 'Released **Abot-World** and **ABot-3DWorld** — a universal world model that explores any 3D space. [live demo →](https://abot-world.amap.com/)',
-      zh: '发布 **Abot-World** 与 **ABot-3DWorld**——可探索任意三维空间的通用世界模型。[在线体验 →](https://abot-world.amap.com/)',
+      en: 'Released **Abot-World** and **ABot-3DWorld** — a universal world model that explores any 3D space. [live demo →](https://abot-world.amap.com/) [news →](https://mp.weixin.qq.com/s/TLoP_NEhexxiSruMvhPrrQ)',
+      zh: '发布 **Abot-World** 与 **ABot-3DWorld**——可探索任意三维空间的通用世界模型。[在线体验 →](https://abot-world.amap.com/) [报道 →](https://mp.weixin.qq.com/s/TLoP_NEhexxiSruMvhPrrQ)',
     },
   },
   {
     year: '2026.07',
     text: {
-      en: 'Released **WorldRoamBench**, an open-world benchmark probing the long-horizon stability of interactive world models. [Benchmark homepage →](https://worldroam.amap.com/)',
-      zh: '发布 **WorldRoamBench**,衡量交互式世界模型长时序稳定性的开放世界基准。[Benchmark 主页 →](https://worldroam.amap.com/)',
+      en: 'Released **WorldRoamBench**, an open-world benchmark probing the long-horizon stability of interactive world models. [Benchmark homepage →](https://worldroam.amap.com/) [news →](https://aiera.com.cn/2026/07/09/embodied/admin/103207/%e9%ab%98%e5%be%b7%e5%8f%91%e5%b8%83worldroam-bench%ef%bc%8c%e9%87%8d%e6%96%b0%e5%ae%9a%e4%b9%89%e4%b8%96%e7%95%8c%e6%a8%a1%e5%9e%8b%e9%95%bf%e6%97%b6%e4%ba%a4%e4%ba%92%e8%af%84%e6%b5%8b%e6%a0%87/)',
+      zh: '发布 **WorldRoamBench**,衡量交互式世界模型长时序稳定性的开放世界基准。[Benchmark 主页 →](https://worldroam.amap.com/) [新智元报道 →](https://aiera.com.cn/2026/07/09/embodied/admin/103207/%e9%ab%98%e5%be%b7%e5%8f%91%e5%b8%83worldroam-bench%ef%bc%8c%e9%87%8d%e6%96%b0%e5%ae%9a%e4%b9%89%e4%b8%96%e7%95%8c%e6%a8%a1%e5%9e%8b%e9%95%bf%e6%97%b6%e4%ba%a4%e4%ba%92%e8%af%84%e6%b5%8b%e6%a0%87/)',
     },
   },
   {
     year: '2026.06',
     text: {
-      en: 'Released **ABot-Earth 0.5**, a generative 3D model of the Earth. [live demo →](https://abot-earth.amap.com/)',
-      zh: '发布 **ABot-Earth 0.5**,生成式三维地球模型。[在线体验 →](https://abot-earth.amap.com/)',
+      en: 'Released **ABot-Earth 0.5**, a generative 3D model of the Earth. [live demo →](https://abot-earth.amap.com/) [news →](https://mp.weixin.qq.com/s/Ves_KeN-ysi9oAM7Vc9a1g)',
+      zh: '发布 **ABot-Earth 0.5**,生成式三维地球模型。[在线体验 →](https://abot-earth.amap.com/) [阿里报道 →](https://mp.weixin.qq.com/s/Ves_KeN-ysi9oAM7Vc9a1g)',
     },
   },
   {
@@ -195,8 +195,8 @@ export const news: NewsEntry[] = [
   {
     year: '2026.05',
     text: {
-      en: '🏆 Won **1st place** at the **AGIBOT World Model Challenge**.',
-      zh: '🏆 荣获 **AGIBOT World Model Challenge** 大赛**冠军**。',
+      en: '🏆 Won **1st place** at the **AGIBOT World Model Challenge**. [news →](https://mp.weixin.qq.com/s/wZ-v60S5LbNSdG6F5bkxcA)',
+      zh: '🏆 荣获 **AGIBOT World Model Challenge** 大赛**冠军**。[高德报道 →](https://mp.weixin.qq.com/s/wZ-v60S5LbNSdG6F5bkxcA)',
     },
   },
   {
@@ -223,7 +223,7 @@ export const news: NewsEntry[] = [
   {
     year: '2025.08',
     text: {
-      en: 'Gave a talk on **"Yunjing" (云境)**, AMap\'s immersive AI product — sharing its core capabilities and AMap\'s recent advances in digital-twin technology and applications. [news →](https://mp.weixin.qq.com/s/mZhDBmQXgsPaHyNINRfJ7A?scene=1)',
+      en: '**"Yunjing" (云境)**, AMap\'s immersive AI product — sharing its core capabilities and AMap\'s recent advances in digital-twin technology and applications. [news →](https://mp.weixin.qq.com/s/mZhDBmQXgsPaHyNINRfJ7A?scene=1)',
       zh: '分享高德地图沉浸式 AI 产品**"云境"**的核心技术能力,展示高德近期在数字孪生领域的技术成果与应用场景。[公众号文章 →](https://mp.weixin.qq.com/s/mZhDBmQXgsPaHyNINRfJ7A?scene=1)',
     },
   },
@@ -337,7 +337,7 @@ export const publications: Publication[] = [
     venue: 'arXiv',
     year: 2026,
     citations: 1,
-    highlight: 'POINav-Bench, the first benchmark designed for closed-loop evaluation of real-world POI-goal navigation, and the POINav Brain-Action Framework, where a Brain module performs POI-grounded reasoning to guide an Action module in predicting continuous waypoints for real-world execution.',
+    highlight: 'The first closed-loop benchmark for real-world POI-goal navigation, paired with a Brain-Action Framework that couples reasoning with continuous waypoint prediction.',
     thumb: '/pub/poinav.webp',
     whiteThumb: true,
     links: [{ label: 'arXiv', url: 'https://arxiv.org/abs/2605.28237' }],

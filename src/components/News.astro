@@ -49,6 +49,11 @@ import { mdInline } from '../utils/text';
     color: var(--text-muted);
     font-style: italic;
   }
+  /* two source links sat together (e.g. project + news, demo + news): give them air.
+     Links come from set:html, so the descendant must be :global. */
+  .news__text :global(a + a) {
+    margin-left: 0.55rem;
+  }
   @media (max-width: 560px) {
     .news__item {
       grid-template-columns: 1fr;
