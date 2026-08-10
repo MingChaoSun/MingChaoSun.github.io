@@ -365,7 +365,10 @@ export const publications: Publication[] = [
     year: 2022,
     citations: 351,
     highlight: 'A depthwise over-parameterized convolutional layer that boosts 2D CNN backbones.',
+    thumb: '/pub/doconv.webp',
+    whiteThumb: true,
     links: [
+      { label: 'arxiv', url: 'https://arxiv.org/abs/2006.12030' },
       { label: 'code', url: 'https://github.com/yangyanli/DO-Conv', stars: 201 },
       { label: 'PubMed', url: 'https://pubmed.ncbi.nlm.nih.gov/35594231/' },
     ],
