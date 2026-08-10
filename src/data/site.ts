@@ -386,7 +386,10 @@ export const publications: Publication[] = [
     citations: 37,
     highlight: 'A mutual-information maximization objective for graph neural networks.',
     thumb: '/pub/mutualinfo.webp',
-    links: [{ label: 'arxiv', url: 'https://arxiv.org/abs/1905.08509' }],
+    links: [
+      { label: 'arxiv', url: 'https://arxiv.org/abs/1905.08509' },
+      { label: 'code', url: 'https://github.com/CODE-SUBMIT/Graph_Neighborhood_1' },
+    ],
   },
   {
     title: 'Neighborhood Enlargement in Graph Neural Networks',
