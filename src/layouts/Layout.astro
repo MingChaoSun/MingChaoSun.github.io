@@ -110,10 +110,11 @@ const personJsonLd = {
         height: 100%;
         display: block;
       }
-      /* keep page content above the fixed background canvas */
+      /* keep page content above the fixed background canvas.
+         (.skip-link keeps its own fixed/off-screen positioning + z-index:200,
+          so it must stay out of this rule.) */
       #main,
-      .footer,
-      .skip-link {
+      .footer {
         position: relative;
         z-index: 1;
       }
