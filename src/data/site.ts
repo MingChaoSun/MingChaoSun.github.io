@@ -398,7 +398,10 @@ export const publications: Publication[] = [
     year: 2019,
     citations: 1,
     highlight: 'Enlarging the receptive field of graph neural networks.',
-    links: [{ label: 'code', url: 'https://github.com/CODE-SUBMIT/Neighborhood-Enlargement-in-Graph-Network' }],
+    links: [
+      { label: 'code', url: 'https://github.com/CODE-SUBMIT/Neighborhood-Enlargement-in-Graph-Network' },
+      { label: 'scholar', url: 'https://scholar.google.com/scholar?q=Neighborhood%20Enlargement%20in%20Graph%20Neural%20Networks' },
+    ],
   },
   {
     title: 'PointCNN: Convolution on X-Transformed Points',
