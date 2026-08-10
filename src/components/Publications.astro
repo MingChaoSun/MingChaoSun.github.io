@@ -6,18 +6,27 @@ import { boldSelf } from '../utils/text';
 const scholarSearch = (q: string) =>
   `https://scholar.google.com/scholar?q=${encodeURIComponent(q)}`;
 
-// Relabel raw link labels into styled, prominent chips.
-// arxiv -> "PDF" (filled mint, most prominent); project -> "Project" (outline).
-const LINK_META: Record<string, { text: string; kind: 'primary' | 'accent' | 'ghost' }> = {
-  arxiv: { text: 'PDF', kind: 'primary' },
+// Relabel raw link labels into styled chips (label matched case-insensitively,
+// so 'arXiv' / 'arxiv' / 'PubMed' / 'pubmed' all resolve).
+// arXiv -> classic red; code/project -> mint outline; venues -> white ghost.
+const LINK_META: Record<string, { text: string; kind: 'accent' | 'ghost' | 'arxiv' }> = {
+  arxiv: { text: 'arXiv', kind: 'arxiv' },
   project: { text: 'Project', kind: 'accent' },
   code: { text: 'Code', kind: 'accent' },
   video: { text: 'Video', kind: 'ghost' },
   neurips: { text: 'NeurIPS', kind: 'ghost' },
   scholar: { text: 'Scholar', kind: 'ghost' },
-  PubMed: { text: 'PubMed', kind: 'ghost' },
+  pubmed: { text: 'PubMed', kind: 'ghost' },
 };
-const meta = (label: string) => LINK_META[label] ?? { text: label, kind: 'ghost' as const };
+const meta = (label: string) =>
+  LINK_META[label.toLowerCase()] ?? { text: label, kind: 'ghost' as const };
+
+// GitHub star count -> compact form (1400 -> "1.4k", 201 -> "201")
+const fmtStars = (n: number) =>
+  n >= 1000 ? (n / 1000).toFixed(1).replace(/\.0$/, '') + 'k' : String(n);
+
+// highly-cited papers get a small citation badge in the meta line
+const CITE_BADGE_MIN = 100;
 
 const thumbSlug = (thumb?: string) => thumb?.split('/').pop()?.replace(/\.webp$/, '');
 ---
@@ -30,7 +39,7 @@ const thumbSlug = (thumb?: string) => thumb?.split('/').pop()?.replace(/\.webp$/
   <ul class="pubs">
     {
       publications.map((p) => {
-        const pdf = p.links.find((l) => l.label === 'arxiv');
+        const pdf = p.links.find((l) => l.label.toLowerCase() === 'arxiv');
         const proj = p.links.find((l) => l.label === 'project');
         const primaryUrl =
           pdf?.url || proj?.url || p.links[0]?.url || scholarSearch(p.title);
@@ -69,8 +78,17 @@ const thumbSlug = (thumb?: string) => thumb?.split('/').pop()?.replace(/\.webp$/
               <p class="pub__authors" set:html={boldSelf(p.authors, profile.selfShort)} />
               <p class="pub__meta mono">
                 <span class="venue">{p.venue}</span> <span class="dim">·</span> {p.year}
+                {p.citations != null && p.citations >= CITE_BADGE_MIN && (
+                  <span class="pub__cites">{p.citations.toLocaleString()} citations</span>
+                )}
               </p>
               {p.highlight && <p class="pub__hl muted">{p.highlight}</p>}
+              {p.award && (
+                <span class="pub__award">
+                  <span class="pub__award-icon" aria-hidden="true">★</span>
+                  {p.award}
+                </span>
+              )}
               <nav class="pub__links mono">
                 {links.map((l) => {
                   const m = meta(l.label);
@@ -82,6 +100,11 @@ const thumbSlug = (thumb?: string) => thumb?.split('/').pop()?.replace(/\.webp$/
                       rel="noopener noreferrer"
                     >
                       <span>{m.text}</span>
+                      {l.stars != null && (
+                        <span class="lk__stars">
+                          <span class="lk__star" aria-hidden="true">★</span>{fmtStars(l.stars)}
+                        </span>
+                      )}
                       {m.kind !== 'ghost' && <span class="lk__arrow">↗</span>}
                     </a>
                   );
@@ -141,12 +164,6 @@ const thumbSlug = (thumb?: string) => thumb?.split('/').pop()?.replace(/\.webp$/
   .pub:hover .pub__media img {
     transform: scale(1.04);
   }
-  /* the PointCNN permutation figure is a wide/short diagram — show it whole */
-  .pub__media[data-thumb='pointcnn'] img {
-    object-fit: contain;
-    padding: 8px;
-  }
-
   /* terminal-art placeholder for papers without a teaser */
   .pub__ph {
     position: absolute;
@@ -232,10 +249,36 @@ const thumbSlug = (thumb?: string) => thumb?.split('/').pop()?.replace(/\.webp$/
   .pub__meta .venue {
     color: var(--accent-2);
   }
+  .pub__cites {
+    margin-left: 0.35rem;
+    padding: 0.08rem 0.45rem;
+    border-radius: 5px;
+    font-size: 0.7rem;
+    color: var(--green);
+    background: rgba(57, 211, 83, 0.09);
+    border: 1px solid rgba(57, 211, 83, 0.3);
+    white-space: nowrap;
+  }
   .pub__hl {
     font-size: 0.82rem;
     line-height: 1.5;
     margin-top: 0.5rem;
+  }
+  .pub__award {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    margin-top: 0.55rem;
+    padding: 0.26rem 0.6rem;
+    border-radius: 6px;
+    font-size: 0.7rem;
+    color: #e3b341;
+    background: rgba(227, 179, 65, 0.1);
+    border: 1px solid rgba(227, 179, 65, 0.35);
+    letter-spacing: 0.02em;
+  }
+  .pub__award-icon {
+    font-size: 0.78rem;
   }
   .pub__links {
     display: flex;
@@ -267,6 +310,15 @@ const thumbSlug = (thumb?: string) => thumb?.split('/').pop()?.replace(/\.webp$/
     font-size: 0.85em;
     opacity: 0.85;
   }
+  .lk__stars {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.15rem;
+    opacity: 0.9;
+  }
+  .lk__star {
+    font-size: 1.15em;
+  }
   .lk--ghost {
     color: var(--text);
   }
@@ -284,14 +336,15 @@ const thumbSlug = (thumb?: string) => thumb?.split('/').pop()?.replace(/\.webp$/
     background: rgba(74, 227, 181, 0.18);
     border-color: var(--accent);
   }
-  .lk--primary {
-    color: #062018;
-    background: var(--accent);
-    border-color: var(--accent);
+  .lk--arxiv {
+    color: #e0524d;
+    background: rgba(224, 82, 77, 0.08);
+    border-color: rgba(224, 82, 77, 0.5);
     font-weight: 600;
   }
-  .lk--primary:hover {
-    background: #6cf0c6;
-    box-shadow: 0 6px 20px -8px rgba(74, 227, 181, 0.7);
+  .lk--arxiv:hover {
+    color: #fff;
+    background: #b31b1b;
+    border-color: #b31b1b;
   }
 </style>

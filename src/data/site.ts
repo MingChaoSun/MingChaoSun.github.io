@@ -229,7 +229,8 @@ export interface Publication {
   highlight?: string; // English one-liner (titles stay English to control maintenance)
   thumb?: string; // teaser figure path under /pub (e.g. '/pub/pointcnn.webp')
   featured?: boolean; // flagship papers get an accent treatment
-  links: { label: string; url: string }[];
+  award?: string; // honor/distinction badge shown on the card
+  links: { label: string; url: string; stars?: number }[]; // stars → GitHub ⭐ count
 }
 
 // Ordered by Google Scholar date sort (newest → oldest). Links verified 2026-08-09.
@@ -364,7 +365,7 @@ export const publications: Publication[] = [
     citations: 351,
     highlight: 'A depthwise over-parameterized convolutional layer that boosts 2D CNN backbones.',
     links: [
-      { label: 'code', url: 'https://github.com/yangyanli/DO-Conv' },
+      { label: 'code', url: 'https://github.com/yangyanli/DO-Conv', stars: 201 },
       { label: 'PubMed', url: 'https://pubmed.ncbi.nlm.nih.gov/35594231/' },
     ],
   },
@@ -384,16 +385,8 @@ export const publications: Publication[] = [
     year: 2020,
     citations: 37,
     highlight: 'A mutual-information maximization objective for graph neural networks.',
-    links: [],
-  },
-  {
-    title: 'First and Complementary Neighborhood Combination of Adjacency Matrix for Graph Learning',
-    authors: 'X Di, P Yu, M Sun, R Bu',
-    venue: 'arXiv',
-    year: 2019,
-    citations: 0,
-    highlight: 'Combining first-order and complementary neighborhoods for graph learning.',
-    links: [{ label: 'arXiv', url: 'https://arxiv.org/abs/1905.08509' }],
+    thumb: '/pub/mutualinfo.webp',
+    links: [{ label: 'arxiv', url: 'https://arxiv.org/abs/1905.08509' }],
   },
   {
     title: 'Neighborhood Enlargement in Graph Neural Networks',
@@ -410,12 +403,13 @@ export const publications: Publication[] = [
     venue: 'NeurIPS',
     year: 2018,
     citations: 4357,
-    highlight: 'A foundational convolution operator for deep learning on point clouds — 2021 World Artificial Intelligence Conference Youth Outstanding Paper Award.',
+    highlight: 'A foundational convolution operator for deep learning on point clouds.',
+    award: '2021 WAIC Youth Outstanding Paper Award',
     thumb: '/pub/pointcnn.webp',
     featured: true,
     links: [
       { label: 'arXiv', url: 'https://arxiv.org/abs/1801.07791' },
-      { label: 'code', url: 'https://github.com/yangyanli/PointCNN' },
+      { label: 'code', url: 'https://github.com/yangyanli/PointCNN', stars: 1400 },
       { label: 'neurips', url: 'https://proceedings.neurips.cc/paper/2018/hash/f5f8590cd58a54e94377e6ae2eded4d9-Abstract.html' },
     ],
   },
