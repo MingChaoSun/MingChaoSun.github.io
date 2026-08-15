@@ -114,7 +114,6 @@ export const experience: ExperienceEntry[] = [
     title: 'Researcher',
     titleZh: '研究员',
     years: '2021.11 – present',
-    yearsNote: 'full-time since Jul 2020',
     desc: {
       en: 'HD Map · 3DGS · World Models',
       zh: '高精地图 · 3DGS · 世界模型',
