@@ -16,17 +16,14 @@ const items = [
         items.map((i) => (
           <li>
             <a class="nav__link" href={`#${i.id}`} data-nav={i.id}>
-              <span class="i18n i18n-en">
-                {i.short ? (
-                  <>
-                    <span class="nav__long">{i.en}</span>
-                    <span class="nav__short">{i.short}</span>
-                  </>
-                ) : (
-                  i.en
-                )}
-              </span>
-              <span class="i18n i18n-zh">{i.zh}</span>
+              {i.short ? (
+                <>
+                  <span class="nav__long">{i.en}</span>
+                  <span class="nav__short">{i.short}</span>
+                </>
+              ) : (
+                i.en
+              )}
             </a>
           </li>
         ))

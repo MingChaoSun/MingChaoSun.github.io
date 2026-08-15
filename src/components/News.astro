@@ -10,10 +10,7 @@ import { mdInline } from '../utils/text';
       news.map((n) => (
         <li class="news__item" data-reveal>
           <span class="news__year mono">{n.year}</span>
-          <span class="news__text">
-            <span class="i18n i18n-en" set:html={mdInline(n.text.en)} />
-            <span class="i18n i18n-zh" set:html={mdInline(n.text.zh)} />
-          </span>
+          <span class="news__text" set:html={mdInline(n.text.en)} />
         </li>
       ))
     }

@@ -36,10 +36,7 @@ const thumbSlug = (thumb?: string) => thumb?.split('/').pop()?.replace(/\.webp$/
 ---
 
 <Section id="work" label={{ en: 'selected work', zh: '代表论文' }} title={{ en: 'Publications', zh: '发表论文' }}>
-  <p class="pubs__hint muted mono">
-    <span class="i18n i18n-en">sorted by date (newest first)</span>
-    <span class="i18n i18n-zh">按时间倒序(最新在前)</span>
-  </p>
+  <p class="pubs__hint muted mono">sorted by date (newest first)</p>
   <ul class="pubs">
     {
       publications.map((p) => {
@@ -68,10 +65,7 @@ const thumbSlug = (thumb?: string) => thumb?.split('/').pop()?.replace(/\.webp$/
                 <span class="pub__ph">
                   <span class="ph__venue mono">{p.venue}</span>
                   <span class="ph__year mono">{p.year}</span>
-                  <span class="ph__tag mono">
-                    <span class="i18n i18n-en">// teaser pending</span>
-                    <span class="i18n i18n-zh">// 待补图</span>
-                  </span>
+                  <span class="ph__tag mono">// teaser pending</span>
                 </span>
               )}
             </a>

@@ -126,8 +126,9 @@ code, .chip {
 }
 
 /* ============================================================
-   i18n — the site is English-only now. Bilingual .i18n pairs still render
-   in markup, but 中文 is hidden permanently (kept dormant for easy revival).
+   i18n — the site is English-only. 中文 lives only in site.ts data (not
+   rendered); if bilingual markup returns, this rule keeps zh hidden by
+   default. Kept dormant for easy revival.
    ============================================================ */
 .i18n-zh { display: none !important; }
 

@@ -6,12 +6,7 @@ import { mdInline } from '../utils/text';
 
 <Section id="about" label={{ en: 'about', zh: '关于' }} title={{ en: 'Profile', zh: '简介' }}>
   <div class="about" data-reveal>
-    <div class="i18n i18n-en">
-      {bio.en.map((p) => <p set:html={mdInline(p)} />)}
-    </div>
-    <div class="i18n i18n-zh">
-      {bio.zh.map((p) => <p set:html={mdInline(p)} />)}
-    </div>
+    {bio.en.map((p) => <p set:html={mdInline(p)} />)}
   </div>
 </Section>
 

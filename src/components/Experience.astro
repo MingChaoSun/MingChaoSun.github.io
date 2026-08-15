@@ -9,50 +9,32 @@ import { experience, education } from '../data/site';
       experience.map((j) => (
         <li class="exp__item" data-reveal>
           <div class="exp__head">
-            <span class="exp__org">
-              <span class="i18n i18n-en">{j.org}</span>
-              <span class="i18n i18n-zh">{j.orgZh}</span>
-            </span>
+            <span class="exp__org">{j.org}</span>
             <span class="exp__years mono">{j.years}</span>
           </div>
           <p class="exp__title mono">
-            <span class="i18n i18n-en">{j.title}</span>
-            <span class="i18n i18n-zh">{j.titleZh}</span>
+            {j.title}
             {j.yearsNote && (
               <span class="dim"> · {j.yearsNote}</span>
             )}
           </p>
-          <p class="exp__desc muted">
-            <span class="i18n i18n-en">{j.desc.en}</span>
-            <span class="i18n i18n-zh">{j.desc.zh}</span>
-          </p>
+          <p class="exp__desc muted">{j.desc.en}</p>
         </li>
       ))
     }
   </ol>
 
-  <h3 class="exp__sub mono">
-    <span class="i18n i18n-en">// education</span>
-    <span class="i18n i18n-zh">// 教育背景</span>
-  </h3>
+  <h3 class="exp__sub mono">// education</h3>
   <ol class="exp">
     {
       education.map((e) => (
         <li class="exp__item" data-reveal>
           <div class="exp__head">
-            <span class="exp__org">
-              <span class="i18n i18n-en">{e.school}</span>
-              <span class="i18n i18n-zh">{e.schoolZh}</span>
-            </span>
+            <span class="exp__org">{e.school}</span>
             <span class="exp__years mono">{e.years}</span>
           </div>
           <p class="exp__title mono">
-            <span class="i18n i18n-en">
-              {e.degree} · {e.major}{e.advisor ? ` · advised by ${e.advisor}` : ''}
-            </span>
-            <span class="i18n i18n-zh">
-              {e.degreeZh} · {e.majorZh}{e.advisorZh ? ` · 师从 ${e.advisorZh}` : ''}
-            </span>
+            {e.degree} · {e.major}{e.advisor ? ` · advised by ${e.advisor}` : ''}
           </p>
         </li>
       ))
