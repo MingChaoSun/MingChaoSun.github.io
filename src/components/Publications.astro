@@ -41,9 +41,14 @@ const thumbSlug = (thumb?: string) => thumb?.split('/').pop()?.replace(/\.webp$/
     {
       publications.map((p) => {
         const pdf = p.links.find((l) => l.label.toLowerCase() === 'arxiv');
-        const proj = p.links.find((l) => l.label === 'project');
+        // primary link goes straight out: project/demo/benchmark page if the
+        // paper has one, otherwise arXiv — never an internal landing page.
         const primaryUrl =
-          pdf?.url || proj?.url || p.links[0]?.url || scholarSearch(p.title);
+          p.links.find((l) => ['demo', 'project', 'benchmark'].includes(l.label.toLowerCase()))
+            ?.url ||
+          pdf?.url ||
+          p.links[0]?.url ||
+          scholarSearch(p.title);
         const links =
           p.links.length > 0 ? p.links : [{ label: 'scholar', url: scholarSearch(p.title) }];
         const slug = thumbSlug(p.thumb);
