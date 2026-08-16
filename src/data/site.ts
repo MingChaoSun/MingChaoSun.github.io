@@ -33,6 +33,9 @@ export const profile = {
       url: 'https://scholar.google.com/citations?user=bqsITKQAAAAJ',
     },
     { label: 'DBLP', handle: '197/5393', url: 'https://dblp.org/pid/197/5393' },
+    // identity anchors for JSON-LD sameAs (not rendered as buttons)
+    { label: 'GitHub', handle: 'MingChaoSun', url: 'https://github.com/MingChaoSun' },
+    { label: 'LinkedIn', handle: 'sunmc', url: 'https://cn.linkedin.com/in/sunmc' },
     { label: 'Email', handle: 'sun.mc@outlook.com', url: 'mailto:sun.mc@outlook.com' },
   ],
 };

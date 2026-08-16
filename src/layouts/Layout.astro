@@ -7,7 +7,7 @@ import '@fontsource/jetbrains-mono/400.css';
 import '@fontsource/jetbrains-mono/500.css';
 import '@fontsource/jetbrains-mono/700.css';
 import '../styles/global.css';
-import { profile } from '../data/site';
+import { profile, education } from '../data/site';
 
 export interface Props {
   title?: string;
@@ -23,8 +23,11 @@ const site = Astro.site ?? 'https://mingchaosun.com';
 const canonical = new URL(Astro.url.pathname, site);
 const ogImage = new URL('/og.png', site);
 
-// structured data: declare the name equivalences (romanization + Chinese) so
-// 孙铭超 and "Sun Mingchao" resolve to this entity in search.
+// structured data: ProfilePage (Google's recommended wrapper for personal
+// homepages) with the Person entity as mainEntity — declares the name
+// equivalences (romanization + Chinese) so 孙铭超 and "Sun Mingchao" resolve
+// to this entity in search.
+const schools = [...new Set(education.map((e) => e.school))];
 const personJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'Person',
@@ -34,6 +37,7 @@ const personJsonLd = {
   familyName: 'Sun',
   jobTitle: profile.role,
   worksFor: { '@type': 'Organization', name: profile.affiliation },
+  alumniOf: schools.map((name) => ({ '@type': 'CollegeOrUniversity', name })),
   url: canonical.href,
   image: new URL('/avatar.jpg', site).href,
   sameAs: profile.socials.filter((s) => s.url.startsWith('http')).map((s) => s.url),
@@ -45,6 +49,11 @@ const personJsonLd = {
     'world models',
     'embodied intelligence',
   ],
+};
+const profileJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'ProfilePage',
+  mainEntity: personJsonLd,
 };
 ---
 
@@ -76,8 +85,8 @@ const personJsonLd = {
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:image" content={ogImage} />
 
-    <!-- structured data: Person (name variants for search) -->
-    <script type="application/ld+json" set:html={JSON.stringify(personJsonLd)} />
+    <!-- structured data: ProfilePage + Person (name variants for search) -->
+    <script type="application/ld+json" set:html={JSON.stringify(profileJsonLd)} />
   </head>
   <body>
     <div class="bg-fx" aria-hidden="true"><canvas id="hero-canvas"></canvas></div>
