@@ -1,4 +1,5 @@
 ---
+import { profile } from '../data/site';
 // Minimal sticky nav — terminal styled. Scrollspy highlights the active section.
 const items = [
   { id: 'about', en: 'about', zh: '关于' },
@@ -6,12 +7,15 @@ const items = [
   { id: 'work', en: 'work', zh: '论文' },
   { id: 'experience', en: 'experience', zh: '经历', short: 'exp' },
 ];
+const linkedin = profile.socials.find((s) => s.label === 'LinkedIn');
+const orcid = profile.socials.find((s) => s.label === 'ORCID');
 ---
 
 <nav class="nav" aria-label="Section navigation">
   <div class="container nav__inner">
     <a class="nav__home mono" href="#top">~/mingchao<span class="nav__blink">_</span></a>
-    <ul class="nav__links mono">
+    <div class="nav__right">
+      <ul class="nav__links mono">
       {
         items.map((i) => (
           <li>
@@ -28,7 +32,40 @@ const items = [
           </li>
         ))
       }
-    </ul>
+      </ul>
+      <div class="nav__ids">
+        {
+          linkedin && (
+            <a
+              class="nav__id"
+              href={linkedin.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="LinkedIn profile"
+              title="LinkedIn"
+            >
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z"></path>
+              </svg>
+            </a>
+          )
+        }
+        {
+          orcid && (
+            <a
+              class="nav__id nav__id--orcid"
+              href={orcid.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="ORCID profile"
+              title="ORCID iD"
+            >
+              iD
+            </a>
+          )
+        }
+      </div>
+    </div>
   </div>
 </nav>
 
@@ -95,6 +132,12 @@ const items = [
     gap: 1rem;
     padding-block: 0.55rem;
   }
+  .nav__right {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    min-width: 0;
+  }
   .nav__home {
     color: var(--text);
     font-weight: 600;
@@ -115,6 +158,40 @@ const items = [
     gap: 0.3rem;
     flex-wrap: wrap;
     justify-content: flex-end;
+  }
+  .nav__ids {
+    display: flex;
+    align-items: center;
+    gap: 0.15rem;
+    flex-shrink: 0;
+  }
+  .nav__id {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 26px;
+    border-radius: var(--radius-sm);
+    color: var(--text-dim);
+    transition: color 0.18s var(--ease), background 0.18s var(--ease);
+  }
+  .nav__id:hover {
+    color: var(--accent);
+    background: var(--accent-soft);
+  }
+  .nav__id svg {
+    width: 14px;
+    height: 14px;
+  }
+  .nav__id--orcid {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--text-dim);
+  }
+  .nav__id--orcid:hover {
+    color: #a6ce39; /* official ORCID green */
   }
   .nav__link {
     display: inline-block;

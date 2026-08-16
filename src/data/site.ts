@@ -36,6 +36,7 @@ export const profile = {
     // identity anchors for JSON-LD sameAs (not rendered as buttons)
     { label: 'GitHub', handle: 'MingChaoSun', url: 'https://github.com/MingChaoSun' },
     { label: 'LinkedIn', handle: 'sunmc', url: 'https://cn.linkedin.com/in/sunmc' },
+    { label: 'ORCID', handle: '0000-0001-8300-7192', url: 'https://orcid.org/0000-0001-8300-7192' },
     { label: 'Email', handle: 'sun.mc@outlook.com', url: 'mailto:sun.mc@outlook.com' },
   ],
 };
@@ -127,7 +128,7 @@ export const experience: ExperienceEntry[] = [
     orgZh: '阿里巴巴 · 阿里云 视频云 & 钉钉',
     title: 'Algorithm Engineer',
     titleZh: '算法工程师',
-    years: '2019.06 – 2021.11',
+    years: '2020.07 – 2021.11',
     yearsNote: '',
     desc: {
       en: 'Face & Video Algorithms',
@@ -139,7 +140,7 @@ export const experience: ExperienceEntry[] = [
     orgZh: '阿里巴巴 · AI Labs',
     title: 'Research Intern',
     titleZh: '研究实习生',
-    years: '2018.08 – 2019.06',
+    years: '2018.08 – 2020.07',
     yearsNote: '',
     desc: {
       en: 'Autonomous Driving & V2X',
