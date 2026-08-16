@@ -3,6 +3,7 @@ import { profile } from '../data/site';
 
 const scholar = profile.socials.find((s) => s.label === 'Google Scholar');
 const email = profile.socials.find((s) => s.label === 'Email');
+const x = profile.socials.find((s) => s.label === 'X');
 const linkedin = profile.socials.find((s) => s.label === 'LinkedIn');
 const orcid = profile.socials.find((s) => s.label === 'ORCID');
 
@@ -49,6 +50,11 @@ const shellOut = _shell[1] ?? '';
           <a class="hero__social-link" href={email.url} title="Email">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
             Email
+          </a>
+        )}
+        {x && (
+          <a class="hero__social-link hero__social-link--icon" href={x.url} target="_blank" rel="noopener noreferrer" title="X (@mingchao_sun)" aria-label="X profile">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"></path></svg>
           </a>
         )}
         {linkedin && (
@@ -561,7 +567,7 @@ const shellOut = _shell[1] ?? '';
     height: 16px;
     flex-shrink: 0;
   }
-  /* icon-only variant (LinkedIn / ORCID): keeps the row compact */
+  /* icon-only variant (X / LinkedIn / ORCID): keeps the row compact */
   .hero__social-link--icon {
     padding-inline: 0.65em;
   }
