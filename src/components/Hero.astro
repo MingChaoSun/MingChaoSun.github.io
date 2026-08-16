@@ -576,28 +576,29 @@ const shellOut = _shell[1] ?? '';
     text-decoration: none;
     transform: translateY(-1px);
   }
-  /* ORCID: the official mark — solid green circle with a white "iD" */
+  /* ORCID: standard chip frame, with the official mark nested inside —
+     a small "iD" circle, white at rest, flipping to the ORCID green on hover */
   .hero__social-link--orcid {
-    width: 2.4em;
-    height: 2.4em;
-    padding: 0;
-    justify-content: center;
-    border-radius: 50%;
-    background: #a6ce39;
-    border-color: #a6ce39;
-    color: #fff;
+    padding-inline: 0.65em;
   }
   .hero__orcid-id {
-    color: inherit;
-    font-size: 0.78rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #fff;
+    color: #a6ce39;
+    font-size: 0.66rem;
     font-weight: 700;
     letter-spacing: -0.02em;
     line-height: 1;
+    transition: background 0.2s var(--ease), color 0.2s var(--ease);
   }
-  .hero__social-link--orcid:hover {
+  .hero__social-link--orcid:hover .hero__orcid-id {
+    background: #a6ce39;
     color: #fff;
-    border-color: #b9dd5c;
-    background: #b9dd5c;
   }
   .hero__social-link.is-copied {
     color: var(--green);
@@ -721,11 +722,6 @@ const shellOut = _shell[1] ?? '';
       justify-content: center;
       font-size: 0.74rem;
       padding: 0.7em 0.5em;
-    }
-    /* keep the ORCID circle as tall as the taller mobile chips */
-    .hero__social-link--orcid {
-      width: 2.9em;
-      height: 2.9em;
     }
   }
   @media (max-width: 400px) {
