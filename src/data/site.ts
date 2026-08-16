@@ -37,6 +37,8 @@ export const profile = {
     { label: 'GitHub', handle: 'MingChaoSun', url: 'https://github.com/MingChaoSun' },
     { label: 'LinkedIn', handle: 'sunmc', url: 'https://cn.linkedin.com/in/sunmc' },
     { label: 'ORCID', handle: '0000-0001-8300-7192', url: 'https://orcid.org/0000-0001-8300-7192' },
+    // identity anchors for JSON-LD sameAs (not rendered as buttons)
+    { label: 'X', handle: '@mingchao_sun', url: 'https://x.com/mingchao_sun' },
     { label: 'Email', handle: 'sun.mc@outlook.com', url: 'mailto:sun.mc@outlook.com' },
   ],
 };
