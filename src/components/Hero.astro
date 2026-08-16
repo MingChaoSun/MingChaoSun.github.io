@@ -588,8 +588,9 @@ const shellOut = _shell[1] ?? '';
     width: 18px;
     height: 18px;
     border-radius: 50%;
-    background: #fff;
-    color: #a6ce39;
+    /* same treatment as the LinkedIn mark: muted fill + knocked-out glyph */
+    background: var(--text-muted);
+    color: var(--bg);
     font-size: 0.66rem;
     font-weight: 700;
     letter-spacing: -0.02em;
