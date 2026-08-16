@@ -47,9 +47,8 @@ const shellOut = _shell[1] ?? '';
             <span data-label>WeChat</span>
         </button>
         {email && (
-          <a class="hero__social-link" href={email.url} title="Email">
+          <a class="hero__social-link hero__social-link--icon" href={email.url} title="Email" aria-label="Email sun.mc@outlook.com">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
-            Email
           </a>
         )}
         {x && (
@@ -63,7 +62,7 @@ const shellOut = _shell[1] ?? '';
           </a>
         )}
         {orcid && (
-          <a class="hero__social-link hero__social-link--icon" href={orcid.url} target="_blank" rel="noopener noreferrer" title="ORCID iD" aria-label="ORCID profile">
+          <a class="hero__social-link hero__social-link--orcid" href={orcid.url} target="_blank" rel="noopener noreferrer" title="ORCID iD" aria-label="ORCID profile">
             <span class="hero__orcid-id">iD</span>
           </a>
         )}
@@ -567,24 +566,38 @@ const shellOut = _shell[1] ?? '';
     height: 16px;
     flex-shrink: 0;
   }
-  /* icon-only variant (X / LinkedIn / ORCID): keeps the row compact */
+  /* icon-only variant (Email / X / LinkedIn): keeps the row compact */
   .hero__social-link--icon {
     padding-inline: 0.65em;
-  }
-  .hero__orcid-id {
-    font-size: 0.78rem;
-    font-weight: 700;
-    letter-spacing: -0.02em;
-    line-height: 1;
-  }
-  .hero__social-link--icon:hover .hero__orcid-id {
-    color: #a6ce39; /* official ORCID green */
   }
   .hero__social-link:hover {
     color: var(--accent);
     border-color: var(--accent);
     text-decoration: none;
     transform: translateY(-1px);
+  }
+  /* ORCID: the official mark — solid green circle with a white "iD" */
+  .hero__social-link--orcid {
+    width: 2.4em;
+    height: 2.4em;
+    padding: 0;
+    justify-content: center;
+    border-radius: 50%;
+    background: #a6ce39;
+    border-color: #a6ce39;
+    color: #fff;
+  }
+  .hero__orcid-id {
+    color: inherit;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+  .hero__social-link--orcid:hover {
+    color: #fff;
+    border-color: #b9dd5c;
+    background: #b9dd5c;
   }
   .hero__social-link.is-copied {
     color: var(--green);
@@ -708,6 +721,11 @@ const shellOut = _shell[1] ?? '';
       justify-content: center;
       font-size: 0.74rem;
       padding: 0.7em 0.5em;
+    }
+    /* keep the ORCID circle as tall as the taller mobile chips */
+    .hero__social-link--orcid {
+      width: 2.9em;
+      height: 2.9em;
     }
   }
   @media (max-width: 400px) {
