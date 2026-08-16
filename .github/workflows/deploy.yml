@@ -30,6 +30,16 @@ jobs:
       - uses: actions/upload-pages-artifact@v3
         with:
           path: ./dist
+      # notify Baidu of every deployed URL (quota ~10/day, so only push what exists)
+      - name: Push sitemap URLs to Baidu
+        continue-on-error: true # a Baidu hiccup must never block the Pages deploy
+        env:
+          BAIDU_TOKEN: ${{ secrets.BAIDU_PUSH_TOKEN }}
+        run: |
+          grep -o '<loc>[^<]*</loc>' dist/sitemap-0.xml | sed -e 's/<loc>//' -e 's|</loc>||' > urls.txt
+          echo "URLs to push:"; cat urls.txt
+          curl -s -m 30 -H 'Content-Type:text/plain' --data-binary @urls.txt \
+            "http://data.zz.baidu.com/urls?site=https://mingchaosun.com&token=${BAIDU_TOKEN}"
 
   deploy:
     needs: build
