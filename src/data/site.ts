@@ -199,8 +199,8 @@ export const news: NewsEntry[] = [
   {
     year: '2026.05',
     text: {
-      en: '🏆 Won **1st place** at the **AGIBOT World Model Challenge**. [news →](https://mp.weixin.qq.com/s/wZ-v60S5LbNSdG6F5bkxcA)',
-      zh: '🏆 荣获 **AGIBOT World Model Challenge** 大赛**冠军**。[高德报道 →](https://mp.weixin.qq.com/s/wZ-v60S5LbNSdG6F5bkxcA)',
+      en: '🏆 Won **1st place** at the **AGIBOT World Model Challenge**. [project →](https://brave-eai.github.io/DreamTrue/) [news →](https://mp.weixin.qq.com/s/wZ-v60S5LbNSdG6F5bkxcA)',
+      zh: '🏆 荣获 **AGIBOT World Model Challenge** 大赛**冠军**。[项目主页 →](https://brave-eai.github.io/DreamTrue/) [高德报道 →](https://mp.weixin.qq.com/s/wZ-v60S5LbNSdG6F5bkxcA)',
     },
   },
   {
