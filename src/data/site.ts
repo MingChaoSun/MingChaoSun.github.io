@@ -127,8 +127,8 @@ export const experience: ExperienceEntry[] = [
   {
     org: 'Alibaba Group · Alibaba Cloud, Video Cloud & DingTalk',
     orgZh: '阿里巴巴 · 阿里云 视频云 & 钉钉',
-    title: 'Algorithm Engineer',
-    titleZh: '算法工程师',
+    title: 'Researcher',
+    titleZh: '研究员',
     years: '2020.07 – 2021.11',
     yearsNote: '',
     desc: {
