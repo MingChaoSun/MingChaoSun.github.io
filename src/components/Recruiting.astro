@@ -1,0 +1,93 @@
+---
+import Section from './Section.astro';
+import { recruiting, profile } from '../data/site';
+---
+
+<Section id="recruiting" label={{ en: 'openings', zh: '招聘' }} title={{ en: 'Join the team', zh: '加入我们' }}>
+  <div class="recruit" data-reveal>
+    <span class="recruit__pulse" aria-hidden="true"></span>
+    <p class="recruit__text">{recruiting.en}</p>
+    <div class="recruit__actions">
+      <button class="recruit__chip" type="button" data-copy={profile.wechat} title="Copy WeChat ID">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8.6 3C4 3 0 6.1 0 10.1c0 2.2 1.1 4.2 3 5.5l-1 2.9 3.3-1.7c1.1.3 2.2.4 3.3.4.1 0 .2 0 .3 0-1-4.2 2-7.8 6.4-7.8.4 0 .8 0 1.2.1C15 5.7 12 3 8.6 3zm-2.4 4c.6 0 1.1.5 1.1 1.1C7.3 8.7 6.8 9.1 6.2 9.1 5.6 9.1 5.1 8.7 5.1 8.1 5.1 7.6 5.6 7 6.2 7zm4.8 0c.6 0 1.1.5 1.1 1.1 0 .6-.5 1.1-1.1 1.1-.6 0-1.1-.5-1.1-1.1C9.9 7.6 10.4 7 11 7zM17.1 10.3c-3.5 0-6.4 2.4-6.4 5.4 0 3 2.9 5.4 6.4 5.4 1 0 2-.2 2.9-.6l2.9 1.5-.9-2.5c1.6-1.1 2.6-2.8 2.6-4.7 0-3-2.9-5.5-6.4-5.5zm-2.1 3.5c.5 0 .9.4.9.9s-.4.9-.9.9-.9-.4-.9-.9.4-.9.9-.9zm4.2 0c.5 0 .9.4.9.9s-.4.9-.9.9-.9-.4-.9-.9.4-.9.9-.9z"></path></svg>
+        <span data-label>WeChat</span>
+      </button>
+      <a class="recruit__chip" href={`mailto:${profile.email}`} title="Email">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+        Email
+      </a>
+    </div>
+  </div>
+</Section>
+
+<style>
+  .recruit {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    flex-wrap: wrap;
+    padding: 1.4rem 1.6rem;
+    border: 1px solid var(--accent-soft);
+    border-left: 3px solid var(--accent);
+    border-radius: var(--radius);
+    background: linear-gradient(180deg, var(--bg-elev), var(--bg-elev-2));
+    max-width: 780px;
+  }
+  .recruit__pulse {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--accent);
+    flex-shrink: 0;
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(74, 227, 181, 0.5); }
+    70% { box-shadow: 0 0 0 12px rgba(74, 227, 181, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(74, 227, 181, 0); }
+  }
+  .recruit__text {
+    flex: 1 1 320px;
+    font-size: 0.98rem;
+    line-height: 1.7;
+  }
+  .recruit__actions {
+    display: flex;
+    gap: 0.5rem;
+    flex-shrink: 0;
+  }
+  .recruit__chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.55em 1em;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+    background: rgba(255, 255, 255, 0.02);
+    color: var(--text-muted);
+    font-family: var(--mono);
+    font-size: 0.82rem;
+    text-decoration: none;
+    cursor: pointer;
+    transition: color 0.2s var(--ease), border-color 0.2s var(--ease),
+      transform 0.2s var(--ease);
+  }
+  .recruit__chip svg {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+  }
+  .recruit__chip:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+    text-decoration: none;
+    transform: translateY(-1px);
+  }
+  .recruit__chip.is-copied {
+    color: var(--green);
+    border-color: var(--green);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .recruit__pulse { animation: none; }
+  }
+</style>

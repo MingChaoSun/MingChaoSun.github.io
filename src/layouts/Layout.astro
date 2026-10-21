@@ -1,0 +1,135 @@
+---
+import '@fontsource/inter/400.css';
+import '@fontsource/inter/500.css';
+import '@fontsource/inter/600.css';
+import '@fontsource/inter/700.css';
+import '@fontsource/jetbrains-mono/400.css';
+import '@fontsource/jetbrains-mono/500.css';
+import '@fontsource/jetbrains-mono/700.css';
+import '../styles/global.css';
+import { profile, education } from '../data/site';
+
+export interface Props {
+  title?: string;
+  description?: string;
+}
+const {
+  title = 'Mingchao Sun 孙铭超 — Researcher at Alibaba Group (AMap)',
+  description =
+    'Mingchao Sun (孙铭超 / Sun Mingchao) — researcher at Alibaba (AMap) working on 3D reconstruction & generation, 3D Gaussian Splatting, point-cloud deep learning, and generative world models. Author of PointCNN.',
+} = Astro.props;
+
+const site = Astro.site ?? 'https://mingchaosun.com';
+const canonical = new URL(Astro.url.pathname, site);
+const ogImage = new URL('/og.png', site);
+
+// structured data: ProfilePage (Google's recommended wrapper for personal
+// homepages) with the Person entity as mainEntity — declares the name
+// equivalences (romanization + Chinese) so 孙铭超 and "Sun Mingchao" resolve
+// to this entity in search.
+const schools = [...new Set(education.map((e) => e.school))];
+const personJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: profile.name,
+  alternateName: ['孙铭超', 'Sun Mingchao'],
+  givenName: 'Mingchao',
+  familyName: 'Sun',
+  jobTitle: profile.role,
+  worksFor: { '@type': 'Organization', name: profile.affiliation },
+  alumniOf: schools.map((name) => ({ '@type': 'CollegeOrUniversity', name })),
+  url: canonical.href,
+  image: new URL('/avatar.jpg', site).href,
+  sameAs: profile.socials.filter((s) => s.url.startsWith('http')).map((s) => s.url),
+  knowsAbout: [
+    '3D reconstruction',
+    '3D generation',
+    '3D Gaussian Splatting',
+    'point-cloud deep learning',
+    'world models',
+    'embodied intelligence',
+  ],
+};
+const profileJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'ProfilePage',
+  mainEntity: personJsonLd,
+};
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="author" content="Mingchao Sun (孙铭超)" />
+    <meta name="color-scheme" content="dark" />
+    <meta name="theme-color" content="#0a0d12" />
+    <!-- baidu webmaster verification (keep permanently — required to stay verified) -->
+    <meta name="baidu-site-verification" content="codeva-WCS4ZNCe9H" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="canonical" href={canonical} />
+
+    <!-- Open Graph / Twitter -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Mingchao Sun — Researcher · 3D & World Models" />
+    <meta property="og:locale" content="en_US" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@mingchao_sun" />
+    <meta name="twitter:image" content={ogImage} />
+
+    <!-- structured data: ProfilePage + Person (name variants for search) -->
+    <script type="application/ld+json" set:html={JSON.stringify(profileJsonLd)} />
+  </head>
+  <body>
+    <div class="bg-fx" aria-hidden="true"><canvas id="hero-canvas"></canvas></div>
+    <a class="skip-link" href="#main">skip to content</a>
+    <slot />
+
+    <script>
+      // reveal-on-scroll
+      const io = new IntersectionObserver(
+        (entries) => {
+          for (const e of entries) {
+            if (e.isIntersecting) {
+              e.target.classList.add('is-visible');
+              io.unobserve(e.target);
+            }
+          }
+        },
+        { threshold: 0.12 }
+      );
+      document.querySelectorAll('[data-reveal]').forEach((el) => io.observe(el));
+    </script>
+
+    <style is:global>
+      .bg-fx {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+      }
+      .bg-fx canvas {
+        width: 100%;
+        height: 100%;
+        display: block;
+      }
+      /* keep page content above the fixed background canvas.
+         (.skip-link keeps its own fixed/off-screen positioning + z-index:200,
+          so it must stay out of this rule.) */
+      #main,
+      .footer {
+        position: relative;
+        z-index: 1;
+      }
+    </style>
+  </body>
+</html>

@@ -1,0 +1,23 @@
+# build output
+dist/
+
+# dependencies
+node_modules/
+
+# astro
+.astro/
+
+# misc
+.DS_Store
+*.log
+.env
+.env.*
+!.env.example
+
+# editor / local tooling
+.vscode/
+.idea/
+.claude/
+
+# local reference / scratch
+/ref/

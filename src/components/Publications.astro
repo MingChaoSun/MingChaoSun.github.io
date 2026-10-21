@@ -1,0 +1,595 @@
+---
+import Section from './Section.astro';
+import { publications, profile } from '../data/site';
+import { boldSelf } from '../utils/text';
+
+const scholarSearch = (q: string) =>
+  `https://scholar.google.com/scholar?q=${encodeURIComponent(q)}`;
+
+// Relabel raw link labels into styled chips (label matched case-insensitively,
+// so 'arXiv' / 'arxiv' / 'PubMed' / 'pubmed' all resolve).
+// arXiv -> classic red; code/project -> mint outline; venues -> white ghost.
+const LINK_META: Record<string, { text: string; kind: 'accent' | 'ghost' | 'arxiv' | 'demo' | 'benchmark' }> = {
+  arxiv: { text: 'arXiv', kind: 'arxiv' },
+  pdf: { text: 'PDF', kind: 'arxiv' },
+  project: { text: 'Project Page', kind: 'accent' },
+  code: { text: 'Code', kind: 'accent' },
+  demo: { text: 'Live Demo', kind: 'demo' },
+  benchmark: { text: 'Benchmark', kind: 'benchmark' },
+  video: { text: 'Video', kind: 'ghost' },
+  neurips: { text: 'NeurIPS', kind: 'ghost' },
+  scholar: { text: 'Scholar', kind: 'ghost' },
+  pubmed: { text: 'PubMed', kind: 'ghost' },
+  supplement: { text: 'Supplement', kind: 'ghost' },
+};
+const meta = (label: string) =>
+  LINK_META[label.toLowerCase()] ?? { text: label, kind: 'ghost' as const };
+
+// GitHub star count -> compact form (1400 -> "1.4k", 201 -> "201")
+const fmtStars = (n: number) =>
+  n >= 1000 ? (n / 1000).toFixed(1).replace(/\.0$/, '') + 'k' : String(n);
+
+// highly-cited papers get a small citation badge in the meta line
+const CITE_BADGE_MIN = 30;
+
+const thumbSlug = (thumb?: string) => thumb?.split('/').pop()?.replace(/\.webp$/, '');
+---
+
+<Section id="work" label={{ en: 'selected work', zh: '代表论文' }} title={{ en: 'Publications', zh: '发表论文' }}>
+  <p class="pubs__hint muted mono">sorted by date (newest first)</p>
+  <ul class="pubs">
+    {
+      publications.map((p) => {
+        const pdf = p.links.find((l) => l.label.toLowerCase() === 'arxiv');
+        // primary link goes straight out: project/demo/benchmark page if the
+        // paper has one, otherwise arXiv — never an internal landing page.
+        const primaryUrl =
+          p.links.find((l) => ['demo', 'project', 'benchmark'].includes(l.label.toLowerCase()))
+            ?.url ||
+          pdf?.url ||
+          p.links[0]?.url ||
+          scholarSearch(p.title);
+        const links =
+          p.links.length > 0 ? p.links : [{ label: 'scholar', url: scholarSearch(p.title) }];
+        const slug = thumbSlug(p.thumb);
+        return (
+          <li class="pub" data-reveal data-featured={p.featured || undefined}>
+            <a
+              class="pub__media"
+              href={primaryUrl}
+              aria-label={p.title}
+              target="_blank"
+              rel="noopener noreferrer"
+              data-thumb={slug}
+              data-white={p.whiteThumb || undefined}
+              data-frame={p.frame || undefined}
+            >
+              {p.thumb ? (
+                <img src={p.thumb} alt="" loading="lazy" decoding="async" />
+              ) : (
+                <span class="pub__ph">
+                  <span class="ph__venue mono">{p.venue}</span>
+                  <span class="ph__year mono">{p.year}</span>
+                  <span class="ph__tag mono">// teaser pending</span>
+                </span>
+              )}
+            </a>
+            <div class="pub__body">
+              <h3 class="pub__title">
+                <a href={primaryUrl} target="_blank" rel="noopener noreferrer">
+                  {p.title}
+                </a>
+              </h3>
+              <p class={`pub__authors${p.fullAuthors ? ' is-expandable' : ''}`}>
+                <span class="pub__authors-line" set:html={boldSelf(p.authors, profile.selfShort)} />
+                {p.fullAuthors && (
+                  <span
+                    class="pub__authors-full"
+                    role="tooltip"
+                    set:html={boldSelf(p.fullAuthors, profile.name)}
+                  />
+                )}
+              </p>
+              <p class="pub__meta mono">
+                <span class="venue">{p.venue}</span> <span class="dim">·</span> {p.year}
+                {p.citations != null && p.citations >= CITE_BADGE_MIN && (
+                  <span class="pub__cites">{p.citations.toLocaleString()} citations</span>
+                )}
+              </p>
+              {p.highlight && <p class="pub__hl muted">{p.highlight}</p>}
+              {p.award && (
+                <span class="pub__award">
+                  <span class="pub__award-icon" aria-hidden="true">★</span>
+                  {p.award}
+                </span>
+              )}
+              <nav class="pub__links mono">
+                {links.map((l) => {
+                  const m = meta(l.label);
+                  return (
+                    <a
+                      class={`lk lk--${m.kind}`}
+                      href={l.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <span>{m.text}</span>
+                      {l.stars != null && (
+                        <span class="lk__stars">
+                          <span class="lk__star" aria-hidden="true">★</span>{fmtStars(l.stars)}
+                        </span>
+                      )}
+                      {m.kind !== 'ghost' && m.kind !== 'demo' && m.kind !== 'benchmark' && <span class="lk__arrow">↗</span>}
+                    </a>
+                  );
+                })}
+              </nav>
+            </div>
+          </li>
+        );
+      })
+    }
+  </ul>
+</Section>
+
+<script>
+  // Reveal each thumbnail once it loads (and drop the spinner). On a slow
+  // international connection the <img> can take a moment; this fades it in
+  // instead of popping, and clears the loading ring. Placeholder cards (no
+  // <img>) are skipped — they render a terminal-art graphic immediately.
+  document.querySelectorAll('.pub__media').forEach((media) => {
+    const img = media.querySelector('img');
+    if (!img) return;
+    const reveal = () => media.classList.add('is-loaded');
+    if (img.complete && img.naturalWidth > 0) reveal();
+    else {
+      img.addEventListener('load', reveal, { once: true });
+      img.addEventListener('error', reveal, { once: true });
+    }
+  });
+</script>
+
+<style>
+  .pubs__hint {
+    margin-bottom: 1.3rem;
+    font-size: 0.78rem;
+  }
+  .pubs {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(340px, 100%), 1fr));
+    gap: 1.1rem;
+  }
+  .pub {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius);
+    background: var(--bg-elev);
+    transition: border-color 0.22s var(--ease), transform 0.22s var(--ease),
+      box-shadow 0.22s var(--ease);
+  }
+  .pub:hover {
+    border-color: var(--border);
+    transform: translateY(-3px);
+    box-shadow: 0 16px 40px -20px rgba(0, 0, 0, 0.7);
+  }
+
+  /* flowing-light border: a thin rotating gradient ring that fades in on
+     hover (mint -> blue), masked to a 1.5px perimeter. Falls back to a
+     static gradient ring if @property / angle animation is unsupported. */
+  @property --pub-angle {
+    syntax: '<angle>';
+    initial-value: 0deg;
+    inherits: false;
+  }
+  .pub::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: var(--radius);
+    padding: 1.5px;
+    background: conic-gradient(
+      from var(--pub-angle),
+      transparent 0%,
+      rgba(74, 227, 181, 0.95) 16%,
+      rgba(122, 162, 247, 0.95) 33%,
+      transparent 52%,
+      transparent 100%
+    );
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.3s var(--ease);
+    pointer-events: none;
+    z-index: 1;
+  }
+  .pub:hover::before {
+    opacity: 1;
+    animation: pub-spin 3.5s linear infinite;
+  }
+  @keyframes pub-spin {
+    to {
+      --pub-angle: 360deg;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .pub:hover::before {
+      animation: none;
+    }
+  }
+
+  /* ---- banner media ---- */
+  .pub__media {
+    position: relative;
+    display: block;
+    aspect-ratio: 16 / 10;
+    background: var(--bg-elev-2);
+    border-bottom: 1px solid var(--border-soft);
+    overflow: hidden;
+  }
+  .pub__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    /* start transparent; fade in once loaded (JS toggles .is-loaded) so a slow
+       international connection sees a spinner, not a blank void */
+    opacity: 0;
+    transition: opacity 0.35s var(--ease), transform 0.4s var(--ease);
+  }
+  .pub__media.is-loaded img {
+    opacity: 1;
+  }
+  /* loading spinner: a rotating mint ring centred in the media, shown only while
+     a thumbnail <img> is still loading. :has(img) keeps it off the placeholder
+     cards (which render a terminal-art graphic instead). */
+  .pub__media:has(img)::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 26px;
+    height: 26px;
+    margin: -13px 0 0 -13px;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.14);
+    border-top-color: var(--accent);
+    animation: pub-loader 0.8s linear infinite;
+    z-index: 2;
+    pointer-events: none;
+  }
+  .pub__media:has(img).is-loaded::before {
+    display: none;
+  }
+  @keyframes pub-loader {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .pub__media:has(img)::before {
+      animation: none;
+    }
+  }
+  .pub:hover .pub__media img {
+    transform: scale(1.04);
+  }
+  /* white-background figures (e.g. paper diagrams): shown whole (contain) on
+     a white field. The box keeps the grid's fixed 16/10 height so every card
+     media stays aligned; the figure is centred and white fills the rest. */
+  .pub__media[data-white] {
+    background: #fff;
+  }
+  .pub__media[data-white] img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    box-sizing: border-box;
+    padding: 8px;
+  }
+  /* photo figures inset on a dark mat so the content reads a touch smaller
+     than a full-bleed cover. No keyline: keeps the edge clean under the hover
+     zoom (a static white ring read as a stuck border while the image scaled). */
+  .pub__media[data-frame] img {
+    box-sizing: border-box;
+    padding: 10px;
+  }
+
+  /* terminal-art placeholder for papers without a teaser */
+  .pub__ph {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-image: radial-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+    background-size: 16px 16px;
+  }
+  .pub__ph::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(420px 200px at 50% 40%, rgba(74, 227, 181, 0.07), transparent 70%);
+  }
+  .ph__venue {
+    position: absolute;
+    top: 0.6rem;
+    left: 0.75rem;
+    font-size: 0.66rem;
+    letter-spacing: 0.04em;
+    color: var(--accent-2);
+    opacity: 0.7;
+    z-index: 1;
+  }
+  .ph__year {
+    position: relative;
+    z-index: 1;
+    font-size: 2.6rem;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    color: var(--text);
+    opacity: 0.16;
+  }
+  .ph__tag {
+    position: absolute;
+    bottom: 0.6rem;
+    left: 0;
+    right: 0;
+    text-align: center;
+    z-index: 1;
+    font-size: 0.6rem;
+    letter-spacing: 0.06em;
+    color: var(--text-dim);
+    opacity: 0.85;
+  }
+
+  /* ---- body ---- */
+  .pub__body {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    padding: 1rem 1.05rem 1.05rem;
+  }
+  .pub__title {
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.35;
+    /* `pretty` avoids a lone orphan word on the last line, WITHOUT the
+       aggressive mid-line rebalancing of `balance` (which made titles break
+       oddly near the middle). Line count stays natural to the card width:
+       long titles wrap to 2 lines on desktop, more on narrow viewports. */
+    text-wrap: pretty;
+  }
+  .pub__title a {
+    color: var(--text);
+  }
+  .pub__title a:hover {
+    color: var(--accent);
+    text-decoration: none;
+  }
+  .pub__authors {
+    font-size: 0.8rem;
+    line-height: 1.45;
+    margin-top: 0.3rem;
+    color: var(--text-muted);
+  }
+  .pub__authors :global(strong) {
+    color: var(--text);
+    font-weight: 500;
+  }
+  /* hover popover: papers with "..., et al." reveal the complete author list
+     after a brief dwell. A dotted underline + help cursor signal it's hoverable. */
+  .pub__authors.is-expandable {
+    position: relative;
+    cursor: help;
+  }
+  .pub__authors.is-expandable .pub__authors-line {
+    text-decoration: underline dotted var(--border);
+    text-underline-offset: 3px;
+  }
+  .pub__authors-full {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: max-content;
+    max-width: 100%;
+    padding: 0.6rem 0.75rem;
+    background: var(--bg-elev-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    font-size: 0.72rem;
+    line-height: 1.55;
+    color: var(--text-muted);
+    max-height: 108px;
+    overflow-y: auto;
+    box-shadow: 0 14px 34px -14px rgba(0, 0, 0, 0.85);
+    opacity: 0;
+    transform: translateY(-3px);
+    transition: opacity 0.16s var(--ease), transform 0.16s var(--ease);
+    transition-delay: 0.28s;
+    pointer-events: none;
+    z-index: 6;
+  }
+  .pub__authors.is-expandable:hover .pub__authors-full {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+  .pub__meta {
+    font-size: 0.76rem;
+    margin-top: 0.5rem;
+    color: var(--text-muted);
+  }
+  .pub__meta .venue {
+    color: var(--accent-2);
+  }
+  .pub__cites {
+    margin-left: 0.35rem;
+    padding: 0.08rem 0.45rem;
+    border-radius: 5px;
+    font-size: 0.7rem;
+    color: var(--green);
+    background: rgba(57, 211, 83, 0.09);
+    border: 1px solid rgba(57, 211, 83, 0.3);
+    white-space: nowrap;
+  }
+  .pub__hl {
+    font-size: 0.82rem;
+    line-height: 1.5;
+    margin-top: 0.5rem;
+  }
+  .pub__award {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    margin-top: 0.55rem;
+    padding: 0.26rem 0.6rem;
+    border-radius: 6px;
+    font-size: 0.7rem;
+    color: #e3b341;
+    background: rgba(227, 179, 65, 0.1);
+    border: 1px solid rgba(227, 179, 65, 0.35);
+    letter-spacing: 0.02em;
+  }
+  .pub__award-icon {
+    font-size: 0.78rem;
+  }
+  .pub__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    margin-top: auto;
+    padding-top: 0.8rem;
+    font-size: 0.72rem;
+  }
+
+  /* ---- link chips ---- */
+  .lk {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.3rem 0.58rem;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    letter-spacing: 0.02em;
+    text-decoration: none;
+    transition: color 0.18s var(--ease), background 0.18s var(--ease),
+      border-color 0.18s var(--ease), box-shadow 0.18s var(--ease);
+  }
+  .lk:hover {
+    text-decoration: none;
+  }
+  .lk__arrow {
+    font-size: 0.85em;
+    opacity: 0.85;
+  }
+  .lk__stars {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.15rem;
+    opacity: 0.9;
+  }
+  .lk__star {
+    font-size: 1.15em;
+  }
+  .lk--ghost {
+    color: var(--text);
+  }
+  .lk--ghost:hover {
+    color: var(--accent);
+    border-color: rgba(74, 227, 181, 0.4);
+    background: var(--accent-soft);
+  }
+  .lk--accent {
+    color: var(--accent);
+    border-color: rgba(74, 227, 181, 0.45);
+    background: var(--accent-soft);
+  }
+  .lk--accent:hover {
+    background: rgba(74, 227, 181, 0.18);
+    border-color: var(--accent);
+  }
+  .lk--arxiv {
+    color: #e0524d;
+    background: rgba(224, 82, 77, 0.08);
+    border-color: rgba(224, 82, 77, 0.5);
+    font-weight: 600;
+  }
+  .lk--arxiv:hover {
+    color: #fff;
+    background: #b31b1b;
+    border-color: #b31b1b;
+  }
+
+  /* Live Demo — primary CTA. Solid mint fill + soft glow + a CSS play glyph,
+     so it sits a step above the outlined project/code chips. The triangle is
+     drawn with borders (not a Unicode glyph) so it can't render as an emoji. */
+  .lk--demo {
+    color: #062018;
+    background: var(--accent);
+    border-color: var(--accent);
+    font-weight: 700;
+    box-shadow: 0 4px 14px -6px rgba(74, 227, 181, 0.55);
+  }
+  .lk--demo::before {
+    content: '';
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0.32em 0 0.32em 0.5em;
+    border-color: transparent transparent transparent currentColor;
+  }
+  .lk--demo:hover {
+    background: #6cf2c6;
+    border-color: #6cf2c6;
+    color: #062018;
+    box-shadow: 0 7px 20px -6px rgba(74, 227, 181, 0.72);
+  }
+
+  /* Benchmark — same solid-mint prominence as Live Demo, but without the play
+     glyph (it links to a leaderboard/dataset, not a playable demo). */
+  .lk--benchmark {
+    color: #062018;
+    background: var(--accent);
+    border-color: var(--accent);
+    font-weight: 700;
+    box-shadow: 0 4px 14px -6px rgba(74, 227, 181, 0.55);
+  }
+  .lk--benchmark:hover {
+    background: #6cf2c6;
+    border-color: #6cf2c6;
+    color: #062018;
+    box-shadow: 0 7px 20px -6px rgba(74, 227, 181, 0.72);
+  }
+
+  /* touch screens have no real hover — :hover goes "sticky" after a tap, which
+     would otherwise leave a tapped card permanently lifted with a spinning
+     light ring + a zoomed thumbnail. Drop every hover affordance here and give
+     a light press instead. (Pointer devices keep the full hover effect above.) */
+  @media (hover: none) {
+    .pub:hover {
+      transform: none;
+      border-color: var(--border-soft);
+      box-shadow: none;
+    }
+    .pub:hover::before {
+      opacity: 0;
+      animation: none;
+    }
+    .pub:hover .pub__media img {
+      transform: none;
+    }
+    .pub:active {
+      transform: translateY(-1px);
+    }
+  }
+</style>
