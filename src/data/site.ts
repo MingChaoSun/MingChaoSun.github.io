@@ -246,21 +246,21 @@ export const news: NewsEntry[] = [
   {
     year: '2025.09',
     text: {
-      en: '**[AMap Yunjing](https://yunjing.amap.com/)** (云境) at **Apsara Conference 2025**: showcased large-scale 3DGS reconstruction & generative digital twins [video →](https://weixin.qq.com/sph/ABLyKIgtrR) [news →](https://mp.weixin.qq.com/s/4hzyKraJnoq32TU0zB4QOw); co-hosted the "Digital Palace Museum" joint exhibition with **The Palace Museum** [video →](https://weixin.qq.com/sph/AIM0j7G5kB) [news →](https://mp.weixin.qq.com/s/Y9DZQfFojQEOkFlbCLpuQg)',
+      en: '**[AMap Yunjing](https://yunjing.amap.com/)** at **Apsara Conference 2025**: showcased large-scale 3DGS reconstruction & generative digital twins [video →](https://weixin.qq.com/sph/ABLyKIgtrR) [news →](https://mp.weixin.qq.com/s/4hzyKraJnoq32TU0zB4QOw); co-hosted the "Digital Palace Museum" joint exhibition with **The Palace Museum** [video →](https://weixin.qq.com/sph/AIM0j7G5kB) [news →](https://mp.weixin.qq.com/s/Y9DZQfFojQEOkFlbCLpuQg)',
       zh: '**[高德云境](https://yunjing.amap.com/)**亮相 2025 云栖大会：展示 3DGS 大场景重建与生成式数字孪生 [视频 →](https://weixin.qq.com/sph/ABLyKIgtrR) [新闻 →](https://mp.weixin.qq.com/s/4hzyKraJnoq32TU0zB4QOw)；并与故宫博物院联合呈现"数字故宫·高德同行"展区 [视频 →](https://weixin.qq.com/sph/AIM0j7G5kB) [新闻 →](https://mp.weixin.qq.com/s/Y9DZQfFojQEOkFlbCLpuQg)',
     },
   },
   {
     year: '2025.08',
     text: {
-      en: 'Shared the core capabilities of **[AMap Yunjing](https://yunjing.amap.com/)** (云境), AMap\'s immersive AI product, along with its recent advances in digital-twin technology. [news →](https://mp.weixin.qq.com/s/mZhDBmQXgsPaHyNINRfJ7A?scene=1)',
+      en: 'Shared the core capabilities of **[AMap Yunjing](https://yunjing.amap.com/)**, AMap\'s immersive AI product, along with its recent advances in digital-twin technology. [news →](https://mp.weixin.qq.com/s/mZhDBmQXgsPaHyNINRfJ7A?scene=1)',
       zh: '分享**[高德云境](https://yunjing.amap.com/)**的核心技术能力，展示高德近期在数字孪生领域的技术成果与应用场景。[公众号文章 →](https://mp.weixin.qq.com/s/mZhDBmQXgsPaHyNINRfJ7A?scene=1)',
     },
   },
   {
     year: '2025.07',
     text: {
-      en: 'Launched **Air AMap** (空中高德), bringing **[AMap Yunjing](https://yunjing.amap.com/)** (云境) 3D technology to the **low-altitude economy**. [news →](https://mp.weixin.qq.com/s/B6IIO1y_A_7PcK7l_Y63gg)',
+      en: 'Launched **Air AMap** (空中高德), bringing **[AMap Yunjing](https://yunjing.amap.com/)** 3D technology to the **low-altitude economy**. [news →](https://mp.weixin.qq.com/s/B6IIO1y_A_7PcK7l_Y63gg)',
       zh: '推出**空中高德**——**[高德云境](https://yunjing.amap.com/)**三维技术在**低空经济**的落地。[新闻 →](https://mp.weixin.qq.com/s/B6IIO1y_A_7PcK7l_Y63gg)',
     },
   },
@@ -274,7 +274,7 @@ export const news: NewsEntry[] = [
   {
     year: '2024.08',
     text: {
-      en: '**[AMap Yunjing](https://yunjing.amap.com/)** (云境) entered a strategic partnership with **The Palace Museum** — co-founding the AI 3D-Reconstruction Innovation Lab for cultural-heritage digital twins. [news →](https://mp.weixin.qq.com/s/T39oRsj_jbvo2-YFvbAkwg)',
+      en: '**[AMap Yunjing](https://yunjing.amap.com/)** entered a strategic partnership with **The Palace Museum** — co-founding the AI 3D-Reconstruction Innovation Lab for cultural-heritage digital twins. [news →](https://mp.weixin.qq.com/s/T39oRsj_jbvo2-YFvbAkwg)',
       zh: '[高德云境](https://yunjing.amap.com/)与**故宫博物院**达成战略合作，共建"故宫×高德 AI 三维重建创新实验室"，推进文物数字孪生。[新闻 →](https://mp.weixin.qq.com/s/T39oRsj_jbvo2-YFvbAkwg)',
     },
   },
