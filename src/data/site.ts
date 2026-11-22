@@ -419,7 +419,6 @@ export const publications: Publication[] = [
     citations: 2,
     highlight: 'Generative city-scale photogrammetry from extreme off-nadir satellite imagery.',
     thumb: '/pub/orbit2ground.webp',
-    whiteThumb: true,
     featured: true,
     links: [
       { label: 'arXiv', url: 'https://arxiv.org/abs/2512.07527' },
